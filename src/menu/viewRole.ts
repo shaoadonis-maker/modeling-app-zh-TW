@@ -17,15 +17,15 @@ export const projectViewRole = (
     ]
   }
   return {
-    label: 'View',
+    label: '檢視 View',
     submenu: [
       {
-        label: 'Command Palette...',
+        label: '命令面板 Command Palette...',
         id: 'View.Command Palette...',
         click: sendMenuAction(mainWindow, 'View.Command Palette...'),
       },
       {
-        label: 'Appearance',
+        label: '外觀 Appearance',
         submenu: [
           { role: 'togglefullscreen' },
           { type: 'separator' },
@@ -56,56 +56,56 @@ export const modelingViewRole = (
     ]
   }
   return {
-    label: 'View',
+    label: '檢視 View',
     submenu: [
       {
-        label: 'Command Palette...',
+        label: '命令面板 Command Palette...',
         id: 'View.Command Palette...',
         click: sendMenuAction(mainWindow, 'View.Command Palette...'),
       },
       { type: 'separator' },
       {
-        label: 'Orthographic View',
+        label: '正交視圖 Orthographic View',
         id: 'View.Orthographic view',
         click: sendMenuAction(mainWindow, 'View.Orthographic view'),
       },
       {
-        label: 'Perspective View',
+        label: '透視視圖 Perspective View',
         id: 'View.Perspective view',
         click: sendMenuAction(mainWindow, 'View.Perspective view'),
       },
       { type: 'separator' },
       {
-        label: 'Standard Views',
+        label: '標準視圖 Standard Views',
         id: 'View.Standard views',
         submenu: [
           {
-            label: 'Right View',
+            label: '右視圖 Right View',
             id: 'View.Standard views.Right view',
             click: sendMenuAction(mainWindow, 'View.Standard views.Right view'),
           },
           {
-            label: 'Back View',
+            label: '後視圖 Back View',
             id: 'View.Standard views.Back view',
             click: sendMenuAction(mainWindow, 'View.Standard views.Back view'),
           },
           {
-            label: 'Top View',
+            label: '上視圖 Top View',
             id: 'View.Standard views.Top view',
             click: sendMenuAction(mainWindow, 'View.Standard views.Top view'),
           },
           {
-            label: 'Left View',
+            label: '左視圖 Left View',
             id: 'View.Standard views.Left view',
             click: sendMenuAction(mainWindow, 'View.Standard views.Left view'),
           },
           {
-            label: 'Front View',
+            label: '前視圖 Front View',
             id: 'View.Standard views.Front view',
             click: sendMenuAction(mainWindow, 'View.Standard views.Front view'),
           },
           {
-            label: 'Bottom View',
+            label: '下視圖 Bottom View',
             id: 'View.Standard views.Bottom view',
             click: sendMenuAction(
               mainWindow,
@@ -114,12 +114,12 @@ export const modelingViewRole = (
           },
           { type: 'separator' },
           {
-            label: 'Reset View',
+            label: '重設視圖 Reset View',
             id: 'View.Standard views.Reset view',
             click: sendMenuAction(mainWindow, 'View.Standard views.Reset view'),
           },
           {
-            label: 'Center View on Selection',
+            label: '將視圖置中於選取項目 Center View on Selection',
             id: 'View.Standard views.Center view on selection',
             click: sendMenuAction(
               mainWindow,
@@ -129,11 +129,11 @@ export const modelingViewRole = (
         ],
       },
       {
-        label: 'Named Views',
+        label: '命名視圖 Named Views',
         id: 'View.Named views',
         submenu: [
           {
-            label: 'Create Named View',
+            label: '建立命名視圖 Create Named View',
             id: 'View.Named views.Create named view',
             click: sendMenuAction(
               mainWindow,
@@ -141,7 +141,7 @@ export const modelingViewRole = (
             ),
           },
           {
-            label: 'Load Named View',
+            label: '載入命名視圖 Load Named View',
             id: 'View.Named views.Load named view',
             click: sendMenuAction(
               mainWindow,
@@ -149,7 +149,7 @@ export const modelingViewRole = (
             ),
           },
           {
-            label: 'Delete Named View',
+            label: '刪除命名視圖 Delete Named View',
             id: 'View.Named views.Delete named view',
             click: sendMenuAction(
               mainWindow,
@@ -160,30 +160,30 @@ export const modelingViewRole = (
       },
       { type: 'separator' },
       {
-        label: 'Panes',
+        label: '面板 Panes',
         submenu: [
           {
-            label: 'Feature tree',
+            label: '特徵樹 Feature tree',
             id: 'View.Panes.Feature tree',
             click: sendMenuAction(mainWindow, 'View.Panes.Feature tree'),
           },
           {
-            label: 'KCL code',
+            label: 'KCL 程式碼 KCL code',
             id: 'View.Panes.KCL code',
             click: sendMenuAction(mainWindow, 'View.Panes.KCL code'),
           },
           {
-            label: 'Project files',
+            label: '專案檔案 Project files',
             id: 'View.Panes.Project files',
             click: sendMenuAction(mainWindow, 'View.Panes.Project files'),
           },
           {
-            label: 'Variables',
+            label: '變數 Variables',
             id: 'View.Panes.Variables',
             click: sendMenuAction(mainWindow, 'View.Panes.Variables'),
           },
           {
-            label: 'Logs',
+            label: '記錄 Logs',
             id: 'View.Panes.Logs',
             click: sendMenuAction(mainWindow, 'View.Panes.Logs'),
           },
@@ -195,7 +195,7 @@ export const modelingViewRole = (
         ],
       },
       {
-        label: 'Appearance',
+        label: '外觀 Appearance',
         submenu: [
           { role: 'togglefullscreen' },
           { type: 'separator' },
