@@ -13,6 +13,8 @@ export const zhTW = {
   'app.thisProject': '此專案',
   'app.plugins': '外掛',
   'app.searchSettings': '搜尋設定',
+  'app.resets': '重設',
+  'app.about': '關於',
 
   'cad.sketch': '草圖 Sketch',
   'cad.extrude': '擠出 Extrude',
@@ -53,6 +55,7 @@ export const zhTW = {
   'constraint.parallel': '平行 Parallel',
   'constraint.perpendicular': '垂直 Perpendicular',
   'constraint.coincident': '重合 Coincident',
+  'constraint.midpoint': '中點 Midpoint',
   'constraint.tangent': '相切 Tangent',
   'constraint.equal': '相等 Equal',
   'constraint.symmetric': '對稱 Symmetric',
