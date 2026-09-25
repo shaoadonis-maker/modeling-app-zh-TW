@@ -11,6 +11,7 @@ import { CustomIcon } from '@src/components/CustomIcon'
 import { noAutofillInputProps } from '@src/lib/autofill'
 import { useApp } from '@src/lib/boot'
 import { t, useLocale } from '@src/i18n'
+import { localizeUiLabel } from '@src/i18n/uiLabels'
 import { settingsSearchFocusRequest } from '@src/lib/searchFocusRequests'
 import type { SettingsLevel } from '@src/lib/settings/settingsTypes'
 import {
@@ -94,10 +95,10 @@ export function SettingsSearchBar({
             )
               .filter((l) => !shouldHideSetting(s, l, hasFeature))
               .map((l) => ({
-                category: formatSettingsLabel(category),
+                category: localizeUiLabel(formatSettingsLabel(category), locale) ?? formatSettingsLabel(category),
                 name: settingName,
                 description: s.description ?? '',
-                displayName: formatSettingsLabel(settingName),
+                displayName: localizeUiLabel(formatSettingsLabel(settingName), locale) ?? formatSettingsLabel(settingName),
                 level: l,
               }))
           })
@@ -116,7 +117,7 @@ export function SettingsSearchBar({
           }) satisfies SettingsSearchItem
       ),
     ],
-    [settingsValues, keybindingRows, commandScopes, hasOpenProject, hasFeature]
+    [settingsValues, keybindingRows, commandScopes, hasOpenProject, hasFeature, locale]
   )
   const fuse = useMemo(
     () =>
