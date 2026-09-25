@@ -152,7 +152,7 @@ export const AllSettingsFields = forwardRef(
               </Fragment>
             ))}
           <h2 id="settings-resets" className="text-2xl mt-6 font-bold">
-            Resets
+            {localizeUiText('Resets', locale)}
           </h2>
           <SettingsSection
             title={localizeUiText('Onboarding', locale)}
@@ -181,13 +181,11 @@ export const AllSettingsFields = forwardRef(
           </SettingsSection>
           <SettingsSection
             title={localizeUiText('Reset settings', locale)}
-            description={`Restore settings to their default values. Your settings are saved in
-                    ${
-                      isDesktop()
-                        ? ' a file in the app data folder for your OS.'
-                        : " your browser's local storage."
-                    }
-                  `}
+            description={
+              locale === 'zh-TW'
+                ? `將設定還原為預設值。設定會儲存在${isDesktop() ? '作業系統的應用程式資料資料夾中。' : '瀏覽器的本機儲存空間中。'}`
+                : `Restore settings to their default values. Your settings are saved in${isDesktop() ? ' a file in the app data folder for your OS.' : " your browser's local storage."}`
+            }
           >
             <div className="flex flex-col items-start gap-4">
               {canRevealInFileExplorer() && (
@@ -231,7 +229,7 @@ export const AllSettingsFields = forwardRef(
           </SettingsSection>
           <SettingsSection
             title={localizeUiText('Layout', locale)}
-            description="Reset to the default layout"
+            description={locale === 'zh-TW' ? '還原為預設版面配置' : 'Reset to the default layout'}
           >
             <ActionButton
               Element="button"
