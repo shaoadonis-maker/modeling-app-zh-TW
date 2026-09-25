@@ -5,6 +5,8 @@ import type { EventFrom } from 'xstate'
 import { Toggle } from '@src/components/Toggle/Toggle'
 import { noAutofillInputProps } from '@src/lib/autofill'
 import { useApp } from '@src/lib/boot'
+import { useLocale } from '@src/i18n'
+import { localizeUiText } from '@src/i18n/uiLabels'
 import type { Setting } from '@src/lib/settings/initialSettings'
 import type {
   SetEventTypes,
@@ -29,6 +31,7 @@ export function SettingsFieldInput({
   setting,
 }: SettingsFieldInputProps) {
   useSignals()
+  const locale = useLocale()
   const { settings, registry } = useApp()
   const context = settings.useSettings()
   const send = settings.send
@@ -76,8 +79,8 @@ export function SettingsFieldInput({
     case 'boolean':
       return (
         <Toggle
-          offLabel="Off"
-          onLabel="On"
+          offLabel={localizeUiText('Off', locale)}
+          onLabel={localizeUiText('On', locale)}
           onChange={(e) =>
             send({
               type: `set.${category}.${settingName}`,
@@ -121,7 +124,7 @@ export function SettingsFieldInput({
           {options &&
             options.length > 0 &&
             options.map((option) => (
-              <option key={option.name} value={String(option.value)}>
+              <option key={localizeUiText(option.name, locale)} value={String(option.value)}>
                 {option.name}
               </option>
             ))}
@@ -223,8 +226,9 @@ export function SettingsFieldInput({
   }
   return (
     <p className="text-destroy-70 dark:text-destroy-20">
-      No component or input type found for setting {settingName} in category{' '}
-      {category}
+      {locale === 'zh-TW'
+        ? `找不到設定 ${settingName}（分類：${category}）可使用的元件或輸入類型`
+        : `No component or input type found for setting ${settingName} in category ${category}`}
     </p>
   )
 }
