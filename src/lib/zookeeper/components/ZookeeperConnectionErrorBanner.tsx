@@ -2,6 +2,7 @@ import type { MlCopilotAccessDeniedCode } from '@kittycad/lib'
 import { ActionButton } from '@src/components/ActionButton'
 import { openExternalBrowserIfDesktop } from '@src/lib/openWindow'
 import { withSiteBaseURL } from '@src/lib/withBaseURL'
+import { useLocale } from '@src/i18n'
 import type { MouseEventHandler } from 'react'
 
 const terminalRecoveryButtonClassName =
@@ -76,6 +77,8 @@ const BILLING_RECOVERY_CONTENT: Record<
 export function ZookeeperConnectionErrorBanner(
   props: ZookeeperConnectionErrorBannerProps
 ) {
+  const locale = useLocale()
+  const zh = locale === 'zh-TW'
   const billingRecovery = props.accessDeniedCode
     ? BILLING_RECOVERY_CONTENT[props.accessDeniedCode]
     : undefined
@@ -102,14 +105,14 @@ export function ZookeeperConnectionErrorBanner(
             {billingRecovery
               ? billingRecovery.title
               : (props.connectionError ??
-                'Zookeeper disconnected unexpectedly.')}
+                (zh ? 'Zookeeper 發生非預期中斷。' : 'Zookeeper disconnected unexpectedly.'))}
           </p>
           <p className="text-sm text-chalkboard-70 dark:text-chalkboard-30">
             {billingRecovery
               ? billingRecovery.description
               : props.canClearChat
-                ? 'Reconnect to try loading this conversation again.'
-                : 'Reconnect to try connecting again.'}
+                ? zh ? '重新連線以再次載入此對話。' : 'Reconnect to try loading this conversation again.'
+                : zh ? '重新連線以再次嘗試連接。' : 'Reconnect to try connecting again.'}
           </p>
         </div>
       </div>
@@ -130,7 +133,7 @@ export function ZookeeperConnectionErrorBanner(
         )}
         <ActionButton
           Element="button"
-          aria-label={isBillingError ? 'Check again' : 'Reconnect'}
+          aria-label={isBillingError ? (zh ? '再次檢查' : 'Check again') : (zh ? '重新連線' : 'Reconnect')}
           type="button"
           className={terminalRecoveryButtonClassName}
           iconStart={{ icon: 'refresh', bgClassName: '!bg-transparent ml-1' }}
@@ -142,19 +145,19 @@ export function ZookeeperConnectionErrorBanner(
           disabled={props.isClearingChat}
           tabIndex={0}
         >
-          {isBillingError ? 'Check again' : 'Reconnect'}
+          {isBillingError ? (zh ? '再次檢查' : 'Check again') : (zh ? '重新連線' : 'Reconnect')}
         </ActionButton>
       </div>
       {!isBillingError && props.canClearChat && (
         <div className="flex flex-col gap-2 border-t border-destroy-30 pt-3 dark:border-destroy-70">
           <p className="text-sm text-chalkboard-70 dark:text-chalkboard-30">
-            If reconnecting still does not work, clearing the chat is a last
-            resort. Previous conversation data will no longer be visible in this
-            pane.
+            {zh
+              ? '如果重新連線仍然無效，清除聊天是最後手段。先前的對話資料將不再顯示於此面板。'
+              : 'If reconnecting still does not work, clearing the chat is a last resort. Previous conversation data will no longer be visible in this pane.'}
           </p>
           <ActionButton
             Element="button"
-            aria-label={props.isClearingChat ? 'Clearing...' : 'Clear chat'}
+            aria-label={props.isClearingChat ? (zh ? '正在清除…' : 'Clearing...') : (zh ? '清除聊天' : 'Clear chat')}
             type="button"
             className={`${terminalRecoveryButtonClassName} !text-destroy-80 dark:!text-destroy-20`}
             iconStart={{ icon: 'trash', bgClassName: '!bg-transparent ml-1' }}
@@ -162,7 +165,7 @@ export function ZookeeperConnectionErrorBanner(
             disabled={props.isClearingChat}
             tabIndex={0}
           >
-            {props.isClearingChat ? 'Clearing...' : 'Clear chat'}
+            {props.isClearingChat ? (zh ? '正在清除…' : 'Clearing...') : (zh ? '清除聊天' : 'Clear chat')}
           </ActionButton>
         </div>
       )}
