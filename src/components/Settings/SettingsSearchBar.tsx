@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import { CustomIcon } from '@src/components/CustomIcon'
 import { noAutofillInputProps } from '@src/lib/autofill'
 import { useApp } from '@src/lib/boot'
+import { t, useLocale } from '@src/i18n'
 import { settingsSearchFocusRequest } from '@src/lib/searchFocusRequests'
 import type { SettingsLevel } from '@src/lib/settings/settingsTypes'
 import {
@@ -48,6 +49,7 @@ export function SettingsSearchBar({
   hasOpenProject,
 }: SettingsSearchBarProps) {
   useSignals()
+  const locale = useLocale()
   const { settings, registry, userFeatures } = useApp()
   const keymap = registry.optional(keymapService)
   const contributedKeymap = registry.signal(keymapValueSpec).value
@@ -146,7 +148,9 @@ export function SettingsSearchBar({
             onChange={(event) => setQuery(event.target.value)}
             className="w-full bg-transparent focus:outline-none selection:bg-primary/20 dark:selection:bg-primary/40 dark:focus:outline-none"
             placeholder={
-              keybinding ? `Search settings (${keybinding})` : 'Search settings'
+              keybinding
+                ? `${t('app.searchSettings', 'Search settings', locale)} (${keybinding})`
+                : t('app.searchSettings', 'Search settings', locale)
             }
             autoFocus
           />
