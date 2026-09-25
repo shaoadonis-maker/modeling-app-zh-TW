@@ -7,6 +7,8 @@ import {
 } from '@src/components/ContextMenu'
 import { CustomIcon } from '@src/components/CustomIcon'
 import Tooltip from '@src/components/Tooltip'
+import { useLocale } from '@src/i18n'
+import { localizeUiText } from '@src/i18n/uiLabels'
 import usePlatform from '@src/hooks/usePlatform'
 import type { ArtifactGraph } from '@src/lang/wasm'
 import { hotkeyDisplay } from '@src/lib/hotkeys'
@@ -497,6 +499,7 @@ function PaneButton({
   childIndex: number
   onChange: (checked: boolean) => void
 }) {
+  const locale = useLocale()
   const platform = usePlatform()
   const { areaLibrary } = useLayoutState()
   const buttonBorderWidthProp = `border${sideToReactCss(getOppositeSide(side))}Width`
@@ -536,7 +539,7 @@ function PaneButton({
           className={`w-5 h-5 ${icon === 'loading' ? 'animate-spin' : ''}`}
           aria-hidden
         />
-        <span className="sr-only">{pane.label}</span>
+        <span className="sr-only">{localizeUiText(pane.label, locale)}</span>
       </Switch>
       <Tooltip
         id={`tooltip-${pane.id}`}
@@ -544,7 +547,7 @@ function PaneButton({
         contentClassName="text-xs max-w-none flex items-center gap-4"
         hoverOnly
       >
-        <span className="flex-1">{pane.label}</span>
+        <span className="flex-1">{localizeUiText(pane.label, locale)}</span>
         {resolvedAreaType?.shortcut ? (
           <kbd className="hotkey text-xs capitalize">
             {hotkeyDisplay(resolvedAreaType.shortcut, platform)}
