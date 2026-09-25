@@ -1321,7 +1321,7 @@ const OperationItem = ({
             void viewOperationSource().catch(reportRejection)
           }}
         >
-          View KCL source code
+          {localizeUiText('View KCL source code', locale)}
         </ContextMenuItem>
       )
 
@@ -1353,14 +1353,14 @@ const OperationItem = ({
                   viewOperationSource(functionRange).catch(reportRejection)
                 }}
               >
-                View function definition
+                {localizeUiText('View function definition', locale)}
               </ContextMenuItem>,
             ]
           : []),
         ...(isOffsetPlane(item)
           ? [
               <ContextMenuItem onClick={startSketchOnOffsetPlane}>
-                Start Sketch
+                {localizeUiText('Start Sketch', locale)}
               </ContextMenuItem>,
             ]
           : []),
@@ -1370,7 +1370,7 @@ const OperationItem = ({
                 onClick={exportDxf}
                 data-testid="context-menu-export-dxf"
               >
-                Export to DXF
+                {localizeUiText('Export to DXF', locale)}
               </ContextMenuItem>,
             ]
           : []),
@@ -1387,7 +1387,7 @@ const OperationItem = ({
                 onClick={enterEditFlow}
                 hotkey="Double click"
               >
-                Edit
+                {localizeUiText('Edit', locale)}
               </ContextMenuItem>,
             ]
           : []),
@@ -1406,7 +1406,7 @@ const OperationItem = ({
                 onClick={enterAppearanceFlow}
                 data-testid="context-menu-set-appearance"
               >
-                Set appearance
+                {localizeUiText('Set appearance', locale)}
               </ContextMenuItem>,
             ]
           : []),
@@ -1421,7 +1421,7 @@ const OperationItem = ({
                   !stdLibMap[item.name]?.supportsTranslate
                 }
               >
-                Translate
+                {localizeUiText('Translate', locale)}
               </ContextMenuItem>,
               <ContextMenuItem
                 onClick={enterRotateFlow}
@@ -1432,7 +1432,7 @@ const OperationItem = ({
                   !stdLibMap[item.name]?.supportsRotate
                 }
               >
-                Rotate
+                {localizeUiText('Rotate', locale)}
               </ContextMenuItem>,
               <ContextMenuItem
                 onClick={enterScaleFlow}
@@ -1443,7 +1443,7 @@ const OperationItem = ({
                   !stdLibMap[item.name]?.supportsScale
                 }
               >
-                Scale
+                {localizeUiText('Scale', locale)}
               </ContextMenuItem>,
               <ContextMenuItem
                 onClick={enterCloneFlow}
@@ -1453,7 +1453,7 @@ const OperationItem = ({
                   !stdLibMap[item.name]?.supportsTransform
                 }
               >
-                Clone
+                {localizeUiText('Clone', locale)}
               </ContextMenuItem>,
             ]
           : []),
@@ -1466,7 +1466,7 @@ const OperationItem = ({
                 hotkey="Delete"
                 data-testid="context-menu-delete"
               >
-                Remove operation
+                {localizeUiText('Remove operation', locale)}
               </ContextMenuItem>,
             ]
           : []),
