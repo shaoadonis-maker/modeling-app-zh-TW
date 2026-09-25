@@ -58,6 +58,16 @@ const zhTWLabels: Record<string, string> = {
   'Updating feature tree...': '正在更新特徵樹…',
   'Feature tree actions are disabled.': '特徵樹操作目前已停用。',
   'View error': '查看錯誤',
+  'View KCL source code': '查看 KCL 原始碼',
+  'View function definition': '查看函式定義',
+  'Export to DXF': '匯出為 DXF',
+  Edit: '編輯 Edit',
+  'Set appearance': '設定外觀 Set appearance',
+  Translate: '平移 Translate',
+  Rotate: '旋轉 Rotate',
+  Scale: '縮放 Scale',
+  Clone: '複製 Clone',
+  'Remove operation': '移除操作 Remove operation',
 
   // Import / Export / files
   Import: '匯入 Import',
