@@ -1,0 +1,98 @@
+import type { AppLocale } from '@src/i18n'
+
+const zhTWLabels: Record<string, string> = {
+  // Core CAD
+  'Start Sketch': '草圖 Sketch',
+  'Edit Sketch': '編輯草圖 Edit Sketch',
+  Extrude: '擠出 Extrude',
+  Revolve: '旋轉 Revolve',
+  Sweep: '掃掠 Sweep',
+  Loft: '放樣 Loft',
+  Fillet: '圓角 Fillet',
+  Chamfer: '倒角 Chamfer',
+  Shell: '薄殼 Shell',
+  Hole: '孔 Hole',
+  Union: '聯集 Union',
+  Subtract: '差集 Subtract',
+  Intersect: '交集 Intersect',
+  'Boolean Union': '布林聯集 Boolean Union',
+  'Boolean Subtract': '布林差集 Boolean Subtract',
+  'Boolean Intersect': '布林交集 Boolean Intersect',
+  'Offset Plane': '偏移平面 Offset Plane',
+  Helix: '螺旋線 Helix',
+
+  // Sketch
+  Line: '直線 Line',
+  Circle: '圓 Circle',
+  Rectangle: '矩形 Rectangle',
+  Arc: '圓弧 Arc',
+  Trim: '修剪 Trim',
+  Coincident: '重合 Coincident',
+  Midpoint: '中點 Midpoint',
+  Tangent: '相切 Tangent',
+  Parallel: '平行 Parallel',
+  Perpendicular: '垂直 Perpendicular',
+  Equal: '相等 Equal',
+  Symmetric: '對稱 Symmetric',
+  Horizontal: '水平 Horizontal',
+  Vertical: '垂直 Vertical',
+  Fixed: '固定 Fixed',
+
+  // Command bar
+  Experimental: '實驗功能 Experimental',
+  Deprecated: '已棄用 Deprecated',
+  Submit: '送出 Submit',
+  Continue: '繼續 Continue',
+  'Step back': '上一步 Step back',
+  Clear: '清除 Clear',
+  Cancel: '取消 Cancel',
+  'Checking arguments...': '正在檢查參數…',
+
+  // Feature tree
+  Operation: '操作',
+  Operations: '操作',
+  Sketch: '草圖',
+  Sketches: '草圖',
+  'Feature Tree': '特徵樹 Feature Tree',
+  Execute: '執行 Execute',
+  'Updating feature tree...': '正在更新特徵樹…',
+  'Feature tree actions are disabled.': '特徵樹操作目前已停用。',
+  'View error': '查看錯誤',
+
+  // Import / Export / files
+  Import: '匯入 Import',
+  Export: '匯出 Export',
+  'Import file': '匯入檔案 Import file',
+  'Import file from URL': '從網址匯入檔案 Import file from URL',
+  'Export current part': '匯出目前零件 Export current part',
+  'Export project': '匯出專案 Export project',
+  'Save file': '儲存檔案 Save file',
+  'Open project': '開啟專案 Open project',
+  'Create project': '建立專案 Create project',
+  'Delete project': '刪除專案 Delete project',
+  'Rename project': '重新命名專案 Rename project',
+  'Move project': '移動專案 Move project',
+
+  // Common args
+  Title: '標題 Title',
+  Library: '資料庫 Library',
+  Project: '專案 Project',
+  'New title': '新標題 New title',
+  Name: '名稱 Name',
+  Format: '格式 Format',
+  Units: '單位 Units',
+  File: '檔案 File',
+}
+
+export function localizeUiLabel(
+  label: string | undefined,
+  locale: AppLocale
+): string | undefined {
+  if (!label || locale !== 'zh-TW') return label
+  return zhTWLabels[label] ?? label
+}
+
+export function localizeUiText(text: string, locale: AppLocale): string {
+  if (locale !== 'zh-TW') return text
+  return zhTWLabels[text] ?? text
+}
