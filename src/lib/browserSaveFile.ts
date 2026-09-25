@@ -1,3 +1,5 @@
+import { localizeUiText } from '@src/i18n/uiLabels'
+import { getLocale } from '@src/i18n'
 // Saves a file through the File System Access API when possible, then falls
 // back to a normal browser download link.
 import toast from 'react-hot-toast'
@@ -67,7 +69,9 @@ const saveWithDownloadLink = (
     URL.revokeObjectURL(blobURL)
     a.remove()
   }, 1000)
-  toast.success(EXPORT_TOAST_MESSAGES.SUCCESS, { id: toastId })
+  toast.success(localizeUiText(EXPORT_TOAST_MESSAGES.SUCCESS, getLocale()), {
+    id: toastId,
+  })
 }
 
 // user will get a file save dialog where they can choose where the file should be saved.
@@ -102,7 +106,10 @@ export const browserSaveFile = async (
       const writable = await handle.createWritable()
       await writable.write(blob)
       await writable.close()
-      toast.success(EXPORT_TOAST_MESSAGES.SUCCESS, { id: toastId })
+      toast.success(
+        localizeUiText(EXPORT_TOAST_MESSAGES.SUCCESS, getLocale()),
+        { id: toastId }
+      )
       return
     } catch (err: unknown) {
       const name = errorName(err)
@@ -114,7 +121,9 @@ export const browserSaveFile = async (
         saveWithDownloadLink(blob, suggestedName, toastId)
       } else {
         console.error(name, err)
-        toast.error(EXPORT_TOAST_MESSAGES.FAILED, { id: toastId })
+        toast.error(localizeUiText(EXPORT_TOAST_MESSAGES.FAILED, getLocale()), {
+          id: toastId,
+        })
       }
       return
     }

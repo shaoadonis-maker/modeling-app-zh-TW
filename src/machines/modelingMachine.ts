@@ -1,3 +1,5 @@
+import { localizeUiText } from '@src/i18n/uiLabels'
+import { getLocale } from '@src/i18n'
 import toast from 'react-hot-toast'
 import { Mesh, Vector2, Vector3 } from 'three'
 import {
@@ -4590,7 +4592,9 @@ export const modelingMachine = setup({
           format.selection = { type: 'default_scene' }
         }
 
-        const toastId = toast.loading(EXPORT_TOAST_MESSAGES.START)
+        const toastId = toast.loading(
+          localizeUiText(EXPORT_TOAST_MESSAGES.START, getLocale())
+        )
         const files = await rustContext.export(
           format,
           {
@@ -4667,7 +4671,9 @@ export const modelingMachine = setup({
           selection: { type: 'default_scene' },
         }
 
-        const toastId = toast.loading(MAKE_TOAST_MESSAGES.START)
+        const toastId = toast.loading(
+          localizeUiText(MAKE_TOAST_MESSAGES.START, getLocale())
+        )
         const files = await input.rustContext.export(
           format,
           {

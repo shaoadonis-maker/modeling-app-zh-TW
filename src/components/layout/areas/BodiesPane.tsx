@@ -1,3 +1,5 @@
+import { useLocale } from '@src/i18n'
+import { localizeUiText } from '@src/i18n/uiLabels'
 import type { PropsOf } from '@headlessui/react/dist/types'
 import { useSignals } from '@preact/signals-react/runtime'
 import { ContextMenuItem } from '@src/components/ContextMenu'
@@ -31,6 +33,7 @@ type SolidArtifact = Artifact & { type: 'compositeSolid' | 'sweep' | 'pattern' }
 
 export function BodiesPane(props: AreaTypeComponentProps) {
   useSignals()
+  const locale = useLocale()
   const { kclManager } = useSingletons()
   const execState = kclManager.execStateSignal.value
   const artifactGraph = execState.artifactGraph
@@ -53,7 +56,7 @@ export function BodiesPane(props: AreaTypeComponentProps) {
       bodiesWithProps.set(id, {
         artifact,
         artifactGraph,
-        label: `Body ${i + 1}`,
+        label: locale === 'zh-TW' ? `實體 ${i + 1}` : `Body ${i + 1}`,
         hideOperation,
         engineEntityId: artifact.type === 'pattern' ? id : undefined,
         patternIndex,
@@ -109,6 +112,7 @@ function BodyItem({
   engineEntityId?: string
   patternIndex?: number
 }) {
+  const locale = useLocale()
   const { kclManager } = useSingletons()
   const {
     actor: modelingActor,
@@ -181,7 +185,7 @@ function BodyItem({
             onClick={handleDelete}
             data-testid="context-menu-delete"
           >
-            Delete
+            {localizeUiText('Delete', locale)}
           </ContextMenuItem>,
         ]}
         Toggle={
@@ -204,11 +208,17 @@ function BodyItem({
                 })
                   .then((result) => {
                     if (err(result)) {
-                      toast.error(result.message || 'Error while unhiding.')
+                      toast.error(
+                        result.message ||
+                          localizeUiText('Error while unhiding.', locale)
+                      )
                     }
                   })
                   .catch((e) => {
-                    toast.error(e.message || 'Error while unhiding.')
+                    toast.error(
+                      e.message ||
+                        localizeUiText('Error while unhiding.', locale)
+                    )
                   })
               }
             }}

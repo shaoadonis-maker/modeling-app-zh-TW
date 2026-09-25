@@ -22,7 +22,7 @@ import {
   type SourceRange,
 } from '@src/lang/wasm'
 import { useApp, useSingletons } from '@src/lib/boot'
-import { useLocale } from '@src/i18n'
+import { getLocale, useLocale } from '@src/i18n'
 import { localizeUiLabel, localizeUiText } from '@src/i18n/uiLabels'
 import { LEGACY_SKETCH_MODE_REMOVED_MESSAGE } from '@src/lib/constants'
 import {
@@ -338,7 +338,9 @@ export const FeatureTreePaneContents = memo(() => {
           )}
           {disableModelingForUnrenderedChanges && !hasParseErrors && (
             <div className="text-sm bg-2 text-2 py-2 px-2 rounded flex flex-col gap-2 flex-none mb-2 border border-chalkboard-20 dark:border-chalkboard-80">
-              <p className="font-medium">{localizeUiText('Feature tree actions are disabled.', locale)}</p>
+              <p className="font-medium">
+                {localizeUiText('Feature tree actions are disabled.', locale)}
+              </p>
               <p className="text-xs opacity-80">
                 {getUnrenderedChangesDisabledReason()}
               </p>
@@ -539,7 +541,8 @@ function OperationItemGroup({
           aria-hidden
         />
         <span className="text-sm flex-1">
-          {contentItems.length} {localizeUiLabel(`${getOpTypeLabel(contentItems[0].type)}s`, locale)}
+          {contentItems.length}{' '}
+          {localizeUiLabel(`${getOpTypeLabel(contentItems[0].type)}s`, locale)}
         </span>
       </Disclosure.Button>
       <Disclosure.Panel as="ul" className="border-b b-4">
@@ -750,6 +753,7 @@ export const OperationItemWrapper = memo(
     isSelected?: boolean
     size?: 'default' | 'sm'
   } & OpValueProps) => {
+    const locale = useLocale()
     return (
       <RowItemWithIconMenuAndToggle
         {...props}
@@ -775,7 +779,9 @@ export const OperationItemWrapper = memo(
         }
         Warning={
           errors && errors.length > 0 ? (
-            <em className="text-destroy-80 text-xs">has error</em>
+            <em className="text-destroy-80 text-xs">
+              {localizeUiText('has error', locale)}
+            </em>
           ) : null
         }
         Tooltip={Tooltip}
@@ -800,7 +806,11 @@ export function namedViewTooltipText({
   variableName?: string
 }): string {
   const viewName = getOperationCalculatedDisplay(valueDetail.calculated)
-  const declaration = variableName ? `, declared as ${variableName}` : ''
+  const declaration = variableName
+    ? getLocale() === 'zh-TW'
+      ? `，宣告為 ${variableName}`
+      : `, declared as ${variableName}`
+    : ''
 
   return `${name} "${viewName}"${declaration}`
 }
@@ -812,6 +822,7 @@ export function VariableTooltipContents({
   type,
   isNamedView,
 }: OpValueProps) {
+  const locale = useLocale()
   if (isNamedView && valueDetail) {
     return <>{namedViewTooltipText({ name, valueDetail, variableName })}</>
   }
@@ -820,7 +831,7 @@ export function VariableTooltipContents({
     <div className="flex flex-col gap-2">
       <p>
         <span>{name}</span>
-        <span> named </span>
+        <span>{locale === 'zh-TW' ? '，名稱：' : ' named '}</span>
         <span>{variableName ?? ''}</span>
       </p>
       <p className="font-mono text-xs">
@@ -830,9 +841,17 @@ export function VariableTooltipContents({
       </p>
     </div>
   ) : type === 'GroupBegin' ? (
-    <>{`Function call of ${name} named ${variableName}`}</>
+    <>
+      {locale === 'zh-TW'
+        ? `${name} 函式呼叫，名稱：${variableName ?? ''}`
+        : `Function call of ${name} named ${variableName}`}
+    </>
   ) : (
-    <>{`${variableName ? '' : 'Unnamed '}${name}${variableName ? ` named ${variableName}` : ''}`}</>
+    <>
+      {locale === 'zh-TW'
+        ? `${variableName ? '' : '未命名的 '}${name}${variableName ? `，名稱：${variableName}` : ''}`
+        : `${variableName ? '' : 'Unnamed '}${name}${variableName ? ` named ${variableName}` : ''}`}
+    </>
   )
 }
 
@@ -943,7 +962,10 @@ async function prepareFeatureTreeEditCommand({
 
   if (!operationToEdit) {
     toast.error(
-      'Could not safely reselect operation after automatic migration. Please try again.'
+      localizeUiText(
+        'Could not safely reselect operation after automatic migration. Please try again.',
+        getLocale()
+      )
     )
     return
   }
@@ -999,7 +1021,8 @@ const OperationItem = ({
   const liveAst = kclManager.astSignal.value
   const ast = kclManager.hasParseErrors() ? kclManager.lastGoodAst : liveAst
   const wasmInstance = use(kclManager.wasmInstancePromise)
-  const name = localizeUiLabel(getOperationLabel(item), locale) ?? getOperationLabel(item)
+  const name =
+    localizeUiLabel(getOperationLabel(item), locale) ?? getOperationLabel(item)
   const sourceRange =
     'sourceRange' in item &&
     sourceRangeToUtf16(sourceRangeFromRust(item.sourceRange), kclManager.code)
@@ -1594,12 +1617,22 @@ const OperationItem = ({
                         .then((result) => {
                           if (err(result)) {
                             toast.error(
-                              result.message || 'Error while unhiding.'
+                              result.message ||
+                                localizeUiText(
+                                  'Error while unhiding.',
+                                  getLocale()
+                                )
                             )
                           }
                         })
                         .catch((e) => {
-                          toast.error(e.message || 'Error while unhiding.')
+                          toast.error(
+                            e.message ||
+                              localizeUiText(
+                                'Error while unhiding.',
+                                getLocale()
+                              )
+                          )
                         })
                     }
                   })

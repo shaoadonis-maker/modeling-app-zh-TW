@@ -1,3 +1,5 @@
+import { useLocale } from '@src/i18n'
+import { localizeUiText } from '@src/i18n/uiLabels'
 import { Popover } from '@headlessui/react'
 import { CustomIcon } from '@src/components/CustomIcon'
 import { defaultStatusBarItemClassNames } from '@src/components/StatusBar/StatusBar'
@@ -24,6 +26,7 @@ const HelpMenuDivider = () => (
 )
 
 export function HelpMenu() {
+  const locale = useLocale()
   const app = useApp()
   const navigate = useNavigate()
   const filePath = useAbsoluteFilePath({ warnIfNoExecutingPath: false })
@@ -53,9 +56,11 @@ export function HelpMenu() {
         data-testid="help-button"
       >
         <CustomIcon name="questionMark" className="w-5 h-5" />
-        <span className="sr-only">Help and resources</span>
+        <span className="sr-only">
+          {localizeUiText('Help and resources', locale)}
+        </span>
         <Tooltip position="top-right" wrapperClassName="ui-open:hidden">
-          Help and resources
+          {localizeUiText('Help and resources', locale)}
         </Tooltip>
       </Popover.Button>
       <Popover.Panel
@@ -71,7 +76,7 @@ export function HelpMenu() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Report a bug
+              {localizeUiText('Report a bug', locale)}
             </HelpMenuItem>
             <HelpMenuItem
               as="a"
@@ -79,7 +84,7 @@ export function HelpMenu() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Request a feature
+              {localizeUiText('Request a feature', locale)}
             </HelpMenuItem>
             <HelpMenuItem
               as="a"
@@ -87,7 +92,7 @@ export function HelpMenu() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Ask the community
+              {localizeUiText('Ask the community', locale)}
             </HelpMenuItem>
             <HelpMenuDivider />
             <HelpMenuItem
@@ -96,7 +101,7 @@ export function HelpMenu() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              KCL code samples
+              {localizeUiText('KCL code samples', locale)}
             </HelpMenuItem>
             <HelpMenuItem
               as="a"
@@ -104,7 +109,7 @@ export function HelpMenu() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              KCL docs
+              {localizeUiText('KCL docs', locale)}
             </HelpMenuItem>
             <HelpMenuDivider />
             <HelpMenuItem
@@ -113,7 +118,7 @@ export function HelpMenu() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Release notes
+              {localizeUiText('Release notes', locale)}
             </HelpMenuItem>
             {isDesktop() && (
               <HelpMenuItem
@@ -123,7 +128,7 @@ export function HelpMenu() {
                   window.electron?.appCheckForUpdates().catch(reportRejection)
                 }}
               >
-                Check for updates
+                {localizeUiText('Check for updates', locale)}
               </HelpMenuItem>
             )}
             <HelpMenuItem
@@ -137,7 +142,7 @@ export function HelpMenu() {
               }}
               data-testid="keybindings-button"
             >
-              Keyboard shortcuts
+              {localizeUiText('Keyboard shortcuts', locale)}
             </HelpMenuItem>
             <HelpMenuItem
               as="button"
@@ -148,8 +153,8 @@ export function HelpMenu() {
               }}
             >
               {isOnboardingStartPending
-                ? 'Starting onboarding tutorial...'
-                : 'Replay onboarding tutorial'}
+                ? localizeUiText('Starting onboarding tutorial...', locale)
+                : localizeUiText('Replay onboarding tutorial', locale)}
             </HelpMenuItem>
           </>
         )}

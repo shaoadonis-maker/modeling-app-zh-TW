@@ -112,7 +112,12 @@ export const AllSettingsFields = forwardRef(
                       setting[setting.getParentLevel(searchParamTab)]
                     return (
                       <SettingsSection
-                        title={localizeUiLabel(formatSettingsLabel(settingName), locale) ?? formatSettingsLabel(settingName)}
+                        title={
+                          localizeUiLabel(
+                            formatSettingsLabel(settingName),
+                            locale
+                          ) ?? formatSettingsLabel(settingName)
+                        }
                         id={settingName}
                         className={
                           location.hash === `#${settingName}`
@@ -120,7 +125,10 @@ export const AllSettingsFields = forwardRef(
                             : ''
                         }
                         key={`${category}-${settingName}-${searchParamTab}`}
-                        description={localizeUiText(setting.description, locale)}
+                        description={localizeUiText(
+                          setting.description ?? '',
+                          locale
+                        )}
                         settingHasChanged={
                           setting[searchParamTab] !== undefined &&
                           setting[searchParamTab] !==
@@ -156,7 +164,11 @@ export const AllSettingsFields = forwardRef(
           </h2>
           <SettingsSection
             title={localizeUiText('Onboarding', locale)}
-            description={locale === 'zh-TW' ? '重新播放新手導覽流程' : 'Replay the onboarding process'}
+            description={
+              locale === 'zh-TW'
+                ? '重新播放新手導覽流程'
+                : 'Replay the onboarding process'
+            }
           >
             <ActionButton
               Element="button"
@@ -175,8 +187,12 @@ export const AllSettingsFields = forwardRef(
               }}
             >
               {isOnboardingStartPending
-                ? locale === 'zh-TW' ? '正在啟動新手導覽…' : 'Starting Onboarding...'
-                : locale === 'zh-TW' ? '重新播放新手導覽' : 'Replay Onboarding'}
+                ? locale === 'zh-TW'
+                  ? '正在啟動新手導覽…'
+                  : 'Starting Onboarding...'
+                : locale === 'zh-TW'
+                  ? '重新播放新手導覽'
+                  : 'Replay Onboarding'}
             </ActionButton>
           </SettingsSection>
           <SettingsSection
@@ -223,13 +239,19 @@ export const AllSettingsFields = forwardRef(
                   bgClassName: 'bg-destroy-70',
                 }}
               >
-                {locale === 'zh-TW' ? `重設 ${capitaliseFC(searchParamTab)} 層級設定` : `Reset ${capitaliseFC(searchParamTab)}-Level Settings`}
+                {locale === 'zh-TW'
+                  ? `重設 ${localizeUiText(searchParamTab, locale)}層級設定`
+                  : `Reset ${capitaliseFC(searchParamTab)}-Level Settings`}
               </ActionButton>
             </div>
           </SettingsSection>
           <SettingsSection
             title={localizeUiText('Layout', locale)}
-            description={locale === 'zh-TW' ? '還原為預設版面配置' : 'Reset to the default layout'}
+            description={
+              locale === 'zh-TW'
+                ? '還原為預設版面配置'
+                : 'Reset to the default layout'
+            }
           >
             <ActionButton
               Element="button"
@@ -247,7 +269,13 @@ export const AllSettingsFields = forwardRef(
             {localizeUiText('About Design Studio', locale)}
           </h2>
           <div className="text-sm mb-12">
-            {APP_VERSION && <p>{locale === 'zh-TW' ? `應用程式版本 ${APP_VERSION}` : `App version ${APP_VERSION}.`}</p>}
+            {APP_VERSION && (
+              <p>
+                {locale === 'zh-TW'
+                  ? `應用程式版本 ${APP_VERSION}`
+                  : `App version ${APP_VERSION}.`}
+              </p>
+            )}
             <div className="flex gap-2 flex-wrap my-4">
               {APP_VERSION && (
                 <ActionButton
@@ -273,7 +301,10 @@ export const AllSettingsFields = forwardRef(
               </ActionButton>
             </div>
             <p className="max-w-2xl mt-6">
-              Don't see the feature you want? Check to see if it's on{' '}
+              {localizeUiText(
+                "Don't see the feature you want? Check to see if it's on",
+                locale
+              )}{' '}
               <a
                 onClick={openExternalBrowserIfDesktop(
                   'https://zoo.dev/roadmap'
@@ -282,10 +313,12 @@ export const AllSettingsFields = forwardRef(
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                our roadmap
+                {localizeUiText('our roadmap', locale)}
               </a>{' '}
-              or reach out. Your feedback will help us prioritize what to build
-              next.
+              {localizeUiText(
+                'or reach out. Your feedback will help us prioritize what to build next.',
+                locale
+              )}
             </p>
           </div>
         </div>

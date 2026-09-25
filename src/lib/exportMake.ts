@@ -1,3 +1,5 @@
+import { localizeUiText } from '@src/i18n/uiLabels'
+import { getLocale } from '@src/i18n'
 import type { MachineManager } from '@src/lib/MachineManager'
 import { MAKE_TOAST_MESSAGES } from '@src/lib/constants'
 import type { components } from '@src/lib/machine-api'
@@ -18,34 +20,47 @@ export async function exportMake({
 }): Promise<Response | null> {
   if (name === '') {
     console.error(MAKE_TOAST_MESSAGES.NO_NAME)
-    toast.error(MAKE_TOAST_MESSAGES.NO_NAME, { id: toastId })
+    toast.error(localizeUiText(MAKE_TOAST_MESSAGES.NO_NAME, getLocale()), {
+      id: toastId,
+    })
     return null
   }
 
   if (machineManager.machines.length === 0) {
     console.error(MAKE_TOAST_MESSAGES.NO_MACHINES)
-    toast.error(MAKE_TOAST_MESSAGES.NO_MACHINES, { id: toastId })
+    toast.error(localizeUiText(MAKE_TOAST_MESSAGES.NO_MACHINES, getLocale()), {
+      id: toastId,
+    })
     return null
   }
 
   const machineApiIp = machineManager.machineApiIp
   if (!machineApiIp) {
     console.error(MAKE_TOAST_MESSAGES.NO_MACHINE_API_IP)
-    toast.error(MAKE_TOAST_MESSAGES.NO_MACHINE_API_IP, { id: toastId })
+    toast.error(
+      localizeUiText(MAKE_TOAST_MESSAGES.NO_MACHINE_API_IP, getLocale()),
+      { id: toastId }
+    )
     return null
   }
 
   const currentMachine = machineManager.currentMachine
   if (!currentMachine) {
     console.error(MAKE_TOAST_MESSAGES.NO_CURRENT_MACHINE)
-    toast.error(MAKE_TOAST_MESSAGES.NO_CURRENT_MACHINE, { id: toastId })
+    toast.error(
+      localizeUiText(MAKE_TOAST_MESSAGES.NO_CURRENT_MACHINE, getLocale()),
+      { id: toastId }
+    )
     return null
   }
 
   let machineId = currentMachine?.id
   if (!machineId) {
     console.error(MAKE_TOAST_MESSAGES.NO_MACHINE_ID, currentMachine)
-    toast.error(MAKE_TOAST_MESSAGES.NO_MACHINE_ID, { id: toastId })
+    toast.error(
+      localizeUiText(MAKE_TOAST_MESSAGES.NO_MACHINE_ID, getLocale()),
+      { id: toastId }
+    )
     return null
   }
 
@@ -75,7 +90,10 @@ export async function exportMake({
       console.error(MAKE_TOAST_MESSAGES.ERROR_STARTING_PRINT, response)
       const text = await response.text()
       toast.error(
-        'Error while starting print: ' + response.statusText + ' ' + text,
+        localizeUiText('Error while starting print: ', getLocale()) +
+          response.statusText +
+          ' ' +
+          text,
         {
           id: toastId,
         }
@@ -83,11 +101,16 @@ export async function exportMake({
       return null
     }
 
-    toast.success(MAKE_TOAST_MESSAGES.SUCCESS, { id: toastId })
+    toast.success(localizeUiText(MAKE_TOAST_MESSAGES.SUCCESS, getLocale()), {
+      id: toastId,
+    })
     return response
   } catch (error) {
     console.error(MAKE_TOAST_MESSAGES.ERROR_STARTING_PRINT, error)
-    toast.error(MAKE_TOAST_MESSAGES.ERROR_STARTING_PRINT, { id: toastId })
+    toast.error(
+      localizeUiText(MAKE_TOAST_MESSAGES.ERROR_STARTING_PRINT, getLocale()),
+      { id: toastId }
+    )
     return null
   }
 }

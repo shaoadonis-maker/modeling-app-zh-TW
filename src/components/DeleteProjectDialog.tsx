@@ -1,3 +1,5 @@
+import { useLocale } from '@src/i18n'
+import { localizeUiText } from '@src/i18n/uiLabels'
 import { Dialog } from '@headlessui/react'
 import { useEffect, useRef } from 'react'
 
@@ -22,6 +24,7 @@ export function DeleteConfirmationDialog({
   confirmDisabled,
   children,
 }: DeleteConfirmationDialogProps) {
+  const locale = useLocale()
   const dismissButtonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
@@ -48,7 +51,7 @@ export function DeleteConfirmationDialog({
       tabIndex={0}
       onClick={onDismiss}
     >
-      {dismissButtonText}
+      {localizeUiText(dismissButtonText, locale)}
     </ActionButton>
   )
   const confirmButton = (
@@ -58,7 +61,7 @@ export function DeleteConfirmationDialog({
       type="button"
       tabIndex={0}
       onClick={onConfirm}
-      aria-label={confirmButtonText}
+      aria-label={localizeUiText(confirmButtonText, locale)}
       disabled={confirmDisabled}
       iconStart={{
         icon: 'trash',
@@ -68,7 +71,7 @@ export function DeleteConfirmationDialog({
       className="hover:border-destroy-40 dark:hover:border-destroy-40 hover:bg-destroy-10/20 dark:hover:bg-destroy-80/20"
       data-testid="delete-confirmation"
     >
-      {confirmButtonText}
+      {localizeUiText(confirmButtonText, locale)}
     </ActionButton>
   )
   const orderedButtons =
@@ -86,7 +89,7 @@ export function DeleteConfirmationDialog({
       <div className="fixed inset-0 grid bg-chalkboard-110/80 place-content-center">
         <Dialog.Panel className="max-w-2xl p-4 border rounded bg-chalkboard-10 dark:bg-chalkboard-100 border-destroy-80">
           <Dialog.Title as="h2" className="mb-4 text-2xl font-bold">
-            {title}
+            {localizeUiText(title, locale)}
           </Dialog.Title>
           <Dialog.Description as="div">{children}</Dialog.Description>
 

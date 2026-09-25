@@ -1,3 +1,5 @@
+import { localizeUiText } from '@src/i18n/uiLabels'
+import { getLocale } from '@src/i18n'
 import { browserSaveFile } from '@src/lib/browserSaveFile'
 import {
   EXPORT_TOAST_MESSAGES,
@@ -36,7 +38,9 @@ export async function exportProjectZip({
   currentFileContents?: string
   wasmInstance: ModuleType
 }) {
-  const toastId = toast.loading(EXPORT_TOAST_MESSAGES.START)
+  const toastId = toast.loading(
+    localizeUiText(EXPORT_TOAST_MESSAGES.START, getLocale())
+  )
   const archive = await createProjectZipArchive({
     fileOperations,
     project,
