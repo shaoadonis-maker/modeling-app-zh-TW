@@ -9,6 +9,10 @@ export const zhTW = {
   'app.units': '單位',
   'app.appearance': '外觀',
   'app.keybindings': '快捷鍵',
+  'app.user': '使用者',
+  'app.thisProject': '此專案',
+  'app.plugins': '外掛',
+  'app.searchSettings': '搜尋設定',
 
   'cad.sketch': '草圖 Sketch',
   'cad.extrude': '擠出 Extrude',
