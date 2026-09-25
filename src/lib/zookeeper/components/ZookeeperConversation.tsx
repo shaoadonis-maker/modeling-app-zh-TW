@@ -286,6 +286,8 @@ interface ZookeeperConversationInputProps {
 export const ZookeeperConversationInput = (
   props: ZookeeperConversationInputProps
 ) => {
+  const locale = useLocale()
+  const zh = locale === 'zh-TW'
   const { registry } = useApp()
   const refDiv = useRef<HTMLTextAreaElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -525,7 +527,7 @@ export const ZookeeperConversationInput = (
         {isDraggingOver && (
           <div className="absolute inset-0 bg-ml-green/10 flex items-center justify-center pointer-events-none z-10 rounded">
             <span className="text-sm text-ml-green font-medium">
-              Drop files to attach
+              {zh ? '拖放檔案以附加' : 'Drop files to attach'}
             </span>
           </div>
         )}
@@ -544,10 +546,10 @@ export const ZookeeperConversationInput = (
           ref={refDiv}
           placeholder={
             props.isProcessing
-              ? 'Type a follow-up to queue...'
+              ? zh ? '輸入後續提示以加入佇列…' : 'Type a follow-up to queue...'
               : props.hasAlreadySentPrompts
                 ? ''
-                : 'Create a gear with 10 teeth and use sensible defaults for everything else...'
+                : zh ? '建立一個 10 齒齒輪，其餘參數使用合理的預設值…' : 'Create a gear with 10 teeth and use sensible defaults for everything else...'
           }
           onKeyDown={(e) => {
             const isOnlyEnter =
@@ -575,7 +577,7 @@ export const ZookeeperConversationInput = (
                   type="button"
                   onClick={() => onRemoveAttachment(index)}
                   className="ml-1 text-chalkboard-70 hover:text-chalkboard-100 dark:hover:text-chalkboard-20"
-                  aria-label={`Remove ${file.name}`}
+                  aria-label={zh ? `移除 ${file.name}` : `Remove ${file.name}`}
                 >
                   <CustomIcon name="close" className="w-4 h-4" />
                 </button>
@@ -610,7 +612,7 @@ export const ZookeeperConversationInput = (
               >
                 <CustomIcon name="close" className="w-5 h-5" />
                 <Tooltip position="top" hoverOnly={true}>
-                  <span>Cancel</span>
+                  <span>{zh ? '取消' : 'Cancel'}</span>
                 </Tooltip>
               </button>
             )}
@@ -622,21 +624,24 @@ export const ZookeeperConversationInput = (
             >
               <CustomIcon name="arrowShortUp" className="w-5 h-5" />
               <Tooltip position="top" hoverOnly={true}>
-                <span>{props.isProcessing ? 'Queue' : 'Send'}</span>
+                <span>{props.isProcessing ? (zh ? '加入佇列' : 'Queue') : (zh ? '送出' : 'Send')}</span>
               </Tooltip>
             </button>
           </div>
         </div>
       </div>
       <div className="text-3 text-xs">
-        Zookeeper can make mistakes. We send selection context to help. Always
-        verify information.
+        {zh
+          ? 'Zookeeper 可能會出錯。我們會傳送選取內容作為上下文協助生成，請務必自行確認結果。'
+          : 'Zookeeper can make mistakes. We send selection context to help. Always verify information.'}
       </div>
     </div>
   )
 }
 
 export const ZookeeperConversation = (props: ZookeeperConversationProps) => {
+  const locale = useLocale()
+  const zh = locale === 'zh-TW'
   const refScroll = useRef<HTMLDivElement>(null)
   const exchangesLength = props.conversation?.exchanges.length ?? 0
   const hasMessages = exchangesLength > 0
@@ -698,8 +703,8 @@ export const ZookeeperConversation = (props: ZookeeperConversationProps) => {
               {props.showManualConnect ? (
                 <ConnectionRecovery
                   className="h-full min-h-[12rem] w-full"
-                  title={props.connectionError ?? 'No internet connection.'}
-                  description="Check your network connection, then click below to try again."
+                  title={props.connectionError ?? (zh ? '沒有網路連線。' : 'No internet connection.')}
+                  description={zh ? '請檢查網路連線，然後點擊下方按鈕重試。' : 'Check your network connection, then click below to try again.'}
                   onReconnect={props.onReconnect}
                   reconnectDisabled={props.isClearingChat}
                 />
@@ -739,16 +744,15 @@ export const ZookeeperConversation = (props: ZookeeperConversationProps) => {
                           role="status"
                         >
                           <p className="font-semibold">
-                            Zookeeper stopped before finishing this request.
+                            {zh ? 'Zookeeper 在完成此要求前停止了。' : 'Zookeeper stopped before finishing this request.'}
                           </p>
                           <p className="text-sm text-chalkboard-70 dark:text-chalkboard-30">
-                            Review the current project, then resume when you're
-                            ready.
+                            {zh ? '請先檢查目前專案，準備好後再繼續。' : "Review the current project, then resume when you're ready."}
                           </p>
                           <ActionButton
                             Element="button"
                             type="button"
-                            aria-label="Resume interrupted request"
+                            aria-label={zh ? '繼續中斷的要求' : 'Resume interrupted request'}
                             className="h-7 w-fit focus-visible:outline-appForeground"
                             iconStart={{ icon: 'arrowRight' }}
                             onClick={props.onResumeInterruptedTurn}
@@ -756,8 +760,8 @@ export const ZookeeperConversation = (props: ZookeeperConversationProps) => {
                             tabIndex={0}
                           >
                             {props.isResumingInterruptedTurn
-                              ? 'Resuming...'
-                              : 'Resume interrupted request'}
+                              ? zh ? '正在繼續…' : 'Resuming...'
+                              : zh ? '繼續中斷的要求' : 'Resume interrupted request'}
                           </ActionButton>
                         </div>
                       ) : lastExchange &&
@@ -783,7 +787,7 @@ export const ZookeeperConversation = (props: ZookeeperConversationProps) => {
           </div>
           {props.queue.length > 0 && (
             <div className="border-t b-4 px-4 py-2 flex flex-col gap-1">
-              <span className="text-xs text-3">Queued</span>
+              <span className="text-xs text-3">{zh ? '佇列' : 'Queued'}</span>
               {props.queue.map((msg, index) => (
                 <div
                   key={msg.id}
@@ -806,19 +810,19 @@ export const ZookeeperConversation = (props: ZookeeperConversationProps) => {
                     type="button"
                     onClick={() => props.onSteer(msg.id)}
                     className="shrink-0 flex gap-0.5 items-center pl-0.5 pr-2 py-0.5 m-0 rounded border border-chalkboard-30 dark:border-chalkboard-70 bg-transparent hover:bg-chalkboard-20 dark:hover:bg-chalkboard-80 text-xs"
-                    aria-label={`Send queued message ${index + 1} now`}
+                    aria-label={zh ? `立即送出佇列訊息 ${index + 1}` : `Send queued message ${index + 1} now`}
                   >
                     <CustomIcon name="arrowShortUp" className="w-4 h-4" />
-                    Steer
+                    {zh ? '立即送出' : 'Steer'}
                     <Tooltip position="top" hoverOnly={true}>
-                      <span>Interrupt and send this prompt</span>
+                      <span>{zh ? '中斷目前處理並送出此提示' : 'Interrupt and send this prompt'}</span>
                     </Tooltip>
                   </button>
                   <button
                     type="button"
                     onClick={() => props.onRemoveFromQueue(msg.id)}
                     className="shrink-0 text-3 hover:text-chalkboard-100 dark:hover:text-chalkboard-20 p-1 m-0 border-none bg-transparent"
-                    aria-label={`Remove queued message ${index + 1}`}
+                    aria-label={zh ? `移除佇列訊息 ${index + 1}` : `Remove queued message ${index + 1}`}
                   >
                     <CustomIcon name="close" className="w-4 h-4" />
                   </button>
@@ -828,7 +832,7 @@ export const ZookeeperConversation = (props: ZookeeperConversationProps) => {
           )}
           {props.isLoadingAttachments ? (
             <div className="border-t b-4 px-4 py-2 bg-chalkboard-10 dark:bg-chalkboard-90 text-xs text-chalkboard-70 dark:text-chalkboard-30">
-              Progressively loading attachments into context...
+              {zh ? '正在逐步將附件載入上下文…' : 'Progressively loading attachments into context...'}
             </div>
           ) : null}
           <div className="border-t b-4">
