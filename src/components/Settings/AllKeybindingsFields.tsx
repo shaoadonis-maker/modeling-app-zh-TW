@@ -548,6 +548,7 @@ function SearchableTextField({
   hasError?: boolean
   onChange: (value: string) => void
 }) {
+  const locale = useLocale()
   const [query, setQuery] = useState('')
   const fuse = useMemo(
     () =>
