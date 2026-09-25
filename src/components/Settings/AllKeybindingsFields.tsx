@@ -663,6 +663,7 @@ function WhenField({
   hasTypingCollision?: boolean
   onChange: (value: readonly string[]) => void
 }) {
+  const locale = useLocale()
   const [query, setQuery] = useState('')
   const fuse = useMemo(
     () =>
