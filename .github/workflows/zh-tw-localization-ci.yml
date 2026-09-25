@@ -1,0 +1,44 @@
+name: zh-TW Localization CI
+
+on:
+  push:
+    branches:
+      - feat/zh-TW-localization
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'src/i18n/**'
+      - 'src/components/**'
+      - 'src/routes/Onboarding/**'
+      - 'src/lib/zookeeper/**'
+      - '.github/workflows/zh-tw-localization-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  localization-checks:
+    name: Localization checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Check formatting
+        run: npm run fmt:check
+
+      - name: Run zh-TW localization unit tests
+        run: npx vitest run --mode=development --project=unit src/i18n/index.test.ts
