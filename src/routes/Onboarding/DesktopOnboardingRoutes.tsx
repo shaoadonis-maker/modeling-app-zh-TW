@@ -24,6 +24,7 @@ import {
   useOnboardingPanes,
 } from '@src/routes/Onboarding/utils'
 import { useEffect, useState } from 'react'
+import { useLocale } from '@src/i18n'
 import { type RouteObject, useSearchParams } from 'react-router-dom'
 
 type DesktopOnboardingRoute = RouteObject & {
@@ -62,6 +63,7 @@ function useOnboardingProjectIO() {
 }
 
 function Welcome() {
+  const locale = useLocale()
   const { projectName, systemIOActor } = useOnboardingProjectIO()
   const thisOnboardingStatus: DesktopOnboardingPath = '/desktop'
 
@@ -90,7 +92,7 @@ function Welcome() {
   return (
     <div className="cursor-not-allowed fixed inset-0 z-50 grid items-end justify-center p-2">
       <OnboardingCard>
-        <h1 className="text-xl font-bold">Welcome to Zoo Design Studio</h1>
+        <h1 className="text-xl font-bold">{locale === 'zh-TW' ? '歡迎使用 Zoo Design Studio' : 'Welcome to Zoo Design Studio'}</h1>
         <p className="my-4">
           Here is a cold plate that was made in Zoo Design Studio.
         </p>
@@ -105,6 +107,7 @@ function Welcome() {
 }
 
 function Scene() {
+  const locale = useLocale()
   const { projectName, systemIOActor } = useOnboardingProjectIO()
   const thisOnboardingStatus: DesktopOnboardingPath = '/desktop/scene'
   const currentFilePath = useAbsoluteFilePath()
@@ -163,7 +166,7 @@ function Scene() {
   return (
     <div className="pointer-events-none fixed inset-0 z-50 grid items-end justify-center p-2">
       <OnboardingCard className="pointer-events-auto">
-        <h1 className="text-xl font-bold">Scene</h1>
+        <h1 className="text-xl font-bold">{locale === 'zh-TW' ? '場景 Scene' : 'Scene'}</h1>
         <p className="my-4">
           Here is a blank scene. There are three default planes shown when the
           scene is empty. Try right-clicking and dragging to orbit around, and
@@ -186,6 +189,7 @@ function Scene() {
 }
 
 function Toolbar() {
+  const locale = useLocale()
   // Highlight the toolbar if it's present
   useOnboardingHighlight('toolbar')
 
@@ -195,7 +199,7 @@ function Toolbar() {
   return (
     <div className="cursor-not-allowed fixed inset-0 z-[99] grid items-start justify-center p-24">
       <OnboardingCard>
-        <h1 className="text-xl font-bold">This is the toolbar</h1>
+        <h1 className="text-xl font-bold">{locale === 'zh-TW' ? '這是工具列 Toolbar' : 'This is the toolbar'}</h1>
         <p className="my-4">
           You can perform modeling and sketching actions by clicking any of the
           tools.
@@ -207,6 +211,7 @@ function Toolbar() {
 }
 
 function Zookeeper() {
+  const locale = useLocale()
   // Highlight the zookeeper button if it's present
   useOnboardingHighlight('ttc-pane-button')
 
@@ -241,6 +246,7 @@ function Zookeeper() {
 }
 
 function ZookeeperPrompt() {
+  const locale = useLocale()
   const thisOnboardingStatus: DesktopOnboardingPath =
     '/desktop/zookeeper-prompt'
   const [searchParams, setSearchParams] = useSearchParams()
@@ -263,7 +269,7 @@ function ZookeeperPrompt() {
   return (
     <div className="cursor-not-allowed fixed inset-0 z-[99] grid items-center justify-center">
       <OnboardingCard className="pointer-events-auto">
-        <h1 className="text-xl font-bold">Zookeeper prompt</h1>
+        <h1 className="text-xl font-bold">{locale === 'zh-TW' ? 'Zookeeper 提示詞' : 'Zookeeper prompt'}</h1>
         <p className="my-4">
           To save you money, we are going to use a pre-rolled Zookeeper prompt
           for this example. Click next to see an example of what Zookeeper can
@@ -279,6 +285,7 @@ function ZookeeperPrompt() {
 }
 
 function FeatureTreePane() {
+  const locale = useLocale()
   const { projectName, systemIOActor } = useOnboardingProjectIO()
   const thisOnboardingStatus: DesktopOnboardingPath =
     '/desktop/feature-tree-pane'
@@ -311,7 +318,7 @@ function FeatureTreePane() {
   return (
     <div className="cursor-not-allowed fixed inset-0 z-[99] p-8 grid justify-center items-end">
       <OnboardingCard className="col-start-3 col-span-2">
-        <h1 className="text-xl font-bold">Cold Plate</h1>
+        <h1 className="text-xl font-bold">{locale === 'zh-TW' ? '冷板 Cold Plate' : 'Cold Plate'}</h1>
         <p className="my-4">
           This is an example of the generated CAD model using Zookeeper. We
           skipped the real generation for this tutorial.
@@ -332,6 +339,7 @@ function FeatureTreePane() {
 }
 
 function CodePane() {
+  const locale = useLocale()
   // Highlight the feature tree pane button if it's present
   useOnboardingHighlight('code-pane-button')
 
@@ -341,7 +349,7 @@ function CodePane() {
   return (
     <div className="cursor-not-allowed fixed inset-0 z-50 p-8 grid justify-center items-end">
       <OnboardingCard className="col-start-3 col-span-2">
-        <h1 className="text-xl font-bold">KCL Code</h1>
+        <h1 className="text-xl font-bold">{locale === 'zh-TW' ? 'KCL 程式碼' : 'KCL Code'}</h1>
         <p className="my-4">
           This is the KCL Pane. KCL (KittyCAD Language) is a scripting language
           we created to describe CAD geometries. This code is the source of
@@ -362,6 +370,7 @@ function CodePane() {
 }
 
 function ProjectPane() {
+  const locale = useLocale()
   const thisOnboardingStatus: DesktopOnboardingPath = '/desktop/project-pane'
   // Highlight the feature tree pane button if it's present
   useOnboardingHighlight('files-pane-button')
@@ -372,7 +381,7 @@ function ProjectPane() {
   return (
     <div className="cursor-not-allowed fixed inset-0 z-50 p-8 grid justify-center items-end">
       <OnboardingCard className="col-start-3 col-span-2">
-        <h1 className="text-xl font-bold">Files Pane</h1>
+        <h1 className="text-xl font-bold">{locale === 'zh-TW' ? '檔案面板 Files Pane' : 'Files Pane'}</h1>
         <p className="my-4">
           The next pane is the Project Files Pane. Here you can see all of the
           files you have in this project. This can be other KCL files as well as
@@ -388,6 +397,7 @@ function ProjectPane() {
 }
 
 function OtherPanes() {
+  const locale = useLocale()
   const thisOnboardingStatus: DesktopOnboardingPath = '/desktop/other-panes'
   // Highlight the log and variable panes button if it's present
   useOnboardingHighlight('logs-pane-button')
@@ -399,7 +409,7 @@ function OtherPanes() {
   return (
     <div className="cursor-not-allowed fixed inset-0 z-50 p-8 grid justify-center items-end">
       <OnboardingCard className="col-start-3 col-span-2">
-        <h1 className="text-xl font-bold">Other panes</h1>
+        <h1 className="text-xl font-bold">{locale === 'zh-TW' ? '其他面板' : 'Other panes'}</h1>
         <p className="my-4">
           These last two panes are the Variables Pane and Logs Pane. The
           Variables pane will display the numeric values of any parameters you
@@ -416,6 +426,7 @@ function OtherPanes() {
 }
 
 function PromptToEdit() {
+  const locale = useLocale()
   const { projectName, systemIOActor } = useOnboardingProjectIO()
   const thisOnboardingStatus: DesktopOnboardingPath = '/desktop/prompt-to-edit'
 
@@ -444,7 +455,7 @@ function PromptToEdit() {
   return (
     <div className="cursor-not-allowed fixed inset-0 z-50 p-8 grid justify-center items-center">
       <OnboardingCard className="col-start-3 col-span-2">
-        <h1 className="text-xl font-bold">Modify with Zookeeper</h1>
+        <h1 className="text-xl font-bold">{locale === 'zh-TW' ? '使用 Zookeeper 修改' : 'Modify with Zookeeper'}</h1>
         <p className="my-4">
           Zookeeper not only can <strong>create</strong> a part, but also{' '}
           <strong>modify</strong> an existing part. Still in the right sidebar,
@@ -461,6 +472,7 @@ function PromptToEdit() {
 }
 
 function PromptToEditPrompt() {
+  const locale = useLocale()
   const { commands } = useApp()
   const thisOnboardingStatus: DesktopOnboardingPath =
     '/desktop/prompt-to-edit-prompt'
@@ -509,7 +521,7 @@ function PromptToEditPrompt() {
   return (
     <div className="cursor-not-allowed fixed inset-0 z-[99] grid items-center justify-center">
       <OnboardingCard className="pointer-events-auto">
-        <h1 className="text-xl font-bold">Modify with Zookeeper</h1>
+        <h1 className="text-xl font-bold">{locale === 'zh-TW' ? '使用 Zookeeper 修改' : 'Modify with Zookeeper'}</h1>
         {!isReady && (
           <p className="absolute top-0 right-0 m-4 w-fit flex items-center py-1 px-2 rounded bg-chalkboard-20 dark:bg-chalkboard-80">
             <Spinner className="w-5 h-5 inline-block mr-2" />
@@ -536,6 +548,7 @@ function PromptToEditPrompt() {
 }
 
 function PromptToEditResult() {
+  const locale = useLocale()
   const { projectName, systemIOActor } = useOnboardingProjectIO()
   const thisOnboardingStatus: DesktopOnboardingPath =
     '/desktop/prompt-to-edit-result'
@@ -571,7 +584,7 @@ function PromptToEditResult() {
   return (
     <div className="cursor-not-allowed fixed inset-0 z-[99] p-8 grid justify-center items-end">
       <OnboardingCard className="col-start-3 col-span-2">
-        <h1 className="text-xl font-bold">Result</h1>
+        <h1 className="text-xl font-bold">{locale === 'zh-TW' ? '結果 Result' : 'Result'}</h1>
         <p className="my-4">
           This is an example of an edit that Zookeeper can make for you. We
           skipped the real generation for this tutorial.
@@ -596,6 +609,7 @@ function PromptToEditResult() {
 }
 
 function Imports() {
+  const locale = useLocale()
   const thisOnboardingStatus: DesktopOnboardingPath = '/desktop/imports'
 
   // Highlight the import and insert buttons if they're present
@@ -607,13 +621,13 @@ function Imports() {
   return (
     <div className="cursor-not-allowed fixed inset-0 z-50 p-24 flex flex-col gap-8 items-center">
       <OnboardingCard>
-        <h1 className="text-xl font-bold">Add file(s) to project</h1>
+        <h1 className="text-xl font-bold">{locale === 'zh-TW' ? '加入檔案到專案' : 'Add file(s) to project'}</h1>
         <p className="my-4">
           "Add file(s) to project" is available in the left sidebar. Use it to
           bring files into your project, whether from the sample library or from
           your local drive.
         </p>
-        <h1 className="text-xl font-bold">Import parts</h1>
+        <h1 className="text-xl font-bold">{locale === 'zh-TW' ? '匯入零件' : 'Import parts'}</h1>
         <p className="my-4">
           Once a file has been added to your project, you can add it to the
           scene using Import. Import is available in the toolbar. This is the
@@ -629,6 +643,7 @@ function Imports() {
 }
 
 function Exports() {
+  const locale = useLocale()
   const thisOnboardingStatus: DesktopOnboardingPath = '/desktop/exports'
   // Highlight the export button if it's present
   useOnboardingHighlight('export-pane-button')
@@ -638,7 +653,7 @@ function Exports() {
   return (
     <div className="cursor-not-allowed fixed inset-0 z-50 p-24 grid justify-start items-center">
       <OnboardingCard>
-        <h1 className="text-xl font-bold">Exporting</h1>
+        <h1 className="text-xl font-bold">{locale === 'zh-TW' ? '匯出 Exporting' : 'Exporting'}</h1>
         <p className="my-4">
           You can export the current model by clicking the Export button in the
           left sidebar. We support exporting to STEP, gLTF, STL, OBJ, and more.
@@ -654,6 +669,7 @@ function Exports() {
 }
 
 function OnboardingConclusion() {
+  const locale = useLocale()
   // Highlight the App logo
   useOnboardingHighlight('app-logo')
   // Close the panes on mount, close on unmount
@@ -673,7 +689,7 @@ function OnboardingConclusion() {
   return (
     <div className="cursor-not-allowed fixed inset-0 z-50 p-24 grid justify-center items-center">
       <OnboardingCard>
-        <h1 className="text-xl font-bold">Time to start building</h1>
+        <h1 className="text-xl font-bold">{locale === 'zh-TW' ? '開始建立模型' : 'Time to start building'}</h1>
         <p className="my-4">
           We appreciate you taking the time to walk through the basics. Select
           Finish to return home, where you can keep working with the tutorial
