@@ -437,6 +437,29 @@ function createSketchSolveConstraintDropdownItem({
 
 const constraintsExtraInfo = 'Hold Cmd/Ctrl to keep selection'
 
+function localizeConstraintToolbarItem(
+  item: ToolbarItem,
+  locale: AppLocale
+): ToolbarItem {
+  if (locale !== 'zh-TW') return item
+
+  const titleById: Partial<Record<string, string>> = {
+    coincident: t('constraint.coincident', item.title as string, locale),
+    midpoint: t('constraint.midpoint', item.title as string, locale),
+    Tangent: t('constraint.tangent', item.title as string, locale),
+    Parallel: t('constraint.parallel', item.title as string, locale),
+    Perpendicular: t('constraint.perpendicular', item.title as string, locale),
+    equalLength: t('constraint.equal', item.title as string, locale),
+    Symmetric: t('constraint.symmetric', item.title as string, locale),
+    vertical: t('constraint.vertical', item.title as string, locale),
+    Horizontal: t('constraint.horizontal', item.title as string, locale),
+    Fixed: t('constraint.fix', item.title as string, locale),
+  }
+
+  const translatedTitle = titleById[item.id]
+  return translatedTitle ? { ...item, title: translatedTitle } : item
+}
+
 const sketchSolveConstraintItems: ToolbarItem[] = [
   createSketchSolveConstraintDropdownItem({
     id: 'coincident',
@@ -2505,7 +2528,9 @@ export function buildToolbarConfig(
         'break',
         {
           id: 'constraints',
-          array: sketchSolveConstraintItems,
+          array: sketchSolveConstraintItems.map((item) =>
+            localizeConstraintToolbarItem(item, locale)
+          ),
           display: 'recent',
           visibleItemCount: 3,
           defaultVisibleItemIds: ['coincident', 'Tangent', 'Parallel'],
