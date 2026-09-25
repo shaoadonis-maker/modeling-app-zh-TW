@@ -130,7 +130,6 @@ const zhTWLabels: Record<string, string> = {
   // Common args
   Title: '標題 Title',
   Library: '資料庫 Library',
-  Project: '專案 Project',
   'New title': '新標題 New title',
   Name: '名稱 Name',
   Format: '格式 Format',
