@@ -4,6 +4,8 @@ import { useSignals } from '@preact/signals-react/runtime'
 import { CustomIcon } from '@src/components/CustomIcon'
 import { defaultStatusBarItemClassNames } from '@src/components/StatusBar/StatusBar'
 import Tooltip from '@src/components/Tooltip'
+import { useLocale } from '@src/i18n'
+import { localizeUiText } from '@src/i18n/uiLabels'
 import { useModelingContext } from '@src/hooks/useModelingContext'
 import { defaultSelectionFilter } from '@src/lib/selectionFilterUtils'
 import { reportRejection } from '@src/lib/trap'
@@ -63,12 +65,13 @@ function getActiveSelectionFilterOption(filter: EntityType[]) {
 
 export function SelectionFilterControls() {
   useSignals()
+  const locale = useLocale()
   const { state } = useModelingContext()
   const { kclManager, wasmInstance } = state.context
   const activeOption = getActiveSelectionFilterOption(
     kclManager.selectionFilter.value
   )
-  const activeLabel = activeOption?.label ?? 'Custom'
+  const activeLabel = localizeUiText(activeOption?.label ?? 'Custom', locale)
 
   const handleSelectionFilterChange = useCallback(
     (mode: SelectionFilterMode) => {
@@ -94,10 +97,10 @@ export function SelectionFilterControls() {
           <Popover.Button
             className={`${defaultStatusBarItemClassNames} gap-2`}
             data-testid="selection-filter-status"
-            title="Selection filter"
+            title={localizeUiText('Selection filter', locale)}
           >
             <Tooltip hoverOnly={true} position="top">
-              Selection filter
+              {localizeUiText('Selection filter', locale)}
             </Tooltip>
             <span>{activeLabel}</span>
             <CustomIcon
@@ -114,7 +117,7 @@ export function SelectionFilterControls() {
                     key={option.value}
                     type="button"
                     aria-pressed={isActive}
-                    title={option.title}
+                    title={localizeUiText(option.title, locale)}
                     onClick={() => {
                       handleSelectionFilterChange(option.value)
                       popover.close()
@@ -125,7 +128,7 @@ export function SelectionFilterControls() {
                         : 'bg-transparent text-2 hover:bg-2'
                     }`}
                   >
-                    {option.label}
+                    {localizeUiText(option.label, locale)}
                   </button>
                 )
               })}
