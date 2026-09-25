@@ -1,6 +1,8 @@
 import { Menu } from '@headlessui/react'
 
 import { useApp } from '@src/lib/boot'
+import { useLocale } from '@src/i18n'
+import { localizeUiText } from '@src/i18n/uiLabels'
 
 import Tooltip from '@src/components/Tooltip'
 import { HeaderMenu } from '@src/components/layout/Panel/HeaderMenu'
@@ -8,6 +10,7 @@ import { isDesktop } from '@src/lib/isDesktop'
 import styles from './KclEditorMenu.module.css'
 
 export const FeatureTreeMenu = () => {
+  const locale = useLocale()
   const { commands } = useApp()
   return (
     <HeaderMenu>
@@ -25,7 +28,7 @@ export const FeatureTreeMenu = () => {
           }
           className={styles.button}
         >
-          <span>Create parameter</span>
+          <span>{localizeUiText('Create parameter', locale)}</span>
         </button>
       </Menu.Item>
       <Menu.Item>
@@ -43,10 +46,12 @@ export const FeatureTreeMenu = () => {
           disabled={!isDesktop()}
           className={styles.button}
         >
-          <span>Import from a file</span>
+          <span>{localizeUiText('Import from a file', locale)}</span>
           {!isDesktop() && (
             <Tooltip position="right">
-              Available only in the desktop app
+              {locale === 'zh-TW'
+                ? '僅桌面版可使用'
+                : 'Available only in the desktop app'}
             </Tooltip>
           )}
         </button>
