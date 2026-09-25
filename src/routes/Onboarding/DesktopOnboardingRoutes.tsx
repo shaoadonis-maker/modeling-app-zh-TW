@@ -175,7 +175,7 @@ function Scene() {
         {!isBlankSceneReady && (
           <p className="my-4 flex items-center gap-2">
             <Spinner className="w-5 h-5" />
-            Preparing blank scene...
+            {locale === 'zh-TW' ? '正在準備空白場景…' : 'Preparing blank scene...'}
           </p>
         )}
         <OnboardingButtons
@@ -221,7 +221,7 @@ function Zookeeper() {
   return (
     <div className="cursor-not-allowed fixed inset-0 z-50 grid items-start justify-center p-24">
       <OnboardingCard>
-        <h1 className="text-xl font-bold">Zookeeper</h1>
+        <h1 className="text-xl font-bold">{locale === 'zh-TW' ? 'Zookeeper AI' : 'Zookeeper'}</h1>
         <p className="my-4">
           You can find Zookeeper in the right sidebar. This allows you to write
           up a description of what you want, and our AI will generate the CAD
@@ -525,7 +525,7 @@ function PromptToEditPrompt() {
         {!isReady && (
           <p className="absolute top-0 right-0 m-4 w-fit flex items-center py-1 px-2 rounded bg-chalkboard-20 dark:bg-chalkboard-80">
             <Spinner className="w-5 h-5 inline-block mr-2" />
-            Waiting for connection...
+            {locale === 'zh-TW' ? '正在等待連線…' : 'Waiting for connection...'}
           </p>
         )}
         <p className="my-4">
