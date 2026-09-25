@@ -1619,6 +1619,7 @@ const DefaultPlanes = ({
   systemDeps: SystemDeps
   disabled?: boolean
 }) => {
+  const locale = useLocale()
   const { rustContext, sceneInfra, kclManager } = systemDeps
   const { state: modelingState, send } = useModelingContext()
   const sketchNoFace = modelingState.matches('Sketch no face')
@@ -1709,7 +1710,7 @@ const DefaultPlanes = ({
           key={plane.key}
           customSuffix={plane.customSuffix}
           icon={'plane'}
-          name={plane.name}
+          name={localizeUiText(plane.name, locale)}
           disabled={disabled}
           isSelected={selectedDefaultPlaneId === plane.id}
           onClick={disabled ? undefined : () => onClickPlane(plane.id)}
@@ -1720,7 +1721,7 @@ const DefaultPlanes = ({
                   <ContextMenuItem
                     onClick={() => startSketchOnDefaultPlane(plane.id)}
                   >
-                    Start Sketch
+                    {localizeUiText('Start Sketch', locale)}
                   </ContextMenuItem>,
                 ]
           }
