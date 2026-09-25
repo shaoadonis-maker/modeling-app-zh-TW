@@ -120,7 +120,7 @@ export const AllSettingsFields = forwardRef(
                             : ''
                         }
                         key={`${category}-${settingName}-${searchParamTab}`}
-                        description={setting.description}
+                        description={localizeUiText(setting.description, locale)}
                         settingHasChanged={
                           setting[searchParamTab] !== undefined &&
                           setting[searchParamTab] !==
