@@ -357,6 +357,7 @@ function ReviewingButton({
   iconClassName,
   disabled,
 }: ButtonProps) {
+  const locale = useLocale()
   const buttonRef = useRef<HTMLButtonElement>(null)
   useEffect(() => {
     if (buttonRef.current) {
@@ -387,6 +388,8 @@ function ReviewingButton({
 }
 
 function GatheringArgsButton({ bgClassName, iconClassName }: ButtonProps) {
+  const locale = useLocale()
+
   return (
     <ActionButton
       Element="button"
@@ -411,6 +414,8 @@ function StepBackButton({
   iconClassName,
   stepBack,
 }: ButtonProps & { stepBack: () => void }) {
+  const locale = useLocale()
+
   return (
     <ActionButton
       Element="button"
@@ -441,6 +446,8 @@ function ClearButton({
   iconClassName,
   clear,
 }: ButtonProps & { clear: () => void }) {
+  const locale = useLocale()
+
   return (
     <ActionButton
       Element="button"
