@@ -211,7 +211,7 @@ function CommandArgOptionInput({
                 </div>
                 {option.value === currentOption?.value && (
                   <small className="text-chalkboard-70 dark:text-chalkboard-50">
-                    current
+                    {localizeUiText('current', locale)}
                   </small>
                 )}
               </Combobox.Option>
