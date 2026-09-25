@@ -1478,6 +1478,7 @@ const OperationItem = ({
       isModuleOwned,
       isStaleReference,
       layout.signal.value,
+      locale,
       viewOperationSource,
     ]
   )
