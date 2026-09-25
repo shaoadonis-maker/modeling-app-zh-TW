@@ -11,6 +11,8 @@ import { CustomIcon } from '@src/components/CustomIcon'
 import Loading from '@src/components/Loading'
 import Tooltip from '@src/components/Tooltip'
 import { useApp } from '@src/lib/boot'
+import { useLocale } from '@src/i18n'
+import { localizeUiText } from '@src/i18n/uiLabels'
 import type { Command, CommandArgument } from '@src/lib/commandTypes'
 import useHotkeyWrapper from '@src/lib/hotkeyWrapper'
 import { interactions } from '@src/lib/interactionPerformance/definitions'
@@ -27,6 +29,7 @@ export const COMMAND_PALETTE_HOTKEY = 'mod+k'
 
 export const CommandBar = () => {
   const { pathname } = useLocation()
+  const locale = useLocale()
   const { commands: cmd, project, registry } = useApp()
   const commandScopes = registry.optional(commandScopeService)
   const commandBarState = cmd.useState()
@@ -216,7 +219,7 @@ export const CommandBar = () => {
                     className="py-4"
                     data-testid="command-bar-loading-checking-arguments"
                   >
-                    <Loading isDummy={true}>Checking arguments...</Loading>
+                    <Loading isDummy={true}>{localizeUiText('Checking arguments...', locale)}</Loading>
                   </div>
                 )}
               </>
@@ -237,7 +240,7 @@ export const CommandBar = () => {
                   className="w-5 h-5 rounded-sm bg-destroy-10 text-destroy-80 dark:bg-destroy-80 dark:text-destroy-10 group-hover:brightness-110"
                 />
                 <Tooltip position="bottom">
-                  Cancel{' '}
+                  {localizeUiText('Cancel', locale)}{' '}
                   <kbd className="hotkey ml-4 dark:!bg-chalkboard-80">esc</kbd>
                 </Tooltip>
               </button>
