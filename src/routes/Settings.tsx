@@ -12,6 +12,7 @@ import { SettingsSearchBar } from '@src/components/Settings/SettingsSearchBar'
 import { SettingsSectionsList } from '@src/components/Settings/SettingsSectionsList'
 import { SettingsTabs } from '@src/components/Settings/SettingsTabs'
 import { useApp } from '@src/lib/boot'
+import { setLocale, t, useLocale } from '@src/i18n'
 import { PATHS } from '@src/lib/paths'
 import type { SettingsLevel } from '@src/lib/settings/settingsTypes'
 import { platform } from '@src/lib/utils'
@@ -37,6 +38,7 @@ function isSettingsTab(tab: string | null): tab is SettingsTab {
 export const Settings = () => {
   useSignals()
   const app = useApp()
+  const locale = useLocale()
   const keymap = app.registry.optional(keymapService)
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
@@ -163,8 +165,28 @@ export const Settings = () => {
             className="rounded relative mx-auto bg-chalkboard-10 dark:bg-chalkboard-100 border dark:border-chalkboard-70 w-[90vw] h-[80vh] max-h-[calc(100vh-2rem)] shadow-lg flex flex-col gap-8"
           >
             <div className="p-5 pb-0 flex justify-between items-center">
-              <h1 className="text-2xl font-bold">Settings</h1>
+              <h1 className="text-2xl font-bold">{t('app.settings', 'Settings', locale)}</h1>
               <div className="flex gap-4 items-start">
+                <label className="flex items-center gap-2 text-sm">
+                  <span className="text-chalkboard-70 dark:text-chalkboard-30">
+                    {locale === 'zh-TW' ? '語言' : 'Language'}
+                  </span>
+                  <select
+                    aria-label={locale === 'zh-TW' ? '介面語言' : 'Interface language'}
+                    value={locale}
+                    onChange={(event) =>
+                      setLocale(event.target.value === 'zh-TW' ? 'zh-TW' : 'en')
+                    }
+                    className="rounded border border-chalkboard-30 dark:border-chalkboard-70 bg-chalkboard-10 dark:bg-chalkboard-100 px-2 py-1"
+                  >
+                    <option value="en">
+                      {t('app.language.english', 'English', locale)}
+                    </option>
+                    <option value="zh-TW">
+                      {t('app.language.traditionalChinese', 'Traditional Chinese', locale)}
+                    </option>
+                  </select>
+                </label>
                 <SettingsSearchBar
                   keybinding={settingsSearchKeybinding}
                   hasOpenProject={hasOpenProject}

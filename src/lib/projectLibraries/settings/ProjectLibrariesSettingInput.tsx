@@ -6,6 +6,8 @@ import {
   isCustomIconName,
 } from '@src/components/CustomIcon'
 import Tooltip from '@src/components/Tooltip'
+import { useLocale } from '@src/i18n'
+import { localizeUiText } from '@src/i18n/uiLabels'
 import { removeDragPreviewElement, setDragPreview } from '@src/lib/dragPreview'
 import {
   areProjectLibrarySettingsEqual,
@@ -158,6 +160,7 @@ function ProjectLibraryTypeSelect({
   onChange: (value: ProjectLibraryType) => void
   readOnly?: boolean
 }) {
+  const locale = useLocale()
   const selectOptions = options.some((option) => option.value === value)
     ? options
     : [
@@ -188,14 +191,14 @@ function ProjectLibraryTypeSelect({
       <span
         className="relative flex h-8 w-8 items-center justify-center rounded-sm border border-chalkboard-30 text-chalkboard-70 dark:border-chalkboard-70 dark:text-chalkboard-30"
         data-testid="project-library-type"
-        aria-label={`Library type: ${selectedOption?.label ?? value}`}
-        title={selectedOption?.label ?? value}
+        aria-label={`Library type: ${localizeUiText(selectedOption?.label ?? value, locale)}`}
+        title={localizeUiText(selectedOption?.label ?? value, locale)}
       >
         <CustomIcon
           name={selectedOption?.icon ?? defaultProjectLibraryTypeIcon}
           className="h-5 w-5"
         />
-        <Tooltip position="top-right">{selectedOption?.label ?? value}</Tooltip>
+        <Tooltip position="top-right">{localizeUiText(selectedOption?.label ?? value, locale)}</Tooltip>
       </span>
     )
   }
@@ -206,15 +209,15 @@ function ProjectLibraryTypeSelect({
         <Listbox.Button
           className="relative flex h-8 w-8 p-0 items-center justify-center rounded-sm border border-chalkboard-30 text-chalkboard-70 hover:bg-chalkboard-10 dark:border-chalkboard-70 dark:text-chalkboard-30 dark:hover:bg-chalkboard-90"
           data-testid="project-library-type"
-          aria-label={`Library type: ${selectedOption?.label ?? value}`}
-          title={selectedOption?.label ?? value}
+          aria-label={`Library type: ${localizeUiText(selectedOption?.label ?? value, locale)}`}
+          title={localizeUiText(selectedOption?.label ?? value, locale)}
         >
           <CustomIcon
             name={selectedOption?.icon ?? defaultProjectLibraryTypeIcon}
             className="h-5 w-5"
           />
           <Tooltip position="top-right">
-            {selectedOption?.label ?? value}
+            {localizeUiText(selectedOption?.label ?? value, locale)}
           </Tooltip>
         </Listbox.Button>
         <Listbox.Options className="absolute left-0 z-50 mt-1 min-w-40 rounded-sm border border-chalkboard-30 bg-chalkboard-10 p-1 shadow-lg focus:outline-none dark:border-chalkboard-70 dark:bg-chalkboard-90">
@@ -233,7 +236,7 @@ function ProjectLibraryTypeSelect({
               {({ selected }) => (
                 <>
                   <CustomIcon name={option.icon} className="h-4 w-4" />
-                  <span className="min-w-0 flex-1">{option.label}</span>
+                  <span className="min-w-0 flex-1">{localizeUiText(option.label, locale)}</span>
                   {selected && (
                     <CustomIcon name="checkmark" className="h-4 w-4" />
                   )}
@@ -255,6 +258,7 @@ export function DirectoryProjectLibrarySettingsDetails({
   readOnly = false,
   chooseDirectory,
 }: ProjectLibrarySettingsDetailsProps) {
+  const locale = useLocale()
   async function chooseLibraryPath() {
     if (!chooseDirectory) {
       return
@@ -317,7 +321,7 @@ export function DirectoryProjectLibrarySettingsDetails({
               : 'project-library-folder-button'
           }
         >
-          <Tooltip position="top-right">Change location</Tooltip>
+          <Tooltip position="top-right">{localizeUiText('Change location', locale)}</Tooltip>
         </ActionButton>
       )}
     </div>
@@ -335,6 +339,7 @@ export function ProjectLibrariesSettingInput({
   canEditLibraryDetails = true,
   canRemoveLibrary = () => true,
 }: ProjectLibrariesSettingInputProps) {
+  const locale = useLocale()
   const electron = typeof window === 'undefined' ? undefined : window.electron
   const [draftLibraries, setDraftLibraries] =
     useState<ProjectLibrarySetting[]>(value)
@@ -591,7 +596,7 @@ export function ProjectLibrariesSettingInput({
                     onDragEnd={handleDragEnd}
                   >
                     <CustomIcon name="sixDots" className="h-4 w-4" />
-                    <Tooltip position="top-right">Reorder library</Tooltip>
+                    <Tooltip position="top-right">{localizeUiText('Reorder library', locale)}</Tooltip>
                   </button>
                 )}
                 <ProjectLibraryTypeSelect
@@ -628,7 +633,7 @@ export function ProjectLibrariesSettingInput({
                       }}
                       data-testid="project-library-remove"
                     >
-                      <Tooltip position="top-right">Remove library</Tooltip>
+                      <Tooltip position="top-right">{localizeUiText('Remove library', locale)}</Tooltip>
                     </ActionButton>
                   ) : (
                     <span aria-hidden="true" className="h-8 w-8 shrink-0" />
@@ -684,7 +689,7 @@ export function ProjectLibrariesSettingInput({
           }}
           data-testid="project-library-add"
         >
-          Add library
+          {localizeUiText('Add library', locale)}
         </ActionButton>
       )}
     </div>

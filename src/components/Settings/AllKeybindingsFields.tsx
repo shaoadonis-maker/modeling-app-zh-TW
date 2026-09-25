@@ -22,6 +22,7 @@ import {
 } from '@src/components/Settings/keybindingRows'
 import Tooltip from '@src/components/Tooltip'
 import { useApp } from '@src/lib/boot'
+import { useLocale } from '@src/i18n'
 import type { Command } from '@src/lib/commandTypes'
 import { reportRejection } from '@src/lib/trap'
 import { platform } from '@src/lib/utils'
@@ -77,6 +78,7 @@ export const AllKeybindingsFields = forwardRef(
     scrollRef: ForwardedRef<HTMLDivElement>
   ) => {
     useSignals()
+    const locale = useLocale()
     const { registry } = useApp()
     const location = useLocation()
     const keymap = registry.optional(keymapService)
@@ -121,7 +123,7 @@ export const AllKeybindingsFields = forwardRef(
                 onClick={() => setIsAdding(true)}
               >
                 <CustomIcon className="w-5 h-5" name="plus" />
-                Add keybinding
+                {locale === 'zh-TW' ? '新增快捷鍵' : 'Add keybinding'}
               </button>
               <button
                 type="button"
@@ -130,7 +132,7 @@ export const AllKeybindingsFields = forwardRef(
                 onClick={() => saveBindings([])}
               >
                 <CustomIcon className="w-5 h-5" name="refresh" />
-                Reset all
+                {locale === 'zh-TW' ? '全部重設' : 'Reset all'}
               </button>
             </div>
           </div>
@@ -138,11 +140,11 @@ export const AllKeybindingsFields = forwardRef(
             <table className="w-full min-w-[920px] border-collapse text-left">
               <thead className="sticky top-0 z-10 bg-chalkboard-10 dark:bg-chalkboard-100">
                 <tr className="border-0 border-b border-solid border-chalkboard-30 text-xs uppercase text-chalkboard-60 dark:border-chalkboard-80 dark:text-chalkboard-50">
-                  <th className="px-2 py-2 font-medium">Title</th>
-                  <th className="px-2 py-2 font-medium">Keystrokes</th>
-                  <th className="px-2 py-2 font-medium">Arguments</th>
-                  <th className="px-2 py-2 font-medium">When</th>
-                  <th className="px-2 py-2 font-medium">Source</th>
+                  <th className="px-2 py-2 font-medium">{locale === 'zh-TW' ? '標題' : 'Title'}</th>
+                  <th className="px-2 py-2 font-medium">{locale === 'zh-TW' ? '按鍵' : 'Keystrokes'}</th>
+                  <th className="px-2 py-2 font-medium">{locale === 'zh-TW' ? '參數' : 'Arguments'}</th>
+                  <th className="px-2 py-2 font-medium">{locale === 'zh-TW' ? '條件' : 'When'}</th>
+                  <th className="px-2 py-2 font-medium">{locale === 'zh-TW' ? '來源' : 'Source'}</th>
                 </tr>
               </thead>
               <tbody>
@@ -219,6 +221,7 @@ function KeybindingTableRow({
   onRemoveBinding: (index: number) => void
   onAppendBinding: (binding: KeymapBinding) => void
 }) {
+  const locale = useLocale()
   const [draftKeystrokes, setDraftKeystrokes] = useState<
     readonly string[] | null
   >(null)
@@ -294,8 +297,8 @@ function KeybindingTableRow({
           <h3 className="m-0 text-base font-normal capitalize tracking-wide">
             {row.title}
           </h3>
-          {row.state === 'override' && <StateChip>User override</StateChip>}
-          {isUnbound && <StateChip>Unbound</StateChip>}
+          {row.state === 'override' && <StateChip>{locale === 'zh-TW' ? '使用者覆寫' : 'User override'}</StateChip>}
+          {isUnbound && <StateChip>{locale === 'zh-TW' ? '未綁定' : 'Unbound'}</StateChip>}
         </div>
         <code className="block text-xs font-mono text-2">{row.command}</code>
       </td>
@@ -314,14 +317,14 @@ function KeybindingTableRow({
             {isEditing && (
               <>
                 <IconButton
-                  label="Save keybinding"
+                  label={locale === 'zh-TW' ? '儲存快捷鍵' : 'Save keybinding'}
                   icon="checkmark"
                   alwaysVisible
                   disabled={!draftKeystrokes || draftKeystrokes.length === 0}
                   onClick={saveDraftKeystrokes}
                 />
                 <IconButton
-                  label="Cancel keybinding edit"
+                  label={locale === 'zh-TW' ? '取消快捷鍵編輯' : 'Cancel keybinding edit'}
                   icon="close"
                   alwaysVisible
                   onClick={() => setDraftKeystrokes(null)}
@@ -352,7 +355,7 @@ function KeybindingTableRow({
           <div className="flex items-center gap-1">
             {(row.state === 'override' || row.state === 'unbound') && (
               <IconButton
-                label="Restore default keybinding"
+                label={locale === 'zh-TW' ? '還原預設快捷鍵' : 'Restore default keybinding'}
                 icon="refresh"
                 onClick={restore}
               />
@@ -361,8 +364,8 @@ function KeybindingTableRow({
               <IconButton
                 label={
                   row.state === 'user'
-                    ? 'Delete user keybinding'
-                    : 'Unbind keybinding'
+                    ? locale === 'zh-TW' ? '刪除使用者快捷鍵' : 'Delete user keybinding'
+                    : locale === 'zh-TW' ? '解除快捷鍵綁定' : 'Unbind keybinding'
                 }
                 icon="trash"
                 onClick={deleteOrUnbind}
@@ -390,6 +393,7 @@ function NewKeybindingRow({
   onCancel: () => void
   onSave: (binding: KeymapBinding) => void
 }) {
+  const locale = useLocale()
   const [command, setCommand] = useState('')
   const [title, setTitle] = useState('')
   const [keystrokes, setKeystrokes] = useState<readonly string[]>([])
@@ -410,11 +414,11 @@ function NewKeybindingRow({
   const save = () => {
     setError(null)
     if (!command.trim()) {
-      setError({ field: 'command', message: 'Action is required.' })
+      setError({ field: 'command', message: locale === 'zh-TW' ? '必須選擇操作。' : 'Action is required.' })
       return
     }
     if (keystrokes.length === 0) {
-      setError({ field: 'keystrokes', message: 'Keystrokes are required.' })
+      setError({ field: 'keystrokes', message: locale === 'zh-TW' ? '必須設定按鍵。' : 'Keystrokes are required.' })
       return
     }
 
@@ -439,7 +443,7 @@ function NewKeybindingRow({
         <input
           className="w-48 bg-transparent text-base block"
           value={title}
-          placeholder="Title"
+          placeholder={locale === 'zh-TW' ? '標題' : 'Title'}
           onChange={(event) => setTitle(event.target.value)}
         />
         <SearchableTextField
@@ -497,13 +501,13 @@ function NewKeybindingRow({
           <span className="text-sm">{USER_KEYMAP_SOURCE}</span>
           <div className="flex gap-1">
             <IconButton
-              label="Save keybinding"
+              label={locale === 'zh-TW' ? '儲存快捷鍵' : 'Save keybinding'}
               icon="checkmark"
               alwaysVisible
               onClick={save}
             />
             <IconButton
-              label="Cancel new keybinding"
+              label={locale === 'zh-TW' ? '取消新增快捷鍵' : 'Cancel new keybinding'}
               icon="close"
               alwaysVisible
               onClick={onCancel}
@@ -544,6 +548,7 @@ function SearchableTextField({
   hasError?: boolean
   onChange: (value: string) => void
 }) {
+  const locale = useLocale()
   const [query, setQuery] = useState('')
   const fuse = useMemo(
     () =>
@@ -658,6 +663,7 @@ function WhenField({
   hasTypingCollision?: boolean
   onChange: (value: readonly string[]) => void
 }) {
+  const locale = useLocale()
   const [query, setQuery] = useState('')
   const fuse = useMemo(
     () =>
@@ -720,9 +726,9 @@ function WhenField({
             )}
             {isTypingCollision && (
               <Tooltip position="top-right">
-                Keystrokes will interfere with typing in code editor. Use the
-                code-editor-not-focused condition to run this only outside the
-                editor.
+                {locale === 'zh-TW'
+                  ? '這組快捷鍵可能會干擾程式碼編輯器中的文字輸入。請使用 code-editor-not-focused 條件，讓它只在編輯器未聚焦時執行。'
+                  : 'Keystrokes will interfere with typing in code editor. Use the code-editor-not-focused condition to run this only outside the editor.'}
               </Tooltip>
             )}
           </span>
@@ -781,6 +787,7 @@ function KeystrokesField({
   onStopListening?: () => void
   onChange: (value: readonly string[]) => void
 }) {
+  const locale = useLocale()
   useEffect(() => {
     if (!isListening) {
       return
@@ -822,7 +829,9 @@ function KeystrokesField({
         ))
       ) : (
         <span className="text-xs text-chalkboard-60 dark:text-chalkboard-50">
-          {isListening ? 'Press keys...' : 'Click to record'}
+          {isListening
+            ? locale === 'zh-TW' ? '請按下按鍵…' : 'Press keys...'
+            : locale === 'zh-TW' ? '點擊以錄製' : 'Click to record'}
         </span>
       )}
     </button>

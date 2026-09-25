@@ -3,6 +3,8 @@ import type { Feature } from '@kittycad/lib'
 import { SettingsFieldInput } from '@src/components/Settings/SettingsFieldInput'
 import { SettingsSection } from '@src/components/Settings/SettingsSection'
 import { useApp } from '@src/lib/boot'
+import { useLocale } from '@src/i18n'
+import { localizeUiLabel, localizeUiText } from '@src/i18n/uiLabels'
 import { getSettingsFolderPaths } from '@src/lib/desktopFS'
 import { isDesktop } from '@src/lib/isDesktop'
 import { onboardingStartPath } from '@src/lib/onboardingPaths'
@@ -47,6 +49,7 @@ export const AllSettingsFields = forwardRef(
     scrollRef: ForwardedRef<HTMLDivElement>
   ) => {
     const app = useApp()
+    const locale = useLocale()
     const { settings, layout, userFeatures } = app
     const location = useLocation()
     const navigate = useNavigate()
@@ -97,7 +100,7 @@ export const AllSettingsFields = forwardRef(
                   id={`category-${category}`}
                   className="text-xl mt-6 first-of-type:mt-0 capitalize font-bold"
                 >
-                  {formatSettingsLabel(category)}
+                  {localizeUiLabel(formatSettingsLabel(category), locale)}
                 </h2>
                 {Object.entries(categorySettings)
                   .filter((item: [string, Setting<unknown>]) =>
@@ -109,7 +112,12 @@ export const AllSettingsFields = forwardRef(
                       setting[setting.getParentLevel(searchParamTab)]
                     return (
                       <SettingsSection
-                        title={formatSettingsLabel(settingName)}
+                        title={
+                          localizeUiLabel(
+                            formatSettingsLabel(settingName),
+                            locale
+                          ) ?? formatSettingsLabel(settingName)
+                        }
                         id={settingName}
                         className={
                           location.hash === `#${settingName}`
@@ -117,7 +125,10 @@ export const AllSettingsFields = forwardRef(
                             : ''
                         }
                         key={`${category}-${settingName}-${searchParamTab}`}
-                        description={setting.description}
+                        description={localizeUiText(
+                          setting.description ?? '',
+                          locale
+                        )}
                         settingHasChanged={
                           setting[searchParamTab] !== undefined &&
                           setting[searchParamTab] !==
@@ -149,11 +160,15 @@ export const AllSettingsFields = forwardRef(
               </Fragment>
             ))}
           <h2 id="settings-resets" className="text-2xl mt-6 font-bold">
-            Resets
+            {localizeUiText('Resets', locale)}
           </h2>
           <SettingsSection
-            title="Onboarding"
-            description="Replay the onboarding process"
+            title={localizeUiText('Onboarding', locale)}
+            description={
+              locale === 'zh-TW'
+                ? '重新播放新手導覽流程'
+                : 'Replay the onboarding process'
+            }
           >
             <ActionButton
               Element="button"
@@ -172,19 +187,21 @@ export const AllSettingsFields = forwardRef(
               }}
             >
               {isOnboardingStartPending
-                ? 'Starting Onboarding...'
-                : 'Replay Onboarding'}
+                ? locale === 'zh-TW'
+                  ? '正在啟動新手導覽…'
+                  : 'Starting Onboarding...'
+                : locale === 'zh-TW'
+                  ? '重新播放新手導覽'
+                  : 'Replay Onboarding'}
             </ActionButton>
           </SettingsSection>
           <SettingsSection
-            title="Reset settings"
-            description={`Restore settings to their default values. Your settings are saved in
-                    ${
-                      isDesktop()
-                        ? ' a file in the app data folder for your OS.'
-                        : " your browser's local storage."
-                    }
-                  `}
+            title={localizeUiText('Reset settings', locale)}
+            description={
+              locale === 'zh-TW'
+                ? `將設定還原為預設值。設定會儲存在${isDesktop() ? '作業系統的應用程式資料資料夾中。' : '瀏覽器的本機儲存空間中。'}`
+                : `Restore settings to their default values. Your settings are saved in${isDesktop() ? ' a file in the app data folder for your OS.' : " your browser's local storage."}`
+            }
           >
             <div className="flex flex-col items-start gap-4">
               {canRevealInFileExplorer() && (
@@ -204,7 +221,7 @@ export const AllSettingsFields = forwardRef(
                     className: 'p-1',
                   }}
                 >
-                  Show in Folder
+                  {localizeUiText('Show in Folder', locale)}
                 </ActionButton>
               )}
               <ActionButton
@@ -222,13 +239,19 @@ export const AllSettingsFields = forwardRef(
                   bgClassName: 'bg-destroy-70',
                 }}
               >
-                Reset {capitaliseFC(searchParamTab)}-Level Settings
+                {locale === 'zh-TW'
+                  ? `重設 ${localizeUiText(searchParamTab, locale)}層級設定`
+                  : `Reset ${capitaliseFC(searchParamTab)}-Level Settings`}
               </ActionButton>
             </div>
           </SettingsSection>
           <SettingsSection
-            title="Layout"
-            description="Reset to the default layout"
+            title={localizeUiText('Layout', locale)}
+            description={
+              locale === 'zh-TW'
+                ? '還原為預設版面配置'
+                : 'Reset to the default layout'
+            }
           >
             <ActionButton
               Element="button"
@@ -239,14 +262,20 @@ export const AllSettingsFields = forwardRef(
                 className: 'p-1',
               }}
             >
-              Reset Layout
+              {localizeUiText('Reset Layout', locale)}
             </ActionButton>
           </SettingsSection>
           <h2 id="settings-about" className="text-2xl mt-6 font-bold">
-            About Design Studio
+            {localizeUiText('About Design Studio', locale)}
           </h2>
           <div className="text-sm mb-12">
-            {APP_VERSION && <p>App version {APP_VERSION}. </p>}
+            {APP_VERSION && (
+              <p>
+                {locale === 'zh-TW'
+                  ? `應用程式版本 ${APP_VERSION}`
+                  : `App version ${APP_VERSION}.`}
+              </p>
+            )}
             <div className="flex gap-2 flex-wrap my-4">
               {APP_VERSION && (
                 <ActionButton
@@ -254,7 +283,7 @@ export const AllSettingsFields = forwardRef(
                   to={getReleaseUrl()}
                   iconStart={{ icon: 'file', className: 'p-1' }}
                 >
-                  View version on GitHub
+                  {localizeUiText('View version on GitHub', locale)}
                 </ActionButton>
               )}
               <ActionButton
@@ -268,11 +297,14 @@ export const AllSettingsFields = forwardRef(
                   className: 'p-1',
                 }}
               >
-                Check for Updates
+                {localizeUiText('Check for Updates', locale)}
               </ActionButton>
             </div>
             <p className="max-w-2xl mt-6">
-              Don't see the feature you want? Check to see if it's on{' '}
+              {localizeUiText(
+                "Don't see the feature you want? Check to see if it's on",
+                locale
+              )}{' '}
               <a
                 onClick={openExternalBrowserIfDesktop(
                   'https://zoo.dev/roadmap'
@@ -281,10 +313,12 @@ export const AllSettingsFields = forwardRef(
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                our roadmap
+                {localizeUiText('our roadmap', locale)}
               </a>{' '}
-              or reach out. Your feedback will help us prioritize what to build
-              next.
+              {localizeUiText(
+                'or reach out. Your feedback will help us prioritize what to build next.',
+                locale
+              )}
             </p>
           </div>
         </div>

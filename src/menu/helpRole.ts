@@ -11,15 +11,15 @@ export const helpRole = (
   mainWindow: BrowserWindow
 ): ZooMenuItemConstructorOptions => {
   return {
-    label: 'Help',
+    label: '幫助 Help',
     submenu: [
       {
         id: 'Help.Show all commands',
-        label: 'Show All Commands',
+        label: '顯示所有命令 Show All Commands',
         click: sendMenuAction(mainWindow, 'Help.Command Palette...'),
       },
       {
-        label: 'KCL Code Samples',
+        label: 'KCL 程式碼範例 KCL Code Samples',
         id: 'Help.KCL code samples',
         click: () => {
           shell
@@ -28,7 +28,7 @@ export const helpRole = (
         },
       },
       {
-        label: 'KCL Docs',
+        label: 'KCL 文件 KCL Docs',
         click: () => {
           shell
             .openExternal(withSiteBaseURL('/docs/kcl'))
@@ -54,7 +54,7 @@ export const helpRole = (
       },
       { type: 'separator' },
       {
-        label: 'Report a Bug',
+        label: '回報錯誤 Report a Bug',
         id: 'Help.Report a bug',
         click: () => {
           shell
@@ -65,7 +65,7 @@ export const helpRole = (
         },
       },
       {
-        label: 'Request a Feature',
+        label: '建議功能 Request a Feature',
         click: () => {
           shell
             .openExternal(

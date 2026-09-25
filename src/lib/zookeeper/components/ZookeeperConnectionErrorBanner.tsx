@@ -2,6 +2,7 @@ import type { MlCopilotAccessDeniedCode } from '@kittycad/lib'
 import { ActionButton } from '@src/components/ActionButton'
 import { openExternalBrowserIfDesktop } from '@src/lib/openWindow'
 import { withSiteBaseURL } from '@src/lib/withBaseURL'
+import { useLocale } from '@src/i18n'
 import type { MouseEventHandler } from 'react'
 
 const terminalRecoveryButtonClassName =
@@ -76,9 +77,46 @@ const BILLING_RECOVERY_CONTENT: Record<
 export function ZookeeperConnectionErrorBanner(
   props: ZookeeperConnectionErrorBannerProps
 ) {
+  const locale = useLocale()
+  const zh = locale === 'zh-TW'
   const billingRecovery = props.accessDeniedCode
     ? BILLING_RECOVERY_CONTENT[props.accessDeniedCode]
     : undefined
+  const localizedBillingRecovery =
+    zh && props.accessDeniedCode
+      ? {
+          pay_as_you_go_disabled: {
+            title: 'Zookeeper 額度已用完。',
+            description: '請啟用隨用隨付或升級方案以繼續使用。',
+            actionLabel: '管理帳務',
+          },
+          missing_payment_method: {
+            title: '請新增付款方式以繼續。',
+            description: 'Zookeeper 需要有效的付款方式才能繼續額外使用。',
+            actionLabel: '新增付款方式',
+          },
+          payment_method_failed: {
+            title: '你的付款方式需要處理。',
+            description: '請更新或確認付款方式，然後再次檢查。',
+            actionLabel: '更新付款方式',
+          },
+          billing_threshold_reached: {
+            title: '有待付款的帳單。',
+            description: '請先在帳務頁面完成付款，再次檢查。',
+            actionLabel: '開啟帳務',
+          },
+          upgrade_downgrade_abuse: {
+            title: '方案變更暫時被鎖定。',
+            description: '請聯絡 Zoo 支援以恢復帳號存取。',
+            actionLabel: '聯絡支援',
+          },
+          admin: {
+            title: '你的帳號目前被封鎖。',
+            description: '請聯絡 Zoo 支援以恢復 Zookeeper 存取。',
+            actionLabel: '聯絡支援',
+          },
+        }[props.accessDeniedCode]
+      : undefined
   const isBillingError = billingRecovery !== undefined
   const handleBillingAction: MouseEventHandler<HTMLAnchorElement> = (event) => {
     if (billingRecovery?.actionUrl === BILLING_URL) {
@@ -100,16 +138,16 @@ export function ZookeeperConnectionErrorBanner(
         <div className="flex flex-col gap-1">
           <p className="font-semibold">
             {billingRecovery
-              ? billingRecovery.title
+              ? (localizedBillingRecovery?.title ?? billingRecovery.title)
               : (props.connectionError ??
-                'Zookeeper disconnected unexpectedly.')}
+                (zh ? 'Zookeeper 發生非預期中斷。' : 'Zookeeper disconnected unexpectedly.'))}
           </p>
           <p className="text-sm text-chalkboard-70 dark:text-chalkboard-30">
             {billingRecovery
-              ? billingRecovery.description
+              ? (localizedBillingRecovery?.description ?? billingRecovery.description)
               : props.canClearChat
-                ? 'Reconnect to try loading this conversation again.'
-                : 'Reconnect to try connecting again.'}
+                ? zh ? '重新連線以再次載入此對話。' : 'Reconnect to try loading this conversation again.'
+                : zh ? '重新連線以再次嘗試連接。' : 'Reconnect to try connecting again.'}
           </p>
         </div>
       </div>
@@ -117,7 +155,7 @@ export function ZookeeperConnectionErrorBanner(
         {billingRecovery && (
           <ActionButton
             Element="externalLink"
-            aria-label={billingRecovery.actionLabel}
+            aria-label={localizedBillingRecovery?.actionLabel ?? billingRecovery.actionLabel}
             to={billingRecovery.actionUrl}
             className={billingButtonClassName}
             iconStart={{ icon: 'link', bgClassName: '!bg-transparent ml-1' }}
@@ -125,12 +163,12 @@ export function ZookeeperConnectionErrorBanner(
             rel="noreferrer"
             tabIndex={0}
           >
-            {billingRecovery.actionLabel}
+            {localizedBillingRecovery?.actionLabel ?? billingRecovery.actionLabel}
           </ActionButton>
         )}
         <ActionButton
           Element="button"
-          aria-label={isBillingError ? 'Check again' : 'Reconnect'}
+          aria-label={isBillingError ? (zh ? '再次檢查' : 'Check again') : (zh ? '重新連線' : 'Reconnect')}
           type="button"
           className={terminalRecoveryButtonClassName}
           iconStart={{ icon: 'refresh', bgClassName: '!bg-transparent ml-1' }}
@@ -142,19 +180,19 @@ export function ZookeeperConnectionErrorBanner(
           disabled={props.isClearingChat}
           tabIndex={0}
         >
-          {isBillingError ? 'Check again' : 'Reconnect'}
+          {isBillingError ? (zh ? '再次檢查' : 'Check again') : (zh ? '重新連線' : 'Reconnect')}
         </ActionButton>
       </div>
       {!isBillingError && props.canClearChat && (
         <div className="flex flex-col gap-2 border-t border-destroy-30 pt-3 dark:border-destroy-70">
           <p className="text-sm text-chalkboard-70 dark:text-chalkboard-30">
-            If reconnecting still does not work, clearing the chat is a last
-            resort. Previous conversation data will no longer be visible in this
-            pane.
+            {zh
+              ? '如果重新連線仍然無效，清除聊天是最後手段。先前的對話資料將不再顯示於此面板。'
+              : 'If reconnecting still does not work, clearing the chat is a last resort. Previous conversation data will no longer be visible in this pane.'}
           </p>
           <ActionButton
             Element="button"
-            aria-label={props.isClearingChat ? 'Clearing...' : 'Clear chat'}
+            aria-label={props.isClearingChat ? (zh ? '正在清除…' : 'Clearing...') : (zh ? '清除聊天' : 'Clear chat')}
             type="button"
             className={`${terminalRecoveryButtonClassName} !text-destroy-80 dark:!text-destroy-20`}
             iconStart={{ icon: 'trash', bgClassName: '!bg-transparent ml-1' }}
@@ -162,7 +200,7 @@ export function ZookeeperConnectionErrorBanner(
             disabled={props.isClearingChat}
             tabIndex={0}
           >
-            {props.isClearingChat ? 'Clearing...' : 'Clear chat'}
+            {props.isClearingChat ? (zh ? '正在清除…' : 'Clearing...') : (zh ? '清除聊天' : 'Clear chat')}
           </ActionButton>
         </div>
       )}

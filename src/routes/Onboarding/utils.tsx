@@ -16,6 +16,7 @@ import Tooltip from '@src/components/Tooltip'
 import { useAbsoluteFilePath } from '@src/hooks/useAbsoluteFilePath'
 import type { App } from '@src/lib/app'
 import { useApp } from '@src/lib/boot'
+import { useLocale } from '@src/i18n'
 import {
   ONBOARDING_DATA_ATTRIBUTE,
   ONBOARDING_PROJECT_NAME,
@@ -220,6 +221,7 @@ export function OnboardingButtons({
   dismissClassName?: string
   onNextOverride?: () => void
 } & React.HTMLAttributes<HTMLDivElement>) {
+  const locale = useLocale()
   const dismiss = useDismiss()
   const onboardingPathsArray = Object.values(onboardingPaths[platform])
   const stepNumber = getStepNumber(currentSlug, platform)
@@ -248,7 +250,7 @@ export function OnboardingButtons({
           className="w-5 h-5 rounded-sm bg-destroy-10 text-destroy-80 dark:bg-destroy-80 dark:text-destroy-10 group-hover:brightness-110"
         />
         <Tooltip position="bottom">
-          Dismiss <kbd className="hotkey ml-4 dark:!bg-chalkboard-80">esc</kbd>
+          {locale === 'zh-TW' ? '略過' : 'Dismiss'} <kbd className="hotkey ml-4 dark:!bg-chalkboard-80">esc</kbd>
         </Tooltip>
       </button>
       <div
@@ -275,7 +277,9 @@ export function OnboardingButtons({
           id="onboarding-prev"
           tabIndex={0}
         >
-          {previousStep && previousStep !== 'dismissed' ? 'Back' : 'Dismiss'}
+          {previousStep && previousStep !== 'dismissed'
+            ? locale === 'zh-TW' ? '上一步' : 'Back'
+            : locale === 'zh-TW' ? '略過' : 'Dismiss'}
         </ActionButton>
         {stepNumber !== undefined && (
           <p className="font-mono text-xs text-center m-0">
@@ -310,7 +314,9 @@ export function OnboardingButtons({
             data-testid="onboarding-next"
             id="onboarding-next"
           >
-            {nextStep && nextStep !== 'completed' ? 'Next' : 'Finish'}
+            {nextStep && nextStep !== 'completed'
+              ? locale === 'zh-TW' ? '下一步' : 'Next'
+              : locale === 'zh-TW' ? '完成' : 'Finish'}
           </ActionButton>
         )}
       </div>

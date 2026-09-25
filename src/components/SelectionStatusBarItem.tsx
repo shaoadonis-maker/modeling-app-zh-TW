@@ -1,6 +1,8 @@
 import { CustomIcon } from '@src/components/CustomIcon'
 import { defaultStatusBarItemClassNames } from '@src/components/StatusBar/StatusBar'
 import Tooltip from '@src/components/Tooltip'
+import { useLocale } from '@src/i18n'
+import { localizeUiText } from '@src/i18n/uiLabels'
 import type { ComponentType } from 'react'
 import { useState } from 'react'
 
@@ -16,6 +18,7 @@ export function SelectionStatusBarItem({
   label: string
   popoverSections: PopoverSection[]
 }) {
+  const locale = useLocale()
   const [isOpen, setIsOpen] = useState(false)
   const hasPopover = popoverSections.length > 0
 
@@ -26,8 +29,8 @@ export function SelectionStatusBarItem({
         className={defaultStatusBarItemClassNames}
         data-testid="selection-status"
       >
-        <span>{label}</span>
-        <Tooltip position="top-right">Currently selected geometry</Tooltip>
+        <span>{localizeUiText(label, locale)}</span>
+        <Tooltip position="top-right">{locale === 'zh-TW' ? '目前選取的幾何' : 'Currently selected geometry'}</Tooltip>
       </div>
     )
   }
@@ -41,10 +44,10 @@ export function SelectionStatusBarItem({
         aria-expanded={isOpen}
         onClick={() => setIsOpen(true)}
       >
-        <span className="truncate">{label}</span>
+        <span className="truncate">{localizeUiText(label, locale)}</span>
         {!isOpen && (
           <Tooltip wrapperClassName="ui-open:hidden" position="top-right">
-            Currently selected geometry
+            {locale === 'zh-TW' ? '目前選取的幾何' : 'Currently selected geometry'}
           </Tooltip>
         )}
       </button>
@@ -60,7 +63,7 @@ export function SelectionStatusBarItem({
               onClick={() => setIsOpen(false)}
             >
               <CustomIcon name="close" className="h-3.5 w-3.5" />
-              Close
+              {locale === 'zh-TW' ? '關閉' : 'Close'}
             </button>
           </div>
           {popoverSections.map(({ id, component: Section }) => (

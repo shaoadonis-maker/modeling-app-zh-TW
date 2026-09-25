@@ -1,6 +1,7 @@
 import toast from 'react-hot-toast'
 
 import { ActionButton } from '@src/components/ActionButton'
+import { useLocale } from '@src/i18n'
 
 export function ToastWarning({
   toastId,
@@ -13,6 +14,8 @@ export function ToastWarning({
   message: string
   onDismiss?: () => void
 }) {
+  const locale = useLocale()
+
   return (
     <div className="inset-0 z-50 grid place-content-center rounded bg-chalkboard-110/50 shadow-md border border-destroy-80">
       <div className="max-w-3xl min-w-[20rem] px-4 py-3 rounded bg-chalkboard-10 dark:bg-chalkboard-90">
@@ -36,7 +39,7 @@ export function ToastWarning({
               onDismiss?.()
             }}
           >
-            Dismiss
+            {locale === 'zh-TW' ? '關閉' : 'Dismiss'}
           </ActionButton>
         </div>
       </div>

@@ -6,6 +6,7 @@ import type {
 } from '@kittycad/registry'
 import { Toggle } from '@src/components/Toggle/Toggle'
 import { useApp } from '@src/lib/boot'
+import { useLocale } from '@src/i18n'
 import type { Setting } from '@src/lib/settings/initialSettings'
 import type { DynamicBooleanSetEvent } from '@src/lib/settings/settingsTypes'
 import { shouldHideSetting } from '@src/lib/settings/settingsUtils'
@@ -88,6 +89,7 @@ function PluginItem({
   resolvedService: SlotToggleController
   activationSetting?: ZdsPluginActivationSetting
 }) {
+  const locale = useLocale()
   const app = useApp()
   const setting = activationSetting ?? {
     category: 'plugins',
@@ -114,6 +116,8 @@ function PluginItem({
             app.settings.actor.send(event)
           }}
           className="flex-none"
+          offLabel={locale === 'zh-TW' ? '停用' : 'Off'}
+          onLabel={locale === 'zh-TW' ? '啟用' : 'On'}
         />
       </div>
       <p className="text-2 text-sm">{plugin.description}</p>

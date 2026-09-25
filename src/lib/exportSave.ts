@@ -1,3 +1,5 @@
+import { localizeUiText } from '@src/i18n/uiLabels'
+import { getLocale } from '@src/i18n'
 import { browserSaveFile } from '@src/lib/browserSaveFile'
 import { EXPORT_TOAST_MESSAGES } from '@src/lib/constants'
 import { ensureDirectory } from '@src/lib/fileSystem/ensureDirectory'
@@ -34,10 +36,14 @@ const save_ = async (
           fsZds.join(downloadDir, file.name),
           new Uint8Array(file.contents)
         )
-        toast.success(EXPORT_TOAST_MESSAGES.SUCCESS + ' [TEST]', {
-          id: toastId,
-          duration: 10_000,
-        })
+        toast.success(
+          localizeUiText(EXPORT_TOAST_MESSAGES.SUCCESS, getLocale()) +
+            ' [TEST]',
+          {
+            id: toastId,
+            duration: 10_000,
+          }
+        )
         return
       }
 
@@ -46,7 +52,7 @@ const save_ = async (
         defaultPath: file.name,
         filters: [
           {
-            name: 'model',
+            name: localizeUiText('model', getLocale()),
             extensions: extensions,
           },
         ],
@@ -64,7 +70,10 @@ const save_ = async (
         filePathMeta.filePath,
         new Uint8Array(file.contents)
       )
-      toast.success(EXPORT_TOAST_MESSAGES.SUCCESS, { id: toastId })
+      toast.success(
+        localizeUiText(EXPORT_TOAST_MESSAGES.SUCCESS, getLocale()),
+        { id: toastId }
+      )
     } else {
       // Download the file to the user's computer.
       // Now we need to download the files to the user's downloads folder.
@@ -78,7 +87,9 @@ const save_ = async (
   } catch (e) {
     // TODO: do something real with the error.
     console.error('export error', e)
-    toast.error(EXPORT_TOAST_MESSAGES.FAILED, { id: toastId })
+    toast.error(localizeUiText(EXPORT_TOAST_MESSAGES.FAILED, getLocale()), {
+      id: toastId,
+    })
   }
 }
 

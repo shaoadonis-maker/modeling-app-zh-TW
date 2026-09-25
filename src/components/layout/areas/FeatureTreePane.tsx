@@ -22,6 +22,8 @@ import {
   type SourceRange,
 } from '@src/lang/wasm'
 import { useApp, useSingletons } from '@src/lib/boot'
+import { getLocale, useLocale } from '@src/i18n'
+import { localizeUiLabel, localizeUiText } from '@src/i18n/uiLabels'
 import { LEGACY_SKETCH_MODE_REMOVED_MESSAGE } from '@src/lib/constants'
 import {
   buildOperationTree,
@@ -196,6 +198,7 @@ function openCodePane(layout: Layout, setLayout: (l: Layout) => void) {
 
 export const FeatureTreePaneContents = memo(() => {
   useSignals()
+  const locale = useLocale()
   const app = useApp()
   const { layout, commands, settings } = app
   const settingsValues = settings.useSettings()
@@ -324,7 +327,7 @@ export const FeatureTreePaneContents = memo(() => {
         <>
           {kclManager.isExecuting && (
             <div className="text-xs bg-primary/10 text-primary py-2 px-2 rounded flex-none mb-2 border border-primary/20">
-              Updating feature tree...
+              {localizeUiText('Updating feature tree...', locale)}
             </div>
           )}
           {!modelingState.matches('Sketch') && (
@@ -335,7 +338,9 @@ export const FeatureTreePaneContents = memo(() => {
           )}
           {disableModelingForUnrenderedChanges && !hasParseErrors && (
             <div className="text-sm bg-2 text-2 py-2 px-2 rounded flex flex-col gap-2 flex-none mb-2 border border-chalkboard-20 dark:border-chalkboard-80">
-              <p className="font-medium">Feature tree actions are disabled.</p>
+              <p className="font-medium">
+                {localizeUiText('Feature tree actions are disabled.', locale)}
+              </p>
               <p className="text-xs opacity-80">
                 {getUnrenderedChangesDisabledReason()}
               </p>
@@ -349,7 +354,7 @@ export const FeatureTreePaneContents = memo(() => {
                   className="flex gap-1 items-center py-0 pl-0.5 pr-1 m-0 flex-none text-primary dark:text-primary border border-solid border-primary bg-primary/10 dark:bg-primary/20 hover:bg-primary/20 dark:hover:bg-primary/30 hover:border-primary active:border-primary disabled:cursor-wait disabled:opacity-70"
                 >
                   <CustomIcon name="play" className="w-5 h-5" />
-                  <span>Execute</span>
+                  <span>{localizeUiText('Execute', locale)}</span>
                   {unrenderedExecuteHotkeyLabel && (
                     <kbd className="hotkey text-xs">
                       {unrenderedExecuteHotkeyLabel}
@@ -378,7 +383,7 @@ export const FeatureTreePaneContents = memo(() => {
                   onClick={goToError}
                   className="bg-chalkboard-10 text-destroy-80 p-1 rounded-sm flex-none hover:bg-chalkboard-10 hover:border-destroy-70 hover:text-destroy-80 border-transparent"
                 >
-                  View error
+                  {localizeUiText('View error', locale)}
                 </button>
                 {firstParseAction && (
                   <button
@@ -437,6 +442,7 @@ function OperationItemGroup({
   items: Operation[]
   isModuleOwned?: boolean
 }) {
+  const locale = useLocale()
   const contentItems = items.filter((item) => item.type !== 'GroupEnd')
   if (contentItems.length === 0) {
     return null
@@ -535,7 +541,8 @@ function OperationItemGroup({
           aria-hidden
         />
         <span className="text-sm flex-1">
-          {contentItems.length} {getOpTypeLabel(contentItems[0].type)}s
+          {contentItems.length}{' '}
+          {localizeUiLabel(`${getOpTypeLabel(contentItems[0].type)}s`, locale)}
         </span>
       </Disclosure.Button>
       <Disclosure.Panel as="ul" className="border-b b-4">
@@ -746,6 +753,7 @@ export const OperationItemWrapper = memo(
     isSelected?: boolean
     size?: 'default' | 'sm'
   } & OpValueProps) => {
+    const locale = useLocale()
     return (
       <RowItemWithIconMenuAndToggle
         {...props}
@@ -771,7 +779,9 @@ export const OperationItemWrapper = memo(
         }
         Warning={
           errors && errors.length > 0 ? (
-            <em className="text-destroy-80 text-xs">has error</em>
+            <em className="text-destroy-80 text-xs">
+              {localizeUiText('has error', locale)}
+            </em>
           ) : null
         }
         Tooltip={Tooltip}
@@ -796,7 +806,11 @@ export function namedViewTooltipText({
   variableName?: string
 }): string {
   const viewName = getOperationCalculatedDisplay(valueDetail.calculated)
-  const declaration = variableName ? `, declared as ${variableName}` : ''
+  const declaration = variableName
+    ? getLocale() === 'zh-TW'
+      ? `，宣告為 ${variableName}`
+      : `, declared as ${variableName}`
+    : ''
 
   return `${name} "${viewName}"${declaration}`
 }
@@ -808,6 +822,7 @@ export function VariableTooltipContents({
   type,
   isNamedView,
 }: OpValueProps) {
+  const locale = useLocale()
   if (isNamedView && valueDetail) {
     return <>{namedViewTooltipText({ name, valueDetail, variableName })}</>
   }
@@ -816,7 +831,7 @@ export function VariableTooltipContents({
     <div className="flex flex-col gap-2">
       <p>
         <span>{name}</span>
-        <span> named </span>
+        <span>{locale === 'zh-TW' ? '，名稱：' : ' named '}</span>
         <span>{variableName ?? ''}</span>
       </p>
       <p className="font-mono text-xs">
@@ -826,9 +841,17 @@ export function VariableTooltipContents({
       </p>
     </div>
   ) : type === 'GroupBegin' ? (
-    <>{`Function call of ${name} named ${variableName}`}</>
+    <>
+      {locale === 'zh-TW'
+        ? `${name} 函式呼叫，名稱：${variableName ?? ''}`
+        : `Function call of ${name} named ${variableName}`}
+    </>
   ) : (
-    <>{`${variableName ? '' : 'Unnamed '}${name}${variableName ? ` named ${variableName}` : ''}`}</>
+    <>
+      {locale === 'zh-TW'
+        ? `${variableName ? '' : '未命名的 '}${name}${variableName ? `，名稱：${variableName}` : ''}`
+        : `${variableName ? '' : 'Unnamed '}${name}${variableName ? ` named ${variableName}` : ''}`}
+    </>
   )
 }
 
@@ -939,7 +962,10 @@ async function prepareFeatureTreeEditCommand({
 
   if (!operationToEdit) {
     toast.error(
-      'Could not safely reselect operation after automatic migration. Please try again.'
+      localizeUiText(
+        'Could not safely reselect operation after automatic migration. Please try again.',
+        getLocale()
+      )
     )
     return
   }
@@ -984,6 +1010,7 @@ const OperationItem = ({
   liveLatestOperationKey,
 }: OperationProps) => {
   useSignals()
+  const locale = useLocale()
   const app = useApp()
   const navigate = useNavigate()
   const { layout } = app
@@ -994,7 +1021,8 @@ const OperationItem = ({
   const liveAst = kclManager.astSignal.value
   const ast = kclManager.hasParseErrors() ? kclManager.lastGoodAst : liveAst
   const wasmInstance = use(kclManager.wasmInstancePromise)
-  const name = getOperationLabel(item)
+  const name =
+    localizeUiLabel(getOperationLabel(item), locale) ?? getOperationLabel(item)
   const sourceRange =
     'sourceRange' in item &&
     sourceRangeToUtf16(sourceRangeFromRust(item.sourceRange), kclManager.code)
@@ -1316,7 +1344,7 @@ const OperationItem = ({
             void viewOperationSource().catch(reportRejection)
           }}
         >
-          View KCL source code
+          {localizeUiText('View KCL source code', locale)}
         </ContextMenuItem>
       )
 
@@ -1348,14 +1376,14 @@ const OperationItem = ({
                   viewOperationSource(functionRange).catch(reportRejection)
                 }}
               >
-                View function definition
+                {localizeUiText('View function definition', locale)}
               </ContextMenuItem>,
             ]
           : []),
         ...(isOffsetPlane(item)
           ? [
               <ContextMenuItem onClick={startSketchOnOffsetPlane}>
-                Start Sketch
+                {localizeUiText('Start Sketch', locale)}
               </ContextMenuItem>,
             ]
           : []),
@@ -1365,7 +1393,7 @@ const OperationItem = ({
                 onClick={exportDxf}
                 data-testid="context-menu-export-dxf"
               >
-                Export to DXF
+                {localizeUiText('Export to DXF', locale)}
               </ContextMenuItem>,
             ]
           : []),
@@ -1382,7 +1410,7 @@ const OperationItem = ({
                 onClick={enterEditFlow}
                 hotkey="Double click"
               >
-                Edit
+                {localizeUiText('Edit', locale)}
               </ContextMenuItem>,
             ]
           : []),
@@ -1401,7 +1429,7 @@ const OperationItem = ({
                 onClick={enterAppearanceFlow}
                 data-testid="context-menu-set-appearance"
               >
-                Set appearance
+                {localizeUiText('Set appearance', locale)}
               </ContextMenuItem>,
             ]
           : []),
@@ -1416,7 +1444,7 @@ const OperationItem = ({
                   !stdLibMap[item.name]?.supportsTranslate
                 }
               >
-                Translate
+                {localizeUiText('Translate', locale)}
               </ContextMenuItem>,
               <ContextMenuItem
                 onClick={enterRotateFlow}
@@ -1427,7 +1455,7 @@ const OperationItem = ({
                   !stdLibMap[item.name]?.supportsRotate
                 }
               >
-                Rotate
+                {localizeUiText('Rotate', locale)}
               </ContextMenuItem>,
               <ContextMenuItem
                 onClick={enterScaleFlow}
@@ -1438,7 +1466,7 @@ const OperationItem = ({
                   !stdLibMap[item.name]?.supportsScale
                 }
               >
-                Scale
+                {localizeUiText('Scale', locale)}
               </ContextMenuItem>,
               <ContextMenuItem
                 onClick={enterCloneFlow}
@@ -1448,7 +1476,7 @@ const OperationItem = ({
                   !stdLibMap[item.name]?.supportsTransform
                 }
               >
-                Clone
+                {localizeUiText('Clone', locale)}
               </ContextMenuItem>,
             ]
           : []),
@@ -1461,7 +1489,7 @@ const OperationItem = ({
                 hotkey="Delete"
                 data-testid="context-menu-delete"
               >
-                Remove operation
+                {localizeUiText('Remove operation', locale)}
               </ContextMenuItem>,
             ]
           : []),
@@ -1473,6 +1501,7 @@ const OperationItem = ({
       isModuleOwned,
       isStaleReference,
       layout.signal.value,
+      locale,
       viewOperationSource,
     ]
   )
@@ -1588,12 +1617,22 @@ const OperationItem = ({
                         .then((result) => {
                           if (err(result)) {
                             toast.error(
-                              result.message || 'Error while unhiding.'
+                              result.message ||
+                                localizeUiText(
+                                  'Error while unhiding.',
+                                  getLocale()
+                                )
                             )
                           }
                         })
                         .catch((e) => {
-                          toast.error(e.message || 'Error while unhiding.')
+                          toast.error(
+                            e.message ||
+                              localizeUiText(
+                                'Error while unhiding.',
+                                getLocale()
+                              )
+                          )
                         })
                     }
                   })
@@ -1613,6 +1652,7 @@ const DefaultPlanes = ({
   systemDeps: SystemDeps
   disabled?: boolean
 }) => {
+  const locale = useLocale()
   const { rustContext, sceneInfra, kclManager } = systemDeps
   const { state: modelingState, send } = useModelingContext()
   const sketchNoFace = modelingState.matches('Sketch no face')
@@ -1703,7 +1743,7 @@ const DefaultPlanes = ({
           key={plane.key}
           customSuffix={plane.customSuffix}
           icon={'plane'}
-          name={plane.name}
+          name={localizeUiText(plane.name, locale)}
           disabled={disabled}
           isSelected={selectedDefaultPlaneId === plane.id}
           onClick={disabled ? undefined : () => onClickPlane(plane.id)}
@@ -1714,7 +1754,7 @@ const DefaultPlanes = ({
                   <ContextMenuItem
                     onClick={() => startSketchOnDefaultPlane(plane.id)}
                   >
-                    Start Sketch
+                    {localizeUiText('Start Sketch', locale)}
                   </ContextMenuItem>,
                 ]
           }

@@ -1,3 +1,5 @@
+import { useLocale } from '@src/i18n'
+import { localizeUiText } from '@src/i18n/uiLabels'
 import ReactJsonView from '@microlink/react-json-view'
 import toast from 'react-hot-toast'
 
@@ -19,6 +21,7 @@ import type { ModuleType } from '@src/lib/wasm_lib_wrapper'
 import { Suspense, use } from 'react'
 
 export const MemoryPaneMenu = () => {
+  const locale = useLocale()
   const { kclManager } = useSingletons()
   const variables = kclManager.variablesSignal.value
 
@@ -26,9 +29,20 @@ export const MemoryPaneMenu = () => {
     if (globalThis && 'navigator' in globalThis) {
       navigator.clipboard
         .writeText(JSON.stringify(variables))
-        .then(() => toast.success('Program memory copied to clipboard.'))
+        .then(() =>
+          toast.success(
+            localizeUiText('Program memory copied to clipboard.', locale)
+          )
+        )
         .catch((_e) =>
-          trap(new Error('Failed to copy program memory to clipboard'))
+          trap(
+            new Error(
+              localizeUiText(
+                'Failed to copy program memory to clipboard',
+                locale
+              )
+            )
+          )
         )
     }
   }
@@ -45,13 +59,16 @@ export const MemoryPaneMenu = () => {
         className="!p-0 !bg-transparent hover:text-primary border-transparent hover:border-primary !outline-none"
         onClick={copyProgramMemoryToClipboard}
       >
-        <Tooltip position="bottom-right">Copy to clipboard</Tooltip>
+        <Tooltip position="bottom-right">
+          {localizeUiText('Copy to clipboard', locale)}
+        </Tooltip>
       </ActionButton>
     </>
   )
 }
 
 export function MemoryPane(props: AreaTypeComponentProps) {
+  const locale = useLocale()
   return (
     <LayoutPanel
       title={props.layout.label}
@@ -65,7 +82,9 @@ export function MemoryPane(props: AreaTypeComponentProps) {
         Menu={MemoryPaneMenu}
         onClose={props.onClose}
       />
-      <Suspense fallback={<Loading>Loading...</Loading>}>
+      <Suspense
+        fallback={<Loading>{localizeUiText('Loading...', locale)}</Loading>}
+      >
         <MemoryPaneContents />
       </Suspense>
     </LayoutPanel>
@@ -73,6 +92,7 @@ export function MemoryPane(props: AreaTypeComponentProps) {
 }
 
 export const MemoryPaneContents = () => {
+  const locale = useLocale()
   const { kclManager } = useSingletons()
   const theme = useResolvedTheme()
   const variables = kclManager.variablesSignal.value
@@ -102,7 +122,10 @@ export const MemoryPaneContents = () => {
       {state.matches('Sketch') && (
         <div
           className="absolute inset-0 dark:bg-chalkboard-90/80 bg-chalkboard-10/80 cursor-not-allowed"
-          title="Variables won't update in sketch mode"
+          title={localizeUiText(
+            "Variables won't update in sketch mode",
+            locale
+          )}
         ></div>
       )}
     </div>

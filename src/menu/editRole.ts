@@ -19,27 +19,27 @@ export const projectEditRole = (
       { role: 'selectAll' },
       { type: 'separator' },
       {
-        label: 'Speech',
+        label: '語音 Speech',
         submenu: [{ role: 'startSpeaking' }, { role: 'stopSpeaking' }],
       },
     ]
   }
   return {
-    label: 'Edit',
+    label: '編輯 Edit',
     submenu: [
       {
-        label: 'Rename Project',
+        label: '重新命名專案 Rename Project',
         id: 'Edit.Rename project',
         click: sendMenuAction(mainWindow, 'Edit.Rename project'),
       },
       {
-        label: 'Delete Project',
+        label: '刪除專案 Delete Project',
         id: 'Edit.Delete project',
         click: sendMenuAction(mainWindow, 'Edit.Delete project'),
       },
       { type: 'separator' },
       {
-        label: 'Manage Project Libraries',
+        label: '管理專案資料庫 Manage Project Libraries',
         id: 'Edit.Change project directory',
         click: sendMenuAction(mainWindow, 'Edit.Change project directory'),
       },
@@ -70,50 +70,50 @@ export const modelingEditRole = (
       { role: 'selectAll' },
       { type: 'separator' },
       {
-        label: 'Speech',
+        label: '語音 Speech',
         submenu: [{ role: 'startSpeaking' }, { role: 'stopSpeaking' }],
       },
     ]
   }
   return {
-    label: 'Edit',
+    label: '編輯 Edit',
     submenu: [
       {
-        label: 'Edit Parameter',
+        label: '編輯參數 Edit Parameter',
         id: 'Edit.Edit parameter',
         click: sendMenuAction(mainWindow, 'Edit.Edit parameter'),
       },
       {
-        label: 'Format Code',
+        label: '格式化程式碼 Format Code',
         id: 'Edit.Format code',
         accelerator: 'Alt+Shift+F',
         click: sendMenuAction(mainWindow, 'Edit.Format code'),
       },
       { type: 'separator' },
       {
-        label: 'Rename Project',
+        label: '重新命名專案 Rename Project',
         id: 'Edit.Rename project',
         click: sendMenuAction(mainWindow, 'Edit.Rename project'),
       },
       {
-        label: 'Delete Project',
+        label: '刪除專案 Delete Project',
         id: 'Edit.Delete project',
         click: sendMenuAction(mainWindow, 'Edit.Delete project'),
       },
       { type: 'separator' },
       {
-        label: 'Manage Project Libraries',
+        label: '管理專案資料庫 Manage Project Libraries',
         id: 'Edit.Change project directory',
         click: sendMenuAction(mainWindow, 'Edit.Change project directory'),
       },
       { type: 'separator' },
       {
-        label: 'Undo',
+        label: '復原 Undo',
         accelerator: 'CmdOrCtrl+Z',
         click: sendMenuAction(mainWindow, 'Edit.Undo'),
       },
       {
-        label: 'Redo',
+        label: '重做 Redo',
         accelerator: 'Shift+CmdOrCtrl+Z',
         click: sendMenuAction(mainWindow, 'Edit.Redo'),
       },

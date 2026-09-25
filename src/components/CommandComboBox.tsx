@@ -5,6 +5,8 @@ import { useMemo, useState } from 'react'
 import { CustomIcon } from '@src/components/CustomIcon'
 import { noAutofillInputProps } from '@src/lib/autofill'
 import { useApp } from '@src/lib/boot'
+import { useLocale } from '@src/i18n'
+import { localizeUiLabel, localizeUiText } from '@src/i18n/uiLabels'
 import {
   rankCommandSearchResults,
   readCommandPaletteUsage,
@@ -22,6 +24,7 @@ function CommandComboBox({
   placeholder?: string
 }) {
   const [query, setQuery] = useState('')
+  const locale = useLocale()
   const { commands } = useApp()
   const usageHistory = useMemo(() => readCommandPaletteUsage(), [])
 
@@ -92,7 +95,7 @@ function CommandComboBox({
           placeholder={
             (defaultOption && defaultOption.name) ||
             placeholder ||
-            'Search commands'
+            (locale === 'zh-TW' ? '搜尋命令 Search commands' : 'Search commands')
           }
           autoFocus
         />
@@ -120,7 +123,7 @@ function CommandComboBox({
                     (option.groupId === 'settings' ? ' capitalize' : '')
                   }
                 >
-                  {option.displayName || option.name}{' '}
+                  {localizeUiLabel(option.displayName || option.name, locale)}{' '}
                 </p>
                 {option.description && (
                   <p className="my-0 text-xs text-chalkboard-60 dark:text-chalkboard-50">
@@ -131,7 +134,7 @@ function CommandComboBox({
               {option.status === 'experimental' && (
                 <div className="shrink-0 text-xs flex items-center justify-center gap-1 text-primary">
                   <CustomIcon name="beaker" className="w-4 h-4 shrink-0" />
-                  <span>Experimental</span>
+                  <span>{localizeUiText('Experimental', locale)}</span>
                 </div>
               )}
               {option.status === 'deprecated' && (
@@ -140,7 +143,7 @@ function CommandComboBox({
                     name="triangleExclamation"
                     className="w-4 h-4 shrink-0"
                   />
-                  <span>Deprecated</span>
+                  <span>{localizeUiText('Deprecated', locale)}</span>
                 </div>
               )}
             </Combobox.Option>
@@ -148,7 +151,7 @@ function CommandComboBox({
         </Combobox.Options>
       ) : (
         <p className="px-4 pt-2 text-chalkboard-60 dark:text-chalkboard-50">
-          No results found
+          {locale === 'zh-TW' ? '找不到結果' : 'No results found'}
         </p>
       )}
     </Combobox>

@@ -10,6 +10,8 @@ import { useNavigate } from 'react-router-dom'
 import { CustomIcon } from '@src/components/CustomIcon'
 import { noAutofillInputProps } from '@src/lib/autofill'
 import { useApp } from '@src/lib/boot'
+import { t, useLocale } from '@src/i18n'
+import { localizeUiLabel } from '@src/i18n/uiLabels'
 import { settingsSearchFocusRequest } from '@src/lib/searchFocusRequests'
 import type { SettingsLevel } from '@src/lib/settings/settingsTypes'
 import {
@@ -48,6 +50,7 @@ export function SettingsSearchBar({
   hasOpenProject,
 }: SettingsSearchBarProps) {
   useSignals()
+  const locale = useLocale()
   const { settings, registry, userFeatures } = useApp()
   const keymap = registry.optional(keymapService)
   const contributedKeymap = registry.signal(keymapValueSpec).value
@@ -92,10 +95,10 @@ export function SettingsSearchBar({
             )
               .filter((l) => !shouldHideSetting(s, l, hasFeature))
               .map((l) => ({
-                category: formatSettingsLabel(category),
+                category: localizeUiLabel(formatSettingsLabel(category), locale) ?? formatSettingsLabel(category),
                 name: settingName,
                 description: s.description ?? '',
-                displayName: formatSettingsLabel(settingName),
+                displayName: localizeUiLabel(formatSettingsLabel(settingName), locale) ?? formatSettingsLabel(settingName),
                 level: l,
               }))
           })
@@ -114,7 +117,7 @@ export function SettingsSearchBar({
           }) satisfies SettingsSearchItem
       ),
     ],
-    [settingsValues, keybindingRows, commandScopes, hasOpenProject, hasFeature]
+    [settingsValues, keybindingRows, commandScopes, hasOpenProject, hasFeature, locale]
   )
   const fuse = useMemo(
     () =>
@@ -146,7 +149,9 @@ export function SettingsSearchBar({
             onChange={(event) => setQuery(event.target.value)}
             className="w-full bg-transparent focus:outline-none selection:bg-primary/20 dark:selection:bg-primary/40 dark:focus:outline-none"
             placeholder={
-              keybinding ? `Search settings (${keybinding})` : 'Search settings'
+              keybinding
+                ? `${t('app.searchSettings', 'Search settings', locale)} (${keybinding})`
+                : t('app.searchSettings', 'Search settings', locale)
             }
             autoFocus
           />

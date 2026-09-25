@@ -16,6 +16,7 @@ import {
 } from '@src/lib/constants'
 import type { HotkeySequence } from '@src/lib/hotkeys'
 import { isDesktop } from '@src/lib/isDesktop'
+import { t, useLocale, type AppLocale } from '@src/i18n'
 import { getSelectedDefaultPlane, selectSketchPlane } from '@src/lib/selections'
 import type { ModuleType } from '@src/lib/wasm_lib_wrapper'
 import { withSiteBaseURL } from '@src/lib/withBaseURL'
@@ -436,6 +437,29 @@ function createSketchSolveConstraintDropdownItem({
 
 const constraintsExtraInfo = 'Hold Cmd/Ctrl to keep selection'
 
+function localizeConstraintToolbarItem(
+  item: ToolbarItem,
+  locale: AppLocale
+): ToolbarItem {
+  if (locale !== 'zh-TW') return item
+
+  const titleById: Partial<Record<string, string>> = {
+    coincident: t('constraint.coincident', item.title as string, locale),
+    midpoint: t('constraint.midpoint', item.title as string, locale),
+    Tangent: t('constraint.tangent', item.title as string, locale),
+    Parallel: t('constraint.parallel', item.title as string, locale),
+    Perpendicular: t('constraint.perpendicular', item.title as string, locale),
+    equalLength: t('constraint.equal', item.title as string, locale),
+    Symmetric: t('constraint.symmetric', item.title as string, locale),
+    vertical: t('constraint.vertical', item.title as string, locale),
+    Horizontal: t('constraint.horizontal', item.title as string, locale),
+    Fixed: t('constraint.fix', item.title as string, locale),
+  }
+
+  const translatedTitle = titleById[item.id]
+  return translatedTitle ? { ...item, title: translatedTitle } : item
+}
+
 const sketchSolveConstraintItems: ToolbarItem[] = [
   createSketchSolveConstraintDropdownItem({
     id: 'coincident',
@@ -520,9 +544,11 @@ export function buildToolbarConfig(
   {
     showExperimentalFeatures = false,
     hasLegacySketchMode = false,
+    locale = 'en',
   }: {
     showExperimentalFeatures?: boolean
     hasLegacySketchMode?: boolean
+    locale?: AppLocale
   } = {}
 ): ToolbarConfig {
   const splineToolbarItem: ToolbarItem = {
@@ -640,10 +666,10 @@ export function buildToolbarConfig(
             )
 
             if ((editorHasFocus && sketchPathId) || isSketchBlock) {
-              return 'Edit Sketch'
+              return locale === 'zh-TW' ? '編輯草圖 Edit Sketch' : 'Edit Sketch'
             }
 
-            return 'Start Sketch'
+            return t('cad.sketch', 'Start Sketch', locale)
           },
           tooltipTitle: ({ editorHasFocus, sketchPathId, modelingState }) => {
             const isSketchBlock = isSketchBlockSelected(
@@ -651,7 +677,7 @@ export function buildToolbarConfig(
             )
 
             if ((editorHasFocus && sketchPathId) || isSketchBlock) {
-              return 'Edit Sketch'
+              return locale === 'zh-TW' ? '編輯草圖 Edit Sketch' : 'Edit Sketch'
             }
 
             const selectedSketchTarget = getSelectedSketchTarget(
@@ -661,7 +687,7 @@ export function buildToolbarConfig(
               return selectedSketchTarget.title
             }
 
-            return 'Start Sketch'
+            return t('cad.sketch', 'Start Sketch', locale)
           },
           showTitle: true,
           description: 'Start drawing a 2D sketch.',
@@ -683,7 +709,7 @@ export function buildToolbarConfig(
             }),
           icon: 'extrude',
           status: 'available',
-          title: 'Extrude',
+          title: t('cad.extrude', 'Extrude', locale),
           description:
             'Pull a sketch into 3D along its normal or perpendicular.',
           links: [
@@ -705,7 +731,7 @@ export function buildToolbarConfig(
             }),
           icon: 'sweep',
           status: 'available',
-          title: 'Sweep',
+          title: t('cad.sweep', 'Sweep', locale),
           description:
             'Create a 3D body by moving a sketch region along an arbitrary path.',
           links: [
@@ -725,7 +751,7 @@ export function buildToolbarConfig(
             }),
           icon: 'loft',
           status: 'available',
-          title: 'Loft',
+          title: t('cad.loft', 'Loft', locale),
           description:
             'Create a 3D body by blending between two or more sketches.',
           links: [
@@ -745,7 +771,7 @@ export function buildToolbarConfig(
             }),
           icon: 'revolve',
           status: 'available',
-          title: 'Revolve',
+          title: t('cad.revolve', 'Revolve', locale),
           description:
             'Create a 3D body by rotating a sketch region about an axis.',
           links: [
@@ -772,7 +798,7 @@ export function buildToolbarConfig(
             }),
           icon: 'fillet3d',
           status: 'available',
-          title: 'Fillet',
+          title: t('cad.fillet', 'Fillet', locale),
           description: 'Round the edges of a 3D solid.',
           links: [
             {
@@ -791,7 +817,7 @@ export function buildToolbarConfig(
             }),
           icon: 'chamfer3d',
           status: 'available',
-          title: 'Chamfer',
+          title: t('cad.chamfer', 'Chamfer', locale),
           description: 'Bevel the edges of a 3D solid.',
           extraInfo:
             'Chamfers cannot touch other chamfers yet. This is under development, see issue tracker.',
@@ -816,7 +842,7 @@ export function buildToolbarConfig(
           },
           icon: 'shell',
           status: 'available',
-          title: 'Shell',
+          title: t('cad.shell', 'Shell', locale),
           description: 'Hollow out a 3D solid.',
           links: [
             {
@@ -835,7 +861,7 @@ export function buildToolbarConfig(
           },
           icon: 'hole',
           status: 'available',
-          title: 'Hole',
+          title: t('cad.hole', 'Hole', locale),
           description:
             'Standard holes that could be drilled or cut into a 3D solid.',
           links: [
@@ -858,7 +884,7 @@ export function buildToolbarConfig(
                 }),
               icon: 'booleanUnion',
               status: 'available',
-              title: 'Union',
+              title: t('cad.union', 'Union', locale),
               description: 'Combine two or more solids into a single solid.',
               links: [
                 {
@@ -878,7 +904,7 @@ export function buildToolbarConfig(
                 }),
               icon: 'booleanSubtract',
               status: 'available',
-              title: 'Subtract',
+              title: t('cad.subtract', 'Subtract', locale),
               description: 'Subtract one solid from another.',
               links: [
                 {
@@ -898,7 +924,7 @@ export function buildToolbarConfig(
                 }),
               icon: 'booleanIntersect',
               status: 'available',
-              title: 'Intersect',
+              title: t('cad.intersect', 'Intersect', locale),
               description:
                 'Create a solid from the intersection of two solids.',
               links: [
@@ -1032,7 +1058,7 @@ export function buildToolbarConfig(
               },
               icon: 'plane',
               status: 'available',
-              title: 'Offset Plane',
+              title: t('cad.offsetPlane', 'Offset Plane', locale),
               description: 'Create a plane parallel to an existing plane.',
               links: [
                 {
@@ -1065,7 +1091,7 @@ export function buildToolbarConfig(
           },
           icon: 'helix',
           status: 'available',
-          title: 'Helix',
+          title: t('cad.helix', 'Helix', locale),
           description: 'Create a helix or spiral in 3D about an axis.',
           links: [
             {
@@ -1736,7 +1762,7 @@ export function buildToolbarConfig(
             }),
           icon: 'arrowShortLeft',
           status: 'available',
-          title: 'Exit Sketch',
+          title: locale === 'zh-TW' ? '離開草圖 Exit Sketch' : 'Exit Sketch',
           showTitle: true,
           description: 'Exit the current sketch.',
           links: [],
@@ -1758,7 +1784,7 @@ export function buildToolbarConfig(
           icon: 'line',
           status: 'available',
           disabled: (state) => state.matches('Sketch no face'),
-          title: 'Line',
+          title: t('sketch.line', 'Line', locale),
           description: 'Start drawing straight lines.',
           links: [],
           isActive: (state) => state.matches({ Sketch: 'Line tool' }),
@@ -2037,7 +2063,7 @@ export function buildToolbarConfig(
               onClick: ({ modelingSend }) =>
                 modelingSend({ type: 'Make segment vertical' }),
               status: 'available',
-              title: 'Vertical',
+              title: t('constraint.vertical', 'Vertical', locale),
               showTitle: false,
               description:
                 'Constrain a straight segment to be vertical relative to the sketch.',
@@ -2054,7 +2080,7 @@ export function buildToolbarConfig(
               onClick: ({ modelingSend }) =>
                 modelingSend({ type: 'Make segment horizontal' }),
               status: 'available',
-              title: 'Horizontal',
+              title: t('constraint.horizontal', 'Horizontal', locale),
               showTitle: false,
               description:
                 'Constrain a straight segment to be horizontal relative to the sketch.',
@@ -2071,7 +2097,7 @@ export function buildToolbarConfig(
               onClick: ({ modelingSend }) =>
                 modelingSend({ type: 'Constrain parallel' }),
               status: 'available',
-              title: 'Parallel',
+              title: t('constraint.parallel', 'Parallel', locale),
               showTitle: false,
               description: 'Constrain two segments to be parallel.',
               extraInfo: constraintsExtraInfo,
@@ -2087,7 +2113,7 @@ export function buildToolbarConfig(
               onClick: ({ modelingSend }) =>
                 modelingSend({ type: 'Constrain equal length' }),
               status: 'available',
-              title: 'Equal',
+              title: t('constraint.equal', 'Equal', locale),
               showTitle: false,
               description:
                 'Constrain two or more segments to have equal length.',
@@ -2273,7 +2299,7 @@ export function buildToolbarConfig(
             }),
           icon: 'arrowShortLeft',
           status: 'available',
-          title: 'Exit Sketch',
+          title: locale === 'zh-TW' ? '離開草圖 Exit Sketch' : 'Exit Sketch',
           showTitle: true,
           description: 'Exit the current sketch.',
           links: [],
@@ -2293,7 +2319,7 @@ export function buildToolbarConfig(
                 }),
           icon: 'line',
           status: 'available',
-          title: 'Line',
+          title: t('sketch.line', 'Line', locale),
           description: 'Start drawing straight lines.',
           links: [],
           isActive: (state) =>
@@ -2423,7 +2449,7 @@ export function buildToolbarConfig(
                 }),
           icon: 'trimTool',
           status: 'available',
-          title: 'Trim',
+          title: t('sketch.trim', 'Trim', locale),
           description:
             'Draw a trimming line through parts of segments to be removed.',
           links: [],
@@ -2502,7 +2528,9 @@ export function buildToolbarConfig(
         'break',
         {
           id: 'constraints',
-          array: sketchSolveConstraintItems,
+          array: sketchSolveConstraintItems.map((item) =>
+            localizeConstraintToolbarItem(item, locale)
+          ),
           display: 'recent',
           visibleItemCount: 3,
           defaultVisibleItemIds: ['coincident', 'Tangent', 'Parallel'],
@@ -2601,6 +2629,7 @@ function getSelectedSketchIconColor(
 
 export const useToolbarConfig = () => {
   const { commands, userFeatures } = useApp()
+  const locale = useLocale()
   const showExperimentalFeatures = userFeatures.useHas(
     EXPERIMENTAL_POINT_AND_CLICK_FLAG,
     false
@@ -2615,8 +2644,9 @@ export const useToolbarConfig = () => {
       buildToolbarConfig(commands, {
         showExperimentalFeatures,
         hasLegacySketchMode,
+        locale,
       }),
-    [commands, showExperimentalFeatures, hasLegacySketchMode]
+    [commands, showExperimentalFeatures, hasLegacySketchMode, locale]
   )
 }
 

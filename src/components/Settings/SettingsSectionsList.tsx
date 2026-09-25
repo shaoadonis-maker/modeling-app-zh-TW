@@ -1,5 +1,7 @@
 import type { Feature } from '@kittycad/lib'
 import { useApp } from '@src/lib/boot'
+import { t, useLocale } from '@src/i18n'
+import { localizeUiLabel } from '@src/i18n/uiLabels'
 import type { SettingsLevel } from '@src/lib/settings/settingsTypes'
 import {
   formatSettingsLabel,
@@ -16,6 +18,7 @@ export function SettingsSectionsList({
   searchParamTab,
   scrollRef,
 }: SettingsSectionsListProps) {
+  const locale = useLocale()
   const { settings, userFeatures } = useApp()
   const context = settings.useSettings()
   const userFeaturesContext = userFeatures.useContext()
@@ -45,7 +48,7 @@ export function SettingsSectionsList({
           }
           className="capitalize text-left border-none px-1"
         >
-          {formatSettingsLabel(category)}
+          {localizeUiLabel(formatSettingsLabel(category), locale)}
         </button>
       ))}
       <button

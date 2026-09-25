@@ -1,5 +1,7 @@
+import { localizeUiText } from '@src/i18n/uiLabels'
 import { CustomIcon } from '@src/components/CustomIcon'
 import Tooltip from '@src/components/Tooltip'
+import { useLocale } from '@src/i18n'
 import type { SettingsLevel } from '@src/lib/settings/settingsTypes'
 
 interface SettingsSectionProps extends React.HTMLProps<HTMLDivElement> {
@@ -23,6 +25,8 @@ export function SettingsSection({
   onFallback,
   headingClassName = 'text-lg font-normal capitalize tracking-wide',
 }: SettingsSectionProps) {
+  const locale = useLocale()
+
   return (
     <section
       data-testid={id}
@@ -42,9 +46,13 @@ export function SettingsSection({
               className="hidden group-hover:block group-focus-within:block border-none p-0 hover:bg-warn-10 dark:hover:bg-warn-80 focus:bg-warn-10 dark:focus:bg-warn-80 focus:outline-none"
             >
               <CustomIcon name="refresh" className="w-4 h-4" />
-              <span className="sr-only">Roll back {title}</span>
+              <span className="sr-only">
+                {locale === 'zh-TW' ? `還原 ${title}` : `Roll back ${title}`}
+              </span>
               <Tooltip position="right">
-                Roll back to match {parentLevel}
+                {locale === 'zh-TW'
+                  ? `還原以符合 ${localizeUiText(parentLevel, locale)}`
+                  : `Roll back to match ${localizeUiText(parentLevel, locale)}`}
               </Tooltip>
             </button>
           )}

@@ -110,6 +110,7 @@ export type ZooLabel =
 // Extend the interface with additional custom properties
 export interface ZooMenuItemConstructorOptions
   extends MenuItemConstructorOptions {
-  label?: ZooLabel
+  // Display text may be localized; action identifiers remain in MenuLabels.
+  label?: MenuItemConstructorOptions['label']
   submenu?: ZooMenuItemConstructorOptions[] | Menu
 }

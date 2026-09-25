@@ -2,6 +2,8 @@ import { ActionButton } from '@src/components/ActionButton'
 import { ActionIcon } from '@src/components/ActionIcon'
 import type { CustomIconName } from '@src/components/CustomIcon'
 import Tooltip from '@src/components/Tooltip'
+import { useLocale } from '@src/i18n'
+import { localizeUiText } from '@src/i18n/uiLabels'
 import type { ReactNode } from 'react'
 import styles from './index.module.css'
 
@@ -23,6 +25,8 @@ export const LayoutPanelHeader = ({
   Menu,
   onClose,
 }: Pick<LayoutPanelProps, 'id' | 'icon' | 'title' | 'Menu' | 'onClose'>) => {
+  const locale = useLocale()
+  const localizedTitle = typeof title === 'string' ? localizeUiText(title, locale) : title
   return (
     <div className={styles.header}>
       <div className="flex gap-2 items-center flex-1">
@@ -34,7 +38,7 @@ export const LayoutPanelHeader = ({
             bgClassName="!bg-transparent"
           />
         )}
-        <span data-testid={id + '-header'}>{title}</span>
+        <span data-testid={id + '-header'}>{localizedTitle}</span>
       </div>
       {Menu instanceof Function ? <Menu /> : Menu}
       {onClose && (
@@ -48,7 +52,7 @@ export const LayoutPanelHeader = ({
           className="!p-0 !bg-transparent hover:text-primary border-transparent dark:!border-transparent hover:!border-primary dark:hover:!border-chalkboard-70 !outline-none"
           onClick={onClose}
         >
-          <Tooltip position="bottom-right">Close</Tooltip>
+          <Tooltip position="bottom-right">{locale === 'zh-TW' ? '關閉' : 'Close'}</Tooltip>
         </ActionButton>
       )}
     </div>
@@ -63,10 +67,12 @@ export const LayoutPanel = ({
   title,
   ...props
 }: LayoutPanelProps) => {
+  const locale = useLocale()
+  const localizedTitle = typeof title === 'string' ? localizeUiText(title, locale) : title
   return (
     <section
       {...props}
-      aria-label={title && typeof title === 'string' ? title : ''}
+      aria-label={typeof localizedTitle === 'string' ? localizedTitle : ''}
       data-testid={detailsTestId}
       id={id}
       className={

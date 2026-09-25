@@ -26,6 +26,7 @@ import {
 } from '@src/components/CloudConflictDialog'
 import type { CustomIconName } from '@src/components/CustomIcon'
 import Tooltip from '@src/components/Tooltip'
+import { useLocale } from '@src/i18n'
 import {
   type CloudSyncProjectMetadataIndexEntry,
   type CloudSyncStatus,
@@ -161,6 +162,7 @@ type CloudSyncStatusBarPresentation = {
 function CloudProjectLibrarySettingsDetails({
   library,
 }: ProjectLibrarySettingsDetailsProps) {
+  const locale = useLocale()
   const [storagePath, setStoragePath] = useState<string>()
 
   useEffect(() => {
@@ -187,8 +189,12 @@ function CloudProjectLibrarySettingsDetails({
     <div className="m-0 flex min-w-0 flex-1 items-center gap-2 text-sm">
       <p className="flex h-8 min-w-0 flex-1 items-center truncate px-1 text-2">
         {storagePath
-          ? `Stored locally at ${storagePath}`
-          : 'Resolving local storage path...'}
+          ? locale === 'zh-TW'
+            ? `本機儲存位置：${storagePath}`
+            : `Stored locally at ${storagePath}`
+          : locale === 'zh-TW'
+            ? '正在解析本機儲存位置…'
+            : 'Resolving local storage path...'}
       </p>
       {canRevealInFileExplorer() && (
         <ActionButton
@@ -207,7 +213,7 @@ function CloudProjectLibrarySettingsDetails({
             }
           }}
         >
-          <Tooltip position="top-right">Reveal in file explorer</Tooltip>
+          <Tooltip position="top-right">{locale === 'zh-TW' ? '在檔案總管中顯示' : 'Reveal in file explorer'}</Tooltip>
         </ActionButton>
       )}
     </div>

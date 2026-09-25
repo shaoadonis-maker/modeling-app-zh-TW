@@ -1,3 +1,5 @@
+import { useLocale } from '@src/i18n'
+import { localizeUiText } from '@src/i18n/uiLabels'
 import { Dialog } from '@headlessui/react'
 import { useSignals } from '@preact/signals-react/runtime'
 import { ActionButton } from '@src/components/ActionButton'
@@ -24,6 +26,7 @@ export function SessionExpiredDialogHostContent({
   auth,
 }: SessionExpiredDialogHostContentProps) {
   useSignals()
+  const locale = useLocale()
   const navigate = useNavigate()
   const authState = auth.useAuthState()
   const open =
@@ -68,14 +71,19 @@ export function SessionExpiredDialogHostContent({
             </div>
             <div className="min-w-0">
               <Dialog.Title as="h2" className="text-xl font-bold">
-                Session expired
+                {localizeUiText('Session expired', locale)}
               </Dialog.Title>
               <Dialog.Description className="mt-2 text-sm text-chalkboard-70 dark:text-chalkboard-30">
-                You have been logged out. Sign in again to reconnect cloud sync
-                and the modeling stream.
+                {localizeUiText(
+                  'You have been logged out. Sign in again to reconnect cloud sync and the modeling stream.',
+                  locale
+                )}
               </Dialog.Description>
               <p className="mt-2 text-sm text-chalkboard-70 dark:text-chalkboard-30">
-                Your account may be blocked if you've seen this multiple times.
+                {localizeUiText(
+                  "Your account may be blocked if you've seen this multiple times.",
+                  locale
+                )}
               </p>
             </div>
           </div>
@@ -89,7 +97,7 @@ export function SessionExpiredDialogHostContent({
               className="py-1"
               rel="noreferrer"
             >
-              Check your account standing
+              {localizeUiText('Check your account standing', locale)}
             </ActionButton>
             <ActionButton
               Element="button"
@@ -100,7 +108,7 @@ export function SessionExpiredDialogHostContent({
               className="border-warn-70 bg-warn-10/30 py-1 dark:bg-warn-80/20"
               data-testid="session-expired-sign-in-button"
             >
-              Sign in again
+              {localizeUiText('Sign in again', locale)}
             </ActionButton>
           </div>
         </Dialog.Panel>

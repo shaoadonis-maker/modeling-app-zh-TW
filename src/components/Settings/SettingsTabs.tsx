@@ -1,6 +1,7 @@
 import { RadioGroup } from '@headlessui/react'
 
 import { SettingsTabButton } from '@src/components/Settings/SettingsTabButton'
+import { t, useLocale } from '@src/i18n'
 
 interface SettingsTabButtonProps {
   value: string
@@ -13,6 +14,8 @@ export function SettingsTabs({
   onChange,
   showProjectTab,
 }: SettingsTabButtonProps) {
+  const locale = useLocale()
+
   return (
     <RadioGroup
       value={value}
@@ -21,7 +24,7 @@ export function SettingsTabs({
     >
       <RadioGroup.Option value="user">
         {({ checked }) => (
-          <SettingsTabButton checked={checked} icon="person" text="User" />
+          <SettingsTabButton checked={checked} icon="person" text={t('app.user', 'User', locale)} />
         )}
       </RadioGroup.Option>
       {showProjectTab && (
@@ -30,7 +33,7 @@ export function SettingsTabs({
             <SettingsTabButton
               checked={checked}
               icon="folder"
-              text="This project"
+              text={t('app.thisProject', 'This project', locale)}
             />
           )}
         </RadioGroup.Option>
@@ -40,13 +43,13 @@ export function SettingsTabs({
           <SettingsTabButton
             checked={checked}
             icon="keyboard"
-            text="Keybindings"
+            text={t('app.keybindings', 'Keybindings', locale)}
           />
         )}
       </RadioGroup.Option>
       <RadioGroup.Option value="plugins">
         {({ checked }) => (
-          <SettingsTabButton checked={checked} icon="function" text="Plugins" />
+          <SettingsTabButton checked={checked} icon="function" text={t('app.plugins', 'Plugins', locale)} />
         )}
       </RadioGroup.Option>
     </RadioGroup>

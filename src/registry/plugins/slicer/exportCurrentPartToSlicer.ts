@@ -1,3 +1,5 @@
+import { localizeUiText } from '@src/i18n/uiLabels'
+import { getLocale } from '@src/i18n'
 import type { IElectronAPI } from '@root/interface'
 import type { OutputFormat3d } from '@rust/kcl-lib/bindings/ModelingCmd'
 import type { KclManager } from '@src/lang/KclManager'
@@ -109,7 +111,9 @@ export async function exportCurrentPartToSlicer(
 
     const file = files[0]
     if (!file) {
-      toast.error(EXPORT_TOAST_MESSAGES.FAILED, { id: toastId })
+      toast.error(localizeUiText(EXPORT_TOAST_MESSAGES.FAILED, getLocale()), {
+        id: toastId,
+      })
       return
     }
 
@@ -137,6 +141,8 @@ export async function exportCurrentPartToSlicer(
     toast.success(successMessage, { id: toastId })
   } catch (error) {
     console.error(error)
-    toast.error(EXPORT_TOAST_MESSAGES.FAILED, { id: toastId })
+    toast.error(localizeUiText(EXPORT_TOAST_MESSAGES.FAILED, getLocale()), {
+      id: toastId,
+    })
   }
 }
