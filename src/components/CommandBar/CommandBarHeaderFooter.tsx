@@ -9,6 +9,8 @@ import { evaluateCommandBarArg } from '@src/components/CommandBar/utils'
 import { CustomIcon } from '@src/components/CustomIcon'
 import Tooltip from '@src/components/Tooltip'
 import { useApp } from '@src/lib/boot'
+import { useLocale } from '@src/i18n'
+import { localizeUiLabel, localizeUiText } from '@src/i18n/uiLabels'
 import type {
   CommandArgument,
   KclCommandValue,
@@ -29,6 +31,7 @@ function CommandBarHeaderFooter({
   submitDisabled?: boolean
 }) {
   const { commands, project } = useApp()
+  const locale = useLocale()
   const commandBarState = commands.useState()
   const {
     context: { selectedCommand, currentArgument, argumentsToSubmit },
@@ -137,7 +140,7 @@ function CommandBarHeaderFooter({
                   selectedCommand.groupId === 'settings' ? 'capitalize' : ''
                 }
               >
-                {selectedCommand.displayName || selectedCommand.name}
+                {localizeUiLabel(selectedCommand.displayName || selectedCommand.name, locale)}
               </span>
               {selectedCommandStatusBadge ? (
                 <span
@@ -210,7 +213,7 @@ function CommandBarHeaderFooter({
                           position="bottom"
                           contentClassName="max-w-none flex items-center"
                         >
-                          <span>Experimental</span>
+                          <span>{localizeUiText('Experimental', locale)}</span>
                         </Tooltip>
                       </span>
                     )}
@@ -224,7 +227,7 @@ function CommandBarHeaderFooter({
                           position="bottom"
                           contentClassName="max-w-none flex items-center"
                         >
-                          <span>{arg.statusMessage ?? 'Deprecated'}</span>
+                          <span>{arg.statusMessage ?? localizeUiText('Deprecated', locale)}</span>
                         </Tooltip>
                       </span>
                     )}
@@ -236,8 +239,11 @@ function CommandBarHeaderFooter({
                         arg.displayName || capitaliseFC(argName)
                       }
                     >
-                      {arg.displayName ||
-                        capitaliseFC(decamelize(argName, { separator: ' ' }))}
+                      {localizeUiLabel(
+                        arg.displayName ||
+                          capitaliseFC(decamelize(argName, { separator: ' ' })),
+                        locale
+                      )}
                     </span>
                     <span className="sr-only">:&nbsp;</span>
                     <span data-testid="header-arg-value">
@@ -375,7 +381,7 @@ function ReviewingButton({
         iconClassName: `${resolvedIconClassName}`,
       }}
     >
-      <span className={`pl-2 ${resolvedIconClassName}`}>Submit</span>
+      <span className={`pl-2 ${resolvedIconClassName}`}>{localizeUiText('Submit', locale)}</span>
     </ActionButton>
   )
 }
@@ -395,7 +401,7 @@ function GatheringArgsButton({ bgClassName, iconClassName }: ButtonProps) {
         iconClassName: `${iconClassName}`,
       }}
     >
-      <span className={`pl-2 ${iconClassName}`}>Continue</span>
+      <span className={`pl-2 ${iconClassName}`}>{localizeUiText('Continue', locale)}</span>
     </ActionButton>
   )
 }
@@ -420,9 +426,9 @@ function StepBackButton({
       }}
       onClick={stepBack}
     >
-      <span className={`pr-2 ${iconClassName}`}>Step back</span>
+      <span className={`pr-2 ${iconClassName}`}>{localizeUiText('Step back', locale)}</span>
       <Tooltip position="bottom">
-        Step back
+        {localizeUiText('Step back', locale)}
         <kbd className="hotkey ml-4 dark:!bg-chalkboard-80">Shift</kbd>
         <kbd className="hotkey ml-2 dark:!bg-chalkboard-80">Bksp</kbd>
       </Tooltip>
@@ -450,8 +456,8 @@ function ClearButton({
       }}
       onClick={clear}
     >
-      <span className={`pr-2 ${iconClassName}`}>Clear</span>
-      <Tooltip position="bottom">Clear</Tooltip>
+      <span className={`pr-2 ${iconClassName}`}>{localizeUiText('Clear', locale)}</span>
+      <Tooltip position="bottom">{localizeUiText('Clear', locale)}</Tooltip>
     </ActionButton>
   )
 }
