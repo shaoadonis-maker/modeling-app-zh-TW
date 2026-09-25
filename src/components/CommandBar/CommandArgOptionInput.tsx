@@ -6,6 +6,8 @@ import type { AnyStateMachine, StateFrom } from 'xstate'
 
 import { noAutofillFormProps, noAutofillInputProps } from '@src/lib/autofill'
 import { useApp } from '@src/lib/boot'
+import { useLocale } from '@src/i18n'
+import { localizeUiText } from '@src/i18n/uiLabels'
 import type {
   CommandArgument,
   CommandArgumentOption,
@@ -27,6 +29,7 @@ function CommandArgOptionInput({
   onSubmit: (data: unknown) => void
   placeholder?: string
 }) {
+  const locale = useLocale()
   const actorContext = useSelector(arg.machineActor, contextSelector)
   const { commands } = useApp()
   const commandBarState = commands.useState()
@@ -169,10 +172,10 @@ function CommandArgOptionInput({
             }}
             value={query}
             placeholder={
-              currentOption?.name ||
+              localizeUiText(currentOption?.name ?? '', locale) ||
               placeholder ||
               argName ||
-              'Select an option'
+              localizeUiText('Select an option', locale)
             }
             autoFocus
           />
@@ -199,7 +202,7 @@ function CommandArgOptionInput({
                     ''
                   }`}
                 >
-                  <p>{option.name}</p>
+                  <p>{localizeUiText(option.name, locale)}</p>
                   {option.description && (
                     <p className="text-xs text-chalkboard-70 dark:text-chalkboard-50">
                       {option.description}
@@ -216,7 +219,7 @@ function CommandArgOptionInput({
           </Combobox.Options>
         ) : (
           <p className="px-4 pt-2 text-chalkboard-60 dark:text-chalkboard-50">
-            No results found
+            {locale === 'zh-TW' ? '找不到結果' : 'No results found'}
           </p>
         )}
         {arg.description && (
