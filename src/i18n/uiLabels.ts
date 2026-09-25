@@ -39,14 +39,25 @@ const zhTWLabels: Record<string, string> = {
   Fixed: '固定 Fixed',
 
   // Settings
+  App: '應用程式 App',
+  Debug: '除錯 Debug',
   Appearance: '外觀 Appearance',
   Modeling: '建模 Modeling',
   Projects: '專案 Projects',
   Project: '專案 Project',
   Application: '應用程式 Application',
   'Text editor': '文字編輯器 Text editor',
+  'Text Editor': '文字編輯器 Text Editor',
   'Command bar': '命令列 Command bar',
+  'Command Bar': '命令列 Command Bar',
+  Plugins: '外掛 Plugins',
+  About: '關於 About',
   Theme: '主題 Theme',
+  'Machine API': '機器 API Machine API',
+  'Show All Files': '顯示所有檔案 Show All Files',
+  Libraries: '資料庫 Libraries',
+  'Show Panel': '顯示面板 Show Panel',
+  'Show Modeling Machine State': '顯示建模狀態 Show Modeling Machine State',
   'Base unit': '基本單位 Base unit',
   'Camera projection': '相機投影 Camera projection',
   'Camera controls': '相機控制 Camera controls',
@@ -66,6 +77,9 @@ const zhTWLabels: Record<string, string> = {
   'View version on GitHub': '在 GitHub 查看版本',
   On: '開啟',
   Off: '關閉',
+  system: '系統 System',
+  light: '淺色 Light',
+  dark: '深色 Dark',
 
   // Command bar
   Experimental: '實驗功能 Experimental',
@@ -83,6 +97,14 @@ const zhTWLabels: Record<string, string> = {
   Sketch: '草圖',
   Sketches: '草圖',
   'Feature Tree': '特徵樹 Feature Tree',
+  'Front plane': '前基準面 Front plane',
+  'Top plane': '上基準面 Top plane',
+  'Side plane': '側基準面 Side plane',
+  Bodies: '實體 Bodies',
+  'Project Files': '專案檔案 Project Files',
+  'No selection': '未選取 No selection',
+  All: '全部 All',
+  'Selection filter': '選取篩選 Selection filter',
   Execute: '執行 Execute',
   'Updating feature tree...': '正在更新特徵樹…',
   'Feature tree actions are disabled.': '特徵樹操作目前已停用。',
@@ -121,6 +143,13 @@ const zhTWLabels: Record<string, string> = {
   'Zookeeper focus': 'Zookeeper 聚焦',
   current: '目前',
   'Select an option': '選擇選項',
+  'Local Projects': '本機專案 Local Projects',
+  'Personal Cloud': '個人雲端 Personal Cloud',
+  'Project Library': '專案資料庫 Project Library',
+  'Add library': '新增資料庫 Add library',
+  'Change location': '變更位置 Change location',
+  'Reorder library': '重新排序資料庫 Reorder library',
+  'Remove library': '移除資料庫 Remove library',
   'Open project': '開啟專案 Open project',
   'Create project': '建立專案 Create project',
   'Delete project': '刪除專案 Delete project',
@@ -135,6 +164,32 @@ const zhTWLabels: Record<string, string> = {
   Format: '格式 Format',
   Units: '單位 Units',
   File: '檔案 File',
+
+  // Settings descriptions
+  'The overall appearance of the app.': '應用程式的整體外觀。',
+  'Whether to enable Machine API discovery and printing controls on desktop.':
+    '是否在桌面版啟用 Machine API 裝置探索與列印控制。',
+  'Show all project files in the file pane, including dotfiles and configuration files.':
+    '在檔案面板中顯示所有專案檔案，包括隱藏檔與設定檔。',
+  'Project libraries shown on the home page.': '首頁中顯示的專案資料庫。',
+  'Whether to show the debug panel, a development tool.':
+    '是否顯示除錯面板（開發工具）。',
+  'Whether to show the current modeling machine state in the status bar.':
+    '是否在狀態列顯示目前的建模狀態。',
+  'The controls for how to navigate the 3D view.': '設定 3D 視圖的操作方式。',
+  'Projection method applied to the 3D view, perspective or orthographic.':
+    '設定 3D 視圖使用透視投影或正交投影。',
+  'Whether to highlight edges of 3D objects.': '是否反白顯示 3D 物件邊緣。',
+  'Whether to show a scale grid in the 3D modeling view.':
+    '是否在 3D 建模視圖顯示比例網格。',
+  'Whether to show a grid while sketching.': '是否在草圖模式中顯示網格。',
+  'Whether to wrap text in the editor or overflow with scroll.':
+    '文字編輯器是否自動換行，或使用捲動方式顯示。',
+  'Whether to make the cursor blink in the editor.': '是否讓文字編輯器游標閃爍。',
+  'The default project name to use when creating a new project.':
+    '建立新專案時使用的預設專案名稱。',
+  'Whether to include settings in the command bar.':
+    '是否在命令面板中包含設定項目。',
 }
 
 export function localizeUiLabel(
