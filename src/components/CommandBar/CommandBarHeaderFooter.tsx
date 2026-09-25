@@ -154,7 +154,7 @@ function CommandBarHeaderFooter({
                     position="bottom-right"
                     contentClassName="max-w-none flex items-center"
                   >
-                    <span>{selectedCommandStatusBadge.label}</span>
+                    <span>{localizeUiText(selectedCommandStatusBadge.label, locale)}</span>
                   </Tooltip>
                 </span>
               ) : (
