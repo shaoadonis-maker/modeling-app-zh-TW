@@ -8,6 +8,7 @@ import { isDesktop } from '@src/lib/isDesktop'
 import { PATHS } from '@src/lib/paths'
 import { isErr, reportRejection } from '@src/lib/trap'
 import { refreshPage } from '@src/lib/utils'
+import { useLocale } from '@src/i18n'
 
 const BROWSER_UPDATE_URL = 'https://browser-update.org/update-browser.html'
 const ITERATOR_TO_ARRAY_ERROR = '.toArray is not a function'
@@ -47,6 +48,8 @@ function browserDetails() {
 }
 
 export const ErrorPage = () => {
+  const locale = useLocale()
+  const zh = locale === 'zh-TW'
   const error = useRouteError()
   const browserCompatibilityError = isBrowserCompatibilityError(error)
   // We log the error to the console no matter what
@@ -105,13 +108,17 @@ export const ErrorPage = () => {
           }
         >
           {browserCompatibilityError
-            ? 'Your browser needs an update'
-            : 'An unexpected error occurred'}
+            ? zh ? '你的瀏覽器需要更新' : 'Your browser needs an update'
+            : zh ? '發生未預期的錯誤' : 'An unexpected error occurred'}
         </h1>
         <p className="mb-8 w-full overflow-auto">
           {browserCompatibilityError
-            ? 'Your browser is out of date and cannot open Zoo Design Studio projects. Update your browser or use the latest Chrome, Edge, Firefox, or Safari.'
-            : "We're sorry, something went wrong. The error has been reported to our team."}
+            ? zh
+              ? '你的瀏覽器版本過舊，無法開啟 Zoo Design Studio 專案。請更新瀏覽器，或改用最新版 Chrome、Edge、Firefox 或 Safari。'
+              : 'Your browser is out of date and cannot open Zoo Design Studio projects. Update your browser or use the latest Chrome, Edge, Firefox, or Safari.'
+            : zh
+              ? '發生錯誤。此問題已回報給團隊。'
+              : "We're sorry, something went wrong. The error has been reported to our team."}
         </p>
         <div className="flex justify-between gap-2 mt-6">
           {browserCompatibilityError ? (
@@ -121,10 +128,10 @@ export const ErrorPage = () => {
                 to={PATHS.HOME}
                 iconStart={{ icon: 'arrowShortLeft' }}
               >
-                Go Home
+                {zh ? '回到首頁' : 'Go Home'}
               </ActionButton>
               <ActionButton Element="externalLink" to={BROWSER_UPDATE_URL}>
-                Update browser
+                {zh ? '更新瀏覽器' : 'Update browser'}
               </ActionButton>
             </>
           ) : (
@@ -136,7 +143,7 @@ export const ErrorPage = () => {
                   iconStart={{ icon: 'arrowShortLeft' }}
                   data-testid="unexpected-error-home"
                 >
-                  Go Home
+                  {zh ? '回到首頁' : 'Go Home'}
                 </ActionButton>
               )}
               <ActionButton
@@ -146,7 +153,7 @@ export const ErrorPage = () => {
                   refreshPage('Crash page').catch(reportRejection)
                 }}
               >
-                Reload
+                {zh ? '重新載入' : 'Reload'}
               </ActionButton>
               <ActionButton
                 Element="button"
@@ -155,7 +162,7 @@ export const ErrorPage = () => {
                   window.localStorage.clear()
                 }}
               >
-                Clear Storage
+                {zh ? '清除儲存資料' : 'Clear Storage'}
               </ActionButton>
             </>
           )}
