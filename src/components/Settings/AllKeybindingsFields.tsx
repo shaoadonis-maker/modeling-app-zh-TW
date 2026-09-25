@@ -725,10 +725,8 @@ function WhenField({
             {isTypingCollision && (
               <Tooltip position="top-right">
                 {locale === 'zh-TW'
-                  ? '這組快捷鍵可能會干擾程式碼編輯器中的文字輸入。請使用'
-                  : 'Keystrokes will interfere with typing in code editor. Use the'}
-                code-editor-not-focused condition to run this only outside the
-                editor.
+                  ? '這組快捷鍵可能會干擾程式碼編輯器中的文字輸入。請使用 code-editor-not-focused 條件，讓它只在編輯器未聚焦時執行。'
+                  : 'Keystrokes will interfere with typing in code editor. Use the code-editor-not-focused condition to run this only outside the editor.'}
               </Tooltip>
             )}
           </span>
