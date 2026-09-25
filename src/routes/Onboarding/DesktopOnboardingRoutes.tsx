@@ -94,11 +94,14 @@ function Welcome() {
       <OnboardingCard>
         <h1 className="text-xl font-bold">{locale === 'zh-TW' ? '歡迎使用 Zoo Design Studio' : 'Welcome to Zoo Design Studio'}</h1>
         <p className="my-4">
-          Here is a cold plate that was made in Zoo Design Studio.
+          {locale === 'zh-TW'
+            ? '這是一個使用 Zoo Design Studio 製作的冷板模型。'
+            : 'Here is a cold plate that was made in Zoo Design Studio.'}
         </p>
         <p className="my-4">
-          Let’s walk through the basics of how to get started, and how you can
-          use several tools at your disposal to create great designs.
+          {locale === 'zh-TW'
+            ? '接下來會帶你快速了解基本操作，以及如何使用各種工具建立設計。'
+            : 'Let’s walk through the basics of how to get started, and how you can use several tools at your disposal to create great designs.'}
         </p>
         <OnboardingButtons currentSlug="/desktop" platform="desktop" />
       </OnboardingCard>
@@ -168,9 +171,9 @@ function Scene() {
       <OnboardingCard className="pointer-events-auto">
         <h1 className="text-xl font-bold">{locale === 'zh-TW' ? '場景 Scene' : 'Scene'}</h1>
         <p className="my-4">
-          Here is a blank scene. There are three default planes shown when the
-          scene is empty. Try right-clicking and dragging to orbit around, and
-          scroll to zoom in and out.
+          {locale === 'zh-TW'
+            ? '這是一個空白場景。場景為空時會顯示三個預設基準面。你可以按住滑鼠右鍵拖曳來旋轉視角，並使用滾輪縮放。'
+            : 'Here is a blank scene. There are three default planes shown when the scene is empty. Try right-clicking and dragging to orbit around, and scroll to zoom in and out.'}
         </p>
         {!isBlankSceneReady && (
           <p className="my-4 flex items-center gap-2">
@@ -201,8 +204,9 @@ function Toolbar() {
       <OnboardingCard>
         <h1 className="text-xl font-bold">{locale === 'zh-TW' ? '這是工具列 Toolbar' : 'This is the toolbar'}</h1>
         <p className="my-4">
-          You can perform modeling and sketching actions by clicking any of the
-          tools.
+          {locale === 'zh-TW'
+            ? '你可以點擊工具列中的工具來執行建模與草圖操作。'
+            : 'You can perform modeling and sketching actions by clicking any of the tools.'}
         </p>
         <OnboardingButtons currentSlug="/desktop/toolbar" platform="desktop" />
       </OnboardingCard>
@@ -223,18 +227,19 @@ function Zookeeper() {
       <OnboardingCard>
         <h1 className="text-xl font-bold">{locale === 'zh-TW' ? 'Zookeeper AI' : 'Zookeeper'}</h1>
         <p className="my-4">
-          You can find Zookeeper in the right sidebar. This allows you to write
-          up a description of what you want, and our AI will generate the CAD
-          for you. Zookeeper is currently in an experimental stage. We are
-          improving it every day.
+          {locale === 'zh-TW'
+            ? '你可以在右側邊欄找到 Zookeeper。輸入你想要的設計描述後，AI 會替你產生 CAD。Zookeeper 目前仍屬實驗功能，我們持續改善中。'
+            : 'You can find Zookeeper in the right sidebar. This allows you to write up a description of what you want, and our AI will generate the CAD for you. Zookeeper is currently in an experimental stage. We are improving it every day.'}
         </p>
         <p className="my-4">
-          Our free plan includes a limited number of Zookeeper generations each
-          month. Upgrade to a paid plan for additional usage. Pro and Team plans
-          come with unlimited Zookeeper generations.
+          {locale === 'zh-TW'
+            ? '免費方案每月包含有限次數的 Zookeeper 生成額度。需要更多使用量時可升級付費方案；Pro 與 Team 方案提供更多或無上限的使用權限，實際內容以官方方案為準。'
+            : 'Our free plan includes a limited number of Zookeeper generations each month. Upgrade to a paid plan for additional usage. Pro and Team plans come with unlimited Zookeeper generations.'}
         </p>
         <p className="my-4">
-          Let’s walk through an example of how to use Zookeeper.
+          {locale === 'zh-TW'
+            ? '接下來看一個 Zookeeper 的實際使用範例。'
+            : 'Let’s walk through an example of how to use Zookeeper.'}
         </p>
         <OnboardingButtons
           currentSlug="/desktop/zookeeper"
@@ -271,9 +276,9 @@ function ZookeeperPrompt() {
       <OnboardingCard className="pointer-events-auto">
         <h1 className="text-xl font-bold">{locale === 'zh-TW' ? 'Zookeeper 提示詞' : 'Zookeeper prompt'}</h1>
         <p className="my-4">
-          To save you money, we are going to use a pre-rolled Zookeeper prompt
-          for this example. Click next to see an example of what Zookeeper can
-          generate.
+          {locale === 'zh-TW'
+            ? '為了避免消耗你的額度，這個範例會使用預先準備好的 Zookeeper 提示詞。點擊下一步即可查看生成結果範例。'
+            : 'To save you money, we are going to use a pre-rolled Zookeeper prompt for this example. Click next to see an example of what Zookeeper can generate.'}
         </p>
         <OnboardingButtons
           currentSlug={thisOnboardingStatus}
@@ -320,14 +325,14 @@ function FeatureTreePane() {
       <OnboardingCard className="col-start-3 col-span-2">
         <h1 className="text-xl font-bold">{locale === 'zh-TW' ? '冷板 Cold Plate' : 'Cold Plate'}</h1>
         <p className="my-4">
-          This is an example of the generated CAD model using Zookeeper. We
-          skipped the real generation for this tutorial.
+          {locale === 'zh-TW'
+            ? '這是使用 Zookeeper 產生的 CAD 模型範例。教學中略過了實際生成步驟。'
+            : 'This is an example of the generated CAD model using Zookeeper. We skipped the real generation for this tutorial.'}
         </p>
         <p className="my-4">
-          To the left are the panes. We have opened the feature tree pane for
-          you. The feature tree pane displays all the CAD functions that were
-          performed to create this part. You can double click feature tree items
-          to edit their parameters.
+          {locale === 'zh-TW'
+            ? '左側是各種面板，我們已替你開啟特徵樹。特徵樹會顯示建立這個零件時執行的 CAD 操作，你可以雙擊項目來修改參數。'
+            : 'To the left are the panes. We have opened the feature tree pane for you. The feature tree pane displays all the CAD functions that were performed to create this part. You can double click feature tree items to edit their parameters.'}
         </p>
         <OnboardingButtons
           currentSlug={thisOnboardingStatus}
@@ -351,14 +356,14 @@ function CodePane() {
       <OnboardingCard className="col-start-3 col-span-2">
         <h1 className="text-xl font-bold">{locale === 'zh-TW' ? 'KCL 程式碼' : 'KCL Code'}</h1>
         <p className="my-4">
-          This is the KCL Pane. KCL (KittyCAD Language) is a scripting language
-          we created to describe CAD geometries. This code is the source of
-          truth, everything you do to the model will change the code.
+          {locale === 'zh-TW'
+            ? '這是 KCL 面板。KCL（KittyCAD Language）是一種用來描述 CAD 幾何的腳本語言。這份程式碼是模型的主要來源，對模型所做的操作都會反映到程式碼中。'
+            : 'This is the KCL Pane. KCL (KittyCAD Language) is a scripting language we created to describe CAD geometries. This code is the source of truth, everything you do to the model will change the code.'}
         </p>
         <p className="my-4">
-          KCL boasts other scripting features such as imports, functions and
-          logic. Not only can you edit your geometry from the feature tree, but
-          you can also edit the code directly.
+          {locale === 'zh-TW'
+            ? 'KCL 也支援匯入、函式與邏輯等腳本功能。除了從特徵樹編輯幾何外，你也可以直接修改程式碼。'
+            : 'KCL boasts other scripting features such as imports, functions and logic. Not only can you edit your geometry from the feature tree, but you can also edit the code directly.'}
         </p>
         <OnboardingButtons
           currentSlug="/desktop/code-pane"
@@ -383,9 +388,9 @@ function ProjectPane() {
       <OnboardingCard className="col-start-3 col-span-2">
         <h1 className="text-xl font-bold">{locale === 'zh-TW' ? '檔案面板 Files Pane' : 'Files Pane'}</h1>
         <p className="my-4">
-          The next pane is the Project Files Pane. Here you can see all of the
-          files you have in this project. This can be other KCL files as well as
-          external CAD files (STEP, STL, OBJ, etc.).
+          {locale === 'zh-TW'
+            ? '接下來是專案檔案面板。你可以在這裡看到專案中的所有檔案，包括其他 KCL 檔，以及 STEP、STL、OBJ 等外部 CAD 檔案。'
+            : 'The next pane is the Project Files Pane. Here you can see all of the files you have in this project. This can be other KCL files as well as external CAD files (STEP, STL, OBJ, etc.).'}
         </p>
         <OnboardingButtons
           currentSlug={thisOnboardingStatus}
@@ -411,10 +416,9 @@ function OtherPanes() {
       <OnboardingCard className="col-start-3 col-span-2">
         <h1 className="text-xl font-bold">{locale === 'zh-TW' ? '其他面板' : 'Other panes'}</h1>
         <p className="my-4">
-          These last two panes are the Variables Pane and Logs Pane. The
-          Variables pane will display the numeric values of any parameters you
-          made, along with other entities and types created in your file. The
-          Logs pane will show error logs.
+          {locale === 'zh-TW'
+            ? '最後這兩個面板是變數面板與記錄面板。變數面板會顯示你建立的參數數值，以及檔案中建立的其他實體與型別；記錄面板則會顯示錯誤與執行記錄。'
+            : 'These last two panes are the Variables Pane and Logs Pane. The Variables pane will display the numeric values of any parameters you made, along with other entities and types created in your file. The Logs pane will show error logs.'}
         </p>
         <OnboardingButtons
           currentSlug={thisOnboardingStatus}
@@ -457,10 +461,11 @@ function PromptToEdit() {
       <OnboardingCard className="col-start-3 col-span-2">
         <h1 className="text-xl font-bold">{locale === 'zh-TW' ? '使用 Zookeeper 修改' : 'Modify with Zookeeper'}</h1>
         <p className="my-4">
-          Zookeeper not only can <strong>create</strong> a part, but also{' '}
-          <strong>modify</strong> an existing part. Still in the right sidebar,
-          under the “Zookeeper” pane, you’ll be able to describe the change you
-          want for your part, and our AI will generate the change.
+          {locale === 'zh-TW' ? (
+            <>Zookeeper 不只能<strong>建立</strong>零件，也能<strong>修改</strong>既有零件。你可以在右側的 Zookeeper 面板描述想要的修改內容，AI 會替你產生對應變更。</>
+          ) : (
+            <>Zookeeper not only can <strong>create</strong> a part, but also <strong>modify</strong> an existing part. Still in the right sidebar, under the “Zookeeper” pane, you’ll be able to describe the change you want for your part, and our AI will generate the change.</>
+          )}
         </p>
         <OnboardingButtons
           currentSlug={thisOnboardingStatus}
@@ -529,14 +534,14 @@ function PromptToEditPrompt() {
           </p>
         )}
         <p className="my-4">
-          We are going to use Zookeeper to modify an existing model. Let’s
-          update the cold plate dimensions and appearance.
+          {locale === 'zh-TW'
+            ? '接下來用 Zookeeper 修改既有模型，更新冷板的尺寸與外觀。'
+            : 'We are going to use Zookeeper to modify an existing model. Let’s update the cold plate dimensions and appearance.'}
         </p>
         <p className="my-4">
-          To save you money, we are using a pre-rolled Zookeeper prompt to edit
-          your existing cold plate. You can see the prompt in the window above.
-          Click next to see an example of what modifying with Zookeeper would
-          look like.
+          {locale === 'zh-TW'
+            ? '為了避免消耗額度，這裡使用預先準備好的 Zookeeper 修改提示詞。你可以在上方看到內容，點擊下一步查看修改結果範例。'
+            : 'To save you money, we are using a pre-rolled Zookeeper prompt to edit your existing cold plate. You can see the prompt in the window above. Click next to see an example of what modifying with Zookeeper would look like.'}
         </p>
         <OnboardingButtons
           currentSlug={thisOnboardingStatus}
@@ -586,18 +591,19 @@ function PromptToEditResult() {
       <OnboardingCard className="col-start-3 col-span-2">
         <h1 className="text-xl font-bold">{locale === 'zh-TW' ? '結果 Result' : 'Result'}</h1>
         <p className="my-4">
-          This is an example of an edit that Zookeeper can make for you. We
-          skipped the real generation for this tutorial.
+          {locale === 'zh-TW'
+            ? '這是 Zookeeper 可以替你完成的修改範例。教學中略過了實際生成步驟。'
+            : 'This is an example of an edit that Zookeeper can make for you. We skipped the real generation for this tutorial.'}
         </p>
         <p className="my-4">
-          Zookeeper can update named parameters and related geometry together,
-          so changes to dimensions and appearance stay connected to the source
-          model.
+          {locale === 'zh-TW'
+            ? 'Zookeeper 可以一起更新具名參數與相關幾何，因此尺寸與外觀的變更仍會與原始模型保持關聯。'
+            : 'Zookeeper can update named parameters and related geometry together, so changes to dimensions and appearance stay connected to the source model.'}
         </p>
         <p className="my-4">
-          All of our Zookeeper capabilities are experimental, so please report
-          any issues to us and stay tuned for updates! We are working on it
-          every day.
+          {locale === 'zh-TW'
+            ? '目前所有 Zookeeper 功能都仍屬實驗性質。如果遇到問題，歡迎回報並持續關注更新。'
+            : 'All of our Zookeeper capabilities are experimental, so please report any issues to us and stay tuned for updates! We are working on it every day.'}
         </p>
         <OnboardingButtons
           currentSlug={thisOnboardingStatus}
@@ -623,15 +629,15 @@ function Imports() {
       <OnboardingCard>
         <h1 className="text-xl font-bold">{locale === 'zh-TW' ? '加入檔案到專案' : 'Add file(s) to project'}</h1>
         <p className="my-4">
-          "Add file(s) to project" is available in the left sidebar. Use it to
-          bring files into your project, whether from the sample library or from
-          your local drive.
+          {locale === 'zh-TW'
+            ? '左側邊欄提供「加入檔案到專案」功能，可以從範例庫或本機磁碟把檔案加入目前專案。'
+            : '"Add file(s) to project" is available in the left sidebar. Use it to bring files into your project, whether from the sample library or from your local drive.'}
         </p>
         <h1 className="text-xl font-bold">{locale === 'zh-TW' ? '匯入零件' : 'Import parts'}</h1>
         <p className="my-4">
-          Once a file has been added to your project, you can add it to the
-          scene using Import. Import is available in the toolbar. This is the
-          first step to making assemblies!
+          {locale === 'zh-TW'
+            ? '檔案加入專案後，可以使用工具列中的「匯入 Import」把它加入場景。這也是建立組立件的第一步。'
+            : 'Once a file has been added to your project, you can add it to the scene using Import. Import is available in the toolbar. This is the first step to making assemblies!'}
         </p>
         <OnboardingButtons
           currentSlug={thisOnboardingStatus}
@@ -655,8 +661,9 @@ function Exports() {
       <OnboardingCard>
         <h1 className="text-xl font-bold">{locale === 'zh-TW' ? '匯出 Exporting' : 'Exporting'}</h1>
         <p className="my-4">
-          You can export the current model by clicking the Export button in the
-          left sidebar. We support exporting to STEP, gLTF, STL, OBJ, and more.
+          {locale === 'zh-TW'
+            ? '點擊左側邊欄的「匯出 Export」即可匯出目前模型。支援 STEP、glTF、STL、OBJ 等格式。'
+            : 'You can export the current model by clicking the Export button in the left sidebar. We support exporting to STEP, gLTF, STL, OBJ, and more.'}
         </p>
         <OnboardingButtons
           currentSlug={thisOnboardingStatus}
@@ -691,17 +698,16 @@ function OnboardingConclusion() {
       <OnboardingCard>
         <h1 className="text-xl font-bold">{locale === 'zh-TW' ? '開始建立模型' : 'Time to start building'}</h1>
         <p className="my-4">
-          We appreciate you taking the time to walk through the basics. Select
-          Finish to return home, where you can keep working with the tutorial
-          project or create a project of your own. To learn more detailed and
-          advanced techniques,{' '}
+          {locale === 'zh-TW'
+            ? '基本導覽到這裡完成。點擊「完成」回到首頁，你可以繼續使用教學專案，或建立自己的專案。想了解更深入的技巧，可以前往 '
+            : 'We appreciate you taking the time to walk through the basics. Select Finish to return home, where you can keep working with the tutorial project or create a project of your own. To learn more detailed and advanced techniques, '}
           <a
             onClick={openExternalBrowserIfDesktop(withSiteBaseURL('/docs'))}
             href={`${withSiteBaseURL('/docs')}`}
           >
-            check out our docs
+            {locale === 'zh-TW' ? '官方文件' : 'check out our docs'}
           </a>
-          .
+          {locale === 'zh-TW' ? '。' : '.'}
         </p>
         <OnboardingButtons
           currentSlug="/desktop/conclusion"
