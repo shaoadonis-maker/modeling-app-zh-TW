@@ -45,3 +45,23 @@ jobs:
 
       - name: Run zh-TW localization unit tests
         run: npx vitest run --mode=development --project=unit src/i18n/index.test.ts
+
+      - name: Prepare Rust toolchain file
+        shell: bash
+        run: '[ -e rust-toolchain.toml ] || cp rust/rust-toolchain.toml ./'
+
+      - name: Setup Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          cache: false
+
+      - name: Install wasm-pack
+        uses: taiki-e/install-action@v2
+        with:
+          tool: wasm-pack
+
+      - name: Build KCL Wasm and TypeScript bindings
+        run: npm run build:wasm
+
+      - name: TypeScript check
+        run: npm run tsc
