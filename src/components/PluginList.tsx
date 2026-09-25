@@ -25,8 +25,7 @@ type PluginsListProps = {
 
 export const PluginsList = forwardRef(
   (props: PluginsListProps, scrollRef: ForwardedRef<HTMLDivElement>) => {
-    const locale = useLocale()
-  const app = useApp()
+    const app = useApp()
     const settingsContext = app.settings.useSettings()
     const userFeaturesContext = app.userFeatures.useContext()
     const hasFeature = (feature: Feature) =>
