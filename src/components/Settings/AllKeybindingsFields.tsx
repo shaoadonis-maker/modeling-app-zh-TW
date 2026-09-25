@@ -501,13 +501,13 @@ function NewKeybindingRow({
           <span className="text-sm">{USER_KEYMAP_SOURCE}</span>
           <div className="flex gap-1">
             <IconButton
-              label="Save keybinding"
+              label={locale === 'zh-TW' ? '儲存快捷鍵' : 'Save keybinding'}
               icon="checkmark"
               alwaysVisible
               onClick={save}
             />
             <IconButton
-              label="Cancel new keybinding"
+              label={locale === 'zh-TW' ? '取消新增快捷鍵' : 'Cancel new keybinding'}
               icon="close"
               alwaysVisible
               onClick={onCancel}
@@ -724,7 +724,9 @@ function WhenField({
             )}
             {isTypingCollision && (
               <Tooltip position="top-right">
-                Keystrokes will interfere with typing in code editor. Use the
+                {locale === 'zh-TW'
+                  ? '這組快捷鍵可能會干擾程式碼編輯器中的文字輸入。請使用'
+                  : 'Keystrokes will interfere with typing in code editor. Use the'}
                 code-editor-not-focused condition to run this only outside the
                 editor.
               </Tooltip>
