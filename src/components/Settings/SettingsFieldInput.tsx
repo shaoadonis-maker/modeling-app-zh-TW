@@ -124,8 +124,8 @@ export function SettingsFieldInput({
           {options &&
             options.length > 0 &&
             options.map((option) => (
-              <option key={localizeUiText(option.name, locale)} value={String(option.value)}>
-                {option.name}
+              <option key={String(option.value)} value={String(option.value)}>
+                {localizeUiText(option.name, locale)}
               </option>
             ))}
         </select>
